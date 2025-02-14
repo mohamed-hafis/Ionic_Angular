@@ -14,7 +14,7 @@ export class HomePage  implements AfterViewInit{
   selectedTab: string = 'home';
   showDropdown: boolean = false;
 
-  //for sliderimg
+  //for slider
   @ViewChild('swiper', { static: false }) swiperContainer!: ElementRef;
 
   constructor(private authService: AuthService, private router: Router, private alertController: AlertController) {}
