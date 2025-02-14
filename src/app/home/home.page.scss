@@ -1,0 +1,80 @@
+// Main Swiper Card
+.swiper-card {
+  border-radius: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  background: #ffffff;
+  max-width: 650px; // Set width similar to image
+  margin: 16px 10;   // Align to the left (remove auto margin)
+}
+
+// Swiper Container (Adjust Width & Height)
+.swiper-container {
+  width: 100%;
+  max-width: 650px;  // Match card width
+  height: 400px;     // Adjust height
+}
+
+// Swiper Wrapper
+swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+// Swiper Slide Styles
+swiper-slide {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  font-size: 24px;
+  color: rgb(9, 5, 5);
+  background-size: cover;
+  background-position:50% 50%;
+  border-radius: 16px;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  padding: 20px;
+
+  &:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+// Background images for slides
+.slide-1 { background-image: url('/assets/images/slider1.jpg'); }
+.slide-2 { background-image: url('/assets/images/slider2.jpg'); }
+.slide-3 { background-image: url('/assets/images/bgimg.webp'); }
+.slide-4 { background-image: url('/assets/images/nxt_asset.png'); }
+
+// Pagination & Navigation Styles
+swiper-container::part(pagination) {
+  bottom: 15px;
+}
+
+swiper-container::part(navigation) {
+  color: #007aff;
+}
+
+// Align entire section to the left
+.slider-wrapper {
+  display: flex;
+  justify-content: flex-start; // Align to the left
+  padding-left: 5%;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .swiper-card {
+    max-width: 95vw;
+  }
+
+  .swiper-container {
+    height: 320px;
+    max-width: 95vw;
+  }
+
+  swiper-slide {
+    font-size: 20px;
+  }
+}

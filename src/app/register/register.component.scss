@@ -1,0 +1,83 @@
+.floating-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #004085;
+  padding: 10px;
+  border-radius: 8px; /* Slight rounded corners */
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  overflow-y: auto; /* Enable scrolling only when necessary */
+}
+
+ion-toolbar {
+  --background: #004085; /* Toolbar background color */
+}
+
+ion-back-button {
+  --color: #ffffff; /* Optional: Set back button color for better contrast */
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 16px;
+  overflow-x: auto;
+
+  background-color: #b2dfdb; /* Light background for contrast */
+}
+
+
+form {
+  width: 100%;
+  max-width: 400px; /* Reduced width for compactness */
+  padding: 20px; /* Increased padding for a more spacious feel */
+  background-color: #ffffff; /* White background for clarity */
+  border-radius: 12px; /* Slightly more rounded corners */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+  margin-top: 50px; /* Prevents touching the top */
+  margin-bottom: 20px; /* Prevents touching the bottom */
+}
+
+ion-item {
+  --background: #f0f4f8; /* Light background for input fields */
+  --border-color: #d1d1d1; /* Light border color */
+  --color: #333; /* Dark text color for readability */
+}
+
+ion-label {
+  color: #4A90E2; /* Label color matching the title */
+}
+
+.submit-btn {
+  margin-top: 20px; /* Adjusted margin for spacing */
+  background-color: #4A90E2; /* Button background color */
+  color: #ffffff; /* White text for contrast */
+  border-radius: 5px; /* Rounded button corners */
+}
+
+.submit-btn:hover {
+  background-color: #357ABD; /* Darker shade on hover */
+}
+
+.error-text {
+  color: #D9534F; /* Changed error text color to a more vibrant red */
+  font-size: 14px; /* Increased font size for better visibility */
+  margin-left: 15px;
+}
+
+
+@media (max-width: 420px) {
+  .floating-title {
+    text-align: left;
+    font-size: 28px;
+  }
+}
+
+

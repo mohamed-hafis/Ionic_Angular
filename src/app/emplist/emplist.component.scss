@@ -1,0 +1,109 @@
+.table-container {
+  width: 80%; /* Reduce the width of the container */
+  max-width: 1200px; /* Set a maximum width for larger screens */
+  margin: 16px auto; /* Center the container with auto margin */
+  overflow-x: auto;
+}
+
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+}
+
+.table th {
+  background-color: var(--ion-color-light);
+  color: var(--ion-color-primary);
+  padding: 8px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.table tr:hover {
+  background-color: var(--ion-color-light);
+}
+
+.actions ion-button {
+  margin: 0 4px;
+}
+
+.actions ion-icon {
+  font-size: 16px;
+}
+
+.end-buttons {
+  margin-right: 50px;
+}
+
+ion-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+
+  ion-title {
+    flex: 1;
+    text-align: left; /* Ensure the title is centered */
+    font-size: 1.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+  }
+
+  ion-buttons {
+    display: flex;
+    align-items: center;
+
+    &.start {
+      margin-right: auto;
+    }
+
+    &.end {
+      margin-left: auto;
+    }
+  }
+}
+
+/* Optional: Add responsiveness for smaller screens */
+@media (max-width: 768px) {
+
+  .table-container {
+    width: 95%;
+    margin: 16px auto;
+  }
+
+  .table {
+    font-size: 0.8rem; /* Further reduce font size for smaller screens */
+  }
+
+  .end-buttons {
+    margin-right: 0px;
+    display: flex;
+
+  }
+
+  ion-toolbar {
+    flex-wrap: wrap; /* Allow wrapping for small screens */
+    gap: 4px; /* Reduce gap for small screens */
+
+    ion-title {
+      font-size: 1rem; /* Reduce font size for the title */
+      display: flex;
+    }
+  }
+}
+
+

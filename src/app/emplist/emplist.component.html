@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-hide-sm-down">Employee List</ion-title>
+
+    <ion-buttons slot="end" class="end-buttons">
+      <ion-input
+        [(ngModel)]="searchTerm"
+        debounce="500"
+        placeholder="Search"
+        (ionInput)="searchEmployees()"
+        clearInput
+      ></ion-input>
+      <ion-button color="primary" (click)="searchEmployees()">
+        <ion-icon slot="start" name="search-outline"></ion-icon>
+        Search
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-buttons slot="end" class="end-buttons">
+      <ion-button color="primary" (click)="navigateToRegister()">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Add
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+
+    <ion-row>
+      <ion-col size="12" class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Gender</th>
+              <th>DOB</th>
+              <th>Email</th>
+              <th>Mobile No</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of filteredEmployees">
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.Id }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-input [(ngModel)]="updatedEmployee.Id" disabled></ion-input>
+              </td>
+
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.Firstname }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-input [(ngModel)]="updatedEmployee.Firstname" placeholder="Enter firstname"></ion-input>
+              </td>
+
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.Lastname }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-input [(ngModel)]="updatedEmployee.Lastname" placeholder="Enter lastname"></ion-input>
+              </td>
+
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.Gender }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-select [(ngModel)]="updatedEmployee.Gender">
+                  <ion-select-option value="Male">Male</ion-select-option>
+                  <ion-select-option value="Female">Female</ion-select-option>
+                </ion-select>
+              </td>
+
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.DOB | date: 'yyyy-MM-dd' }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-input [(ngModel)]="updatedEmployee.DOB" placeholder="YYYY-MM-DD"></ion-input>
+              </td>
+
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.Email }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-input [(ngModel)]="updatedEmployee.Email" placeholder="Enter email"></ion-input>
+              </td>
+
+              <td *ngIf="editingEmployeeId !== employee.Id">{{ employee.Mobileno }}</td>
+              <td *ngIf="editingEmployeeId === employee.Id">
+                <ion-input [(ngModel)]="updatedEmployee.Mobileno" placeholder="Enter mobile number"></ion-input>
+              </td>
+
+              <td>
+                <div *ngIf="editingEmployeeId !== employee.Id" class="actions">
+                  <ion-button size="small" color="primary" fill="solid" (click)="editEmployee(employee)">
+                    <ion-icon name="pencil-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button size="small" color="danger" fill="solid" (click)="deleteEmployee(employee.Id)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </div>
+
+                <div *ngIf="editingEmployeeId === employee.Id" class="actions">
+                  <ion-button size="small" color="success" fill="solid" (click)="saveEmployee()">
+                    <ion-icon name="checkmark-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button size="small" color="medium" fill="outline" (click)="cancelEdit()">
+                    <ion-icon name="close-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+

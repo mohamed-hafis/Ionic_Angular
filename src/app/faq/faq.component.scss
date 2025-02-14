@@ -1,0 +1,16 @@
+.faq-container {
+  margin: 0 auto;
+  max-width: 600px; /* Center the FAQ section */
+}
+.faq-item {
+  margin-bottom: 10px; /* Space between FAQ items */
+  border: 1px solid #ccc; /* Optional border for better visibility */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fff3e0; /* Light orange background for each item */
+}
+
+.faq-answer {
+  padding: 10px; /* Padding for the answer */
+  background-color: #dcedc8; /* Light green background for answers */
+  border-top: 1px solid #ccc; /* Border to separate question and answer */
+}

@@ -1,0 +1,56 @@
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Vertically center the form */
+  align-items: center;      /* Horizontally center the form */
+  height: 100%;             /* Take full height of the viewport */
+  min-height: 100vh;        /* Ensure proper centering on small screens */
+  padding: 20px;
+  background: linear-gradient(135deg, #f6d365, #fda085); /* Gradient background like login */
+}
+
+form {
+  width: 100%;
+  max-width: 400px;  /* Adjusted max width */
+  padding: 20px;
+  background-color: #ffffff; /* White background for form */
+  border-radius: 12px;       /* Rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow for premium look */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+}
+.form-title {
+  font-size: 28px;
+  color: #f8f8f8; /* Off-white */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6); /* Slightly bold shadow */
+}
+
+
+
+form:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
+ion-item {
+  margin-bottom: 20px; /* Space between input fields */
+}
+
+ion-button {
+  margin-top: 20px; /* Space above the button */
+  --background: linear-gradient(135deg, #667eea, #764ba2); /* Gradient button background */
+  --color: white; /* White button text */
+  --border-radius: 30px; /* Rounded corners for button */
+  transition: transform 0.3s, background 0.3s; /* Smooth transition effects */
+}
+
+ion-button:hover {
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+  --background: linear-gradient(135deg, #764ba2, #667eea); /* Reverse gradient on hover */
+}
+
+.error-message {
+  color: #e74c3c; /* Red for error messages */
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: center; /* Center align error messages */
+}

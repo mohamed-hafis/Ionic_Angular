@@ -1,0 +1,37 @@
+
+
+.contact-container {
+  text-align: center; /* Center the text */
+  font-family: Arial, sans-serif; /* Change the font family */
+  color: #333; /* Change the text color */
+  padding: 20px; /* Add some padding */
+}
+
+.contact-info p {
+  margin: 10px 0; /* Add margin between paragraphs */
+}
+
+.contact-info a {
+  color: #007BFF; /* Change link color */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.contact-info a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+h2 {
+  font-size: 2em; /* Increase the size of the heading */
+  margin-bottom: 20px; /* Add space below the heading */
+}
+
+strong {
+  font-weight: bold; /* Make strong text bold */
+}
+
+.contact-gray {
+  background-color: #f0f0f0; /* Light gray */
+  padding: 20px; /* Adds padding for better spacing */
+  border-radius: 8px; /* Optional: adds rounded corners */
+  color: #333; /* Ensures text is visible on the gray background */
+}

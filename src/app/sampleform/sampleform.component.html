@@ -1,0 +1,86 @@
+<ion-content class="ion-padding">
+  <div class="floating-form">
+    <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+      <!-- Company Name Dropdown -->
+      <ion-item>
+        <ion-label position="floating">Company ID</ion-label>
+        <ion-select formControlName="companyId">
+          <ion-select-option *ngFor="let company of companies" [value]="company.CID">
+            {{ company.CompanyName }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Menu ID Dropdown -->
+      <ion-item>
+        <ion-label position="floating">Menu ID</ion-label>
+        <ion-select formControlName="menuId">
+          <ion-select-option *ngFor="let menu of menus" [value]="menu.MenuID">
+            {{ menu.MenuName }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Multiline Textbox (Query 1) -->
+      <ion-item>
+        <ion-label position="floating">Query 1</ion-label>
+        <ion-textarea formControlName="query1" rows="6"></ion-textarea>
+      </ion-item>
+      <!--(Query 2)-->
+      <ion-item>
+        <ion-label position="floating">Query 2</ion-label>
+        <ion-textarea formControlName="query2" rows="6"></ion-textarea>
+      </ion-item>
+
+      <!-- Textbox: RelationColumn1 -->
+      <ion-item>
+        <ion-label position="floating">Relation Column 1</ion-label>
+        <ion-input type="text" formControlName="relationColumn1"></ion-input>
+      </ion-item>
+
+      <!-- Textbox: RelationColumn2 -->
+      <ion-item>
+        <ion-label position="floating">Relation Column 2</ion-label>
+        <ion-input type="text" formControlName="relationColumn2"></ion-input>
+      </ion-item>
+
+      <!-- Textbox: Format Column -->
+      <ion-item>
+        <ion-label position="floating">Format Column</ion-label>
+        <ion-input type="text" formControlName="formatColumn"></ion-input>
+      </ion-item>
+
+      <!-- Save and Cancel Buttons -->
+      <div class="form-actions">
+        <ion-button expand="block" color="primary" type="submit">
+          {{ isEditing ? 'Update' : 'Save' }}  <!-- Change button text dynamically -->
+        </ion-button>
+        <ion-button expand="block" color="medium" type="button" (click)="onCancel()">
+          Cancel
+        </ion-button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Grid Section -->
+  <div class="data-grid">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3"><strong>CID</strong></ion-col>
+        <ion-col size="3"><strong>MenuID</strong></ion-col>
+        <ion-col size="3"><strong>MenuName</strong></ion-col>
+        <ion-col size="3"><strong>Action</strong></ion-col>
+      </ion-row>
+      <ion-row *ngFor="let row of gridData; let i = index">
+        <ion-col size="3">{{ row.cid }}</ion-col>
+        <ion-col size="3">{{ row.menuId }}</ion-col>
+        <ion-col size="3">{{ row.description }}</ion-col>
+
+        <ion-col size="3">
+          <ion-button size="small" color="tertiary" (click)="onEdit(row)">Edit</ion-button>
+          <ion-button size="small" color="danger" (click)="onDelete(row)">Delete</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

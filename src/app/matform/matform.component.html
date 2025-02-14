@@ -1,0 +1,96 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="onSave()">
+    <!-- Company Name Dropdown -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Company ID</mat-label>
+      <mat-select formControlName="companyId" title="Select the Company ID">
+        <mat-option *ngFor="let company of companies" [value]="company.CID">
+          {{ company.CompanyName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Menu ID Dropdown -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Menu ID</mat-label>
+      <mat-select formControlName="menuId" title="Select the Menu ID" [disabled]="isEditing">
+        <mat-option *ngFor="let menu of menus" [value]="menu.MenuID">
+          {{ menu.MenuName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Multiline Textboxes (Query 1 & Query 2) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>SQL Query 1</mat-label>
+      <textarea matInput rows="4" formControlName="sqlQuery1" placeholder="Enter Query 1"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>SQL Query 2</mat-label>
+      <textarea matInput rows="4" formControlName="sqlQuery2" placeholder="Enter Query 2"></textarea>
+    </mat-form-field>
+
+    <!-- Relation Columns -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Relation Column 1</mat-label>
+      <input matInput type="text" formControlName="relationColumn1" placeholder="Enter Relation Column 1" title="Enter Relation Column 1">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Relation Column 2</mat-label>
+      <input matInput type="text" formControlName="relationColumn2" placeholder="Enter Relation Column 2" title="Enter Relation Column 2">
+    </mat-form-field>
+
+    <!-- Format Column -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Format Column</mat-label>
+      <input matInput type="text" formControlName="formatColumn" placeholder="Enter Format Column" title="Enter Format Column">
+    </mat-form-field>
+
+    <!-- Buttons -->
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEditing ? 'Update' : 'Save' }}
+      </button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</mat-card>
+
+<!-- Data Table -->
+<mat-card class="table-container">
+  <table mat-table [dataSource]="records" class="mat-elevation-z8">
+    <!-- CID Column -->
+    <ng-container matColumnDef="cid">
+      <th mat-header-cell *matHeaderCellDef> CID </th>
+      <td mat-cell *matCellDef="let row"> {{ row.companyId  }} </td>
+    </ng-container>
+
+    <!-- Menu ID Column -->
+    <ng-container matColumnDef="menuId">
+      <th mat-header-cell *matHeaderCellDef> Menu ID </th>
+      <td mat-cell *matCellDef="let row"> {{ row.menuId }} </td>
+    </ng-container>
+
+    <!-- Menu Name Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Menu Name </th>
+      <td mat-cell *matCellDef="let row"> {{ row.menuName  }} </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button color="accent" (click)="onEdit(row)"> <mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="onDelete(row)"> <mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['cid', 'menuId', 'description', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['cid', 'menuId', 'description', 'actions'];"></tr>
+  </table>
+</mat-card>

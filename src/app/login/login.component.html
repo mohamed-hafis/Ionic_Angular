@@ -1,0 +1,39 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-center">Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-form-container">
+     <h1 class="form-title">Welcome Back!</h1>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <ion-item>
+        <i class="material-icons prefix">account_circle</i>
+        <ion-label position="floating">Username</ion-label>
+
+        <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <i class="material-icons prefix">vpn_key</i>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+      </ion-item>
+      <!-- Error Message -->
+      <div *ngIf="loginError" class="error-message">
+        Invalid username or password.
+      </div>
+      <ion-button expand="block" type="submit" [disabled]="!loginForm.valid" class="login-button">
+        Login
+      </ion-button>
+    </form>
+    <div class="footer-links">
+      <ion-router-link routerLink="/signup">Don't have an account?<br>Signup</ion-router-link>
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,7 @@
+ion-content {
+  --overflow: scroll; /* Ensure scrolling is enabled */
+}
+html, body, ion-app {
+  height: 100%;
+  overflow: auto; /* Allow scrolling */
+}

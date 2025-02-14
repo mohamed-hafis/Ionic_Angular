@@ -1,0 +1,74 @@
+.login-form-container {
+  display: flex;
+  flex-direction: column;  /* Stack items vertically */
+  justify-content: center;  /* Center horizontally */
+  align-items: center;      /* Center vertically */
+  height: 100%;             /* Full height of the container */
+  min-height: 100vh;        /* Ensures centering on smaller screens */
+  padding: 20px;            /* Adds padding around the form */
+  background: linear-gradient(135deg, #f6d365, #fda085); /* Gradient background */
+}
+
+.form-title {
+  font-size: 28px; /* Larger font size for emphasis */
+  color: #ffffff; /* White text color for contrast */
+  margin-bottom: 20px; /* Space below the title */
+  text-align: center; /* Center the title */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Optional: add a subtle shadow for better readability */
+}
+
+form {
+  width: 100%;
+  max-width: 400px;  /* Consistent max width */
+  padding: 20px;
+  background-color: #ffffff; /* White form background */
+  border-radius: 12px;       /* Rounded corners for the form */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+
+form:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
+ion-item {
+  margin-bottom: 20px; /* Space between form fields */
+}
+
+ion-input {
+  --padding-start: 10px; /* Padding inside input field */
+}
+
+ion-button {
+  margin-top: 20px; /* Space above the button */
+  --background: linear-gradient(135deg, #667eea, #764ba2); /* Gradient button */
+  --color: white; /* White text color */
+  --border-radius: 30px; /* Rounded button */
+  transition: transform 0.3s, background 0.3s; /* Smooth transitions */
+}
+
+ion-button:hover {
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+  --background: linear-gradient(135deg, #764ba2, #667eea); /* Reverse gradient on hover */
+}
+
+.error-message {
+  color: #e74c3c; /* Red error color */
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: center; /* Center error message */
+}
+
+.footer-links {
+  text-align: center; /* Center footer links */
+  margin-top: 15px; /* Spacing above footer links */
+}
+
+.footer-links ion-router-link {
+  display: block; /* Links take up their own line */
+  margin: 5px 0; /* Space between links */
+  color: #0446b8; /* Link color */
+  text-decoration: underline; /* Underline links for emphasis */
+}

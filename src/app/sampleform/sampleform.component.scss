@@ -1,0 +1,76 @@
+ion-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  .floating-form {
+    width: 100%;
+    max-width: 400px;
+    background: rgb(139, 192, 195);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    margin-bottom: 20px; /* Added spacing between the form and the grid */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 20px;
+
+    ion-button {
+      width: auto; /* Removes full width */
+      min-width: 120px;
+    }
+  }
+
+  .data-grid {
+    width: 100%;
+    max-width: 800px;
+    overflow-y: auto; /* Enables scroll if needed */
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+
+    ion-grid {
+      padding: 0;
+
+      ion-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+
+        ion-col {
+          padding: 0.5rem;
+          font-size: 0.9rem;
+
+          &:first-child {
+            font-weight: bold;
+          }
+
+          ion-button {
+            margin: 0 0.25rem;
+            font-size: 0.8rem;
+          }
+        }
+
+        &:nth-child(odd) {
+          background: #fafafa;
+        }
+      }
+
+      ion-row:first-child {
+        background: #efefef;
+        font-weight: bold;
+      }
+    }
+  }
+}

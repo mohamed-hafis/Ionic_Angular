@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Frequently Asked Questions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <div class="faq-container">
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let faq of faqs">
+        <ion-item slot="header">
+          <ion-label>
+            <h2>{{ faq.question }}</h2>
+          </ion-label>
+          <ion-icon slot="end" name="chevron-down"></ion-icon>
+        </ion-item>
+        <div slot="content" class="faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </div>

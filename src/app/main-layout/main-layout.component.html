@@ -1,0 +1,130 @@
+<ion-header [translucent]="true">
+  <div class="header-container">
+
+      <!-- Mobile Menu Button -->
+    <ion-button fill="clear" class="custom-menu-button" *ngIf="isMobile" (click)="toggleMenu()">
+      <ion-icon slot="icon-only" name="menu"></ion-icon>
+    </ion-button>
+
+    <!-- Header Title -->
+    <ion-title class="header-title">
+      <h1>AcSys Tech</h1>
+    </ion-title>
+
+
+    <!-- Auth Buttons -->
+    <div class="button-container" [ngClass]="{'mobile-view': isMobile}">
+      <ion-button *ngIf="!isAuthenticated" routerLink="/login" class="auth-btn rounded-btn">
+        <ion-icon slot="start" name="log-in"></ion-icon>
+        Login
+      </ion-button>
+      <ion-button *ngIf="!isAuthenticated" routerLink="/signup" class="auth-btn rounded-btn">
+        <ion-icon slot="start" name="person-add"></ion-icon>
+        Signup
+      </ion-button>
+      <ion-button *ngIf="isAuthenticated" routerLink="/emplist" class="auth-btn rounded-btn">
+        <ion-icon slot="start" name="person-add"></ion-icon>
+        Register
+      </ion-button>
+      <ion-button *ngIf="isAuthenticated" class="auth-btn rounded-btn" (click)="logout()">
+        <ion-icon slot="start" name="log-out"></ion-icon>
+        Logout
+      </ion-button>
+
+    </div>
+  </div>
+</ion-header>
+
+<!-- Mobile Menu -->
+<ion-menu side="start" menuId="mobileMenu" [disabled]="!isMobile" contentId="mainContent">
+  <ion-content>
+    <div class="slider-header">
+      <h2>AcSys Tech</h2>
+    </div>
+
+     <!-- Navigation Links -->
+    <ion-list>
+      <ion-menu-toggle auto-hide="false">
+        <ion-item routerLink="/home">
+          <ion-icon slot="start" name="home"></ion-icon>
+          Home</ion-item>
+        <ion-item routerLink="/about">
+          <ion-icon slot="start" name="information-circle"></ion-icon>
+          About Us</ion-item>
+        <ion-item (click)="toggleProductsDropdown($event)" button>
+          <ion-icon slot="start" name="pricetag"></ion-icon>
+          Products
+          <ion-icon slot="end" name="chevron-down"></ion-icon>
+        </ion-item>
+
+        <!-- Products Dropdown -->
+        <ion-list *ngIf="isProductsDropdownVisible">
+          <ion-item routerLink="/crm">CRM</ion-item>
+          <ion-item routerLink="/erp">ERP</ion-item>
+        </ion-list>
+
+        <ion-item routerLink="/services">
+          <ion-icon slot="start" name="construct"></ion-icon>
+          Services</ion-item>
+        <ion-item routerLink="/faq">
+          <ion-icon slot="start" name="help-circle"></ion-icon>
+          FAQ</ion-item>
+        <ion-item routerLink="/contact">
+          <ion-icon slot="start" name="mail"></ion-icon>
+          Contact Us</ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Desktop Navigation (visible only on larger screens) -->
+<div class="nav-buttons" *ngIf="!isMobile">
+  <ion-button routerLink="/home" fill="clear" class="nav-btn rounded-btn">
+    <ion-icon slot="start" name="home"></ion-icon>
+    Home
+  </ion-button>
+  <ion-button routerLink="/about" fill="clear" class="nav-btn rounded-btn">
+    <ion-icon slot="start" name="information-circle"></ion-icon>
+    About Us
+  </ion-button>
+
+
+  <!-- Dropdown Menu for Products -->
+  <div class="dropdown">
+  <ion-button routerLink="/products" fill="clear" class="nav-btn rounded-btn">
+    <ion-icon slot="start" name="pricetag"></ion-icon>
+    Products
+  </ion-button>
+  <div class="dropdown-menu">
+    <ion-item routerLink="/crm">CRM</ion-item>
+    <ion-item routerLink="/erp">ERP</ion-item>
+  </div>
+</div>
+
+  <ion-button routerLink="/services" fill="clear" class="nav-btn rounded-btn">
+    <ion-icon slot="start" name="construct"></ion-icon>
+    Services
+  </ion-button>
+  <ion-button routerLink="/faq" fill="clear" class="nav-btn rounded-btn">
+    <ion-icon slot="start" name="help-circle"></ion-icon>
+    FAQ
+  </ion-button>
+  <ion-button routerLink="/contact" fill="clear" class="nav-btn rounded-btn">
+    <ion-icon slot="start" name="mail"></ion-icon>
+    Contact Us
+  </ion-button>
+</div>
+
+<!-- Main Content -->
+<ion-content id="mainContent">
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</ion-content>
+
+
+
+<!-- Footer -->
+<footer>
+  <p>Copyrights &copy; 2025 acSys Technology pvt.ltd Company</p>
+</footer>

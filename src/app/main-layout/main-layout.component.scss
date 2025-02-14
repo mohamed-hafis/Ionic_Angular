@@ -1,0 +1,353 @@
+ion-header {
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  /* High z-index to stay above other elements */
+  background-color: #616161;
+  /* Set a background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Optional shadow for better visibility */
+}
+
+ion-content {
+  margin-top: 56px;
+  /* Adjust based on the height of your header */
+  --overflow: scroll;
+  /* Ensures scrolling is enabled */
+  padding: 16px;
+
+}
+
+
+
+main {
+  margin-bottom: 60px;
+  /* Give space for the footer */
+  min-height: 100vh;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  background-color: #f1f1f1;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  /* Ensures the title and buttons are spaced apart */
+  align-items: center;
+  /* Vertically centers the content */
+  background-color: #424242;
+  /* Example: Set a new background color for the header container */
+  padding: 10px 15px;
+  width: 100%;
+}
+
+
+.header-title {
+  flex-grow: 1; // Allows title to take up available space
+  text-align: left; // Align title to the left
+
+  h1 {
+    color: #fff; // Text color for the title
+    font-size: 24px; // Default font size for desktop
+  }
+}
+
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  /* Adds some space between the buttons */
+  justify-content: flex-end;
+  /* Align buttons to the right */
+  width: 100%;
+
+  &.mobile-view {
+    gap: 5px; // Reduced gap for mobile
+  }
+}
+
+.auth-btn {
+  --background: #616161;
+  --color: white;
+  font-weight: bold;
+  border-radius: 20px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.auth-btn:hover {
+  --background: linear-gradient(135deg, #feb47b, #ff7e5f);
+  /* Gradient background on hover */
+  transform: scale(1.05);
+  /* Slightly enlarge on hover */
+}
+
+.nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  /* Space between buttons */
+  background-color: #616161;
+}
+
+.nav-btn {
+  border-radius: 20px;
+  /* Rounded corners */
+  transition: background-color 0.3s, transform 0.2s;
+  /* Smooth transition */
+  --color: #fff;
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Light background on hover */
+  transform: scale(1.05);
+  /* Slightly enlarge on hover */
+}
+
+.rounded-btn {
+  --border-radius: 20px;
+  /* Ionic way to set border radius */
+}
+
+
+/* Style for the Products Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Initially hide the dropdown menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Show the dropdown menu when hovering over the Products button */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Style for dropdown items */
+.dropdown-menu ion-item {
+  cursor: pointer;
+
+}
+
+.dropdown-menu ion-item:hover {
+  background-color: #f0f0f0;
+  /* Add hover effect for the items */
+}
+
+
+
+nav-btn.selected {
+  text-decoration: underline;
+  /* or any other style you prefer */
+  color: #616161;
+  /* Change color to indicate selection */
+}
+
+.selected {
+  background-color: #424242;
+  /* Change to any color you prefer */
+  color: white;
+  /* Adjust text color */
+}
+
+
+.menu-btn {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+}
+
+.custom-menu-button {
+  --background: #424242;
+  /* Set the background color */
+  --color: #ffffff;
+  /* Set the text/icon color */
+  border-radius: 8px;
+  /* Optional: Add rounded corners */
+  padding: 8px;
+  /* Optional: Adjust padding for better appearance */
+}
+
+.custom-menu-button:hover {
+  --background: rgba(255, 255, 255, 0.2);
+  /* Change background color on hover */
+}
+
+
+
+//slider
+
+@media (max-width: 478px) {
+  .header-container {
+    display: flex;
+    flex-direction: row;
+    /* Keep elements in a row */
+    align-items: left;
+    /* Vertically center all items */
+    justify-content: space-between;
+    /* Ensure space between title and buttons */
+    padding: 0 10px;
+    gap: 5px;
+    /* Space between menu button, title, and buttons */
+  }
+
+  .menu-btn {
+    left: 0;
+    top: 5px;
+    /* Adjust the position of the menu button */
+    transform: translateY(0);
+    /* Fine-tune the vertical alignment */
+  }
+
+
+  .button-container {
+    order: 3;
+    display: flex;
+    gap: 1px;
+    /* Reduce space between buttons on smaller screens */
+    justify-content: flex-end;
+    /* Align buttons to the right */
+    width: -moz-fit-content; /* Firefox compatibility */
+    width: fit-content; /* Standard support */
+  }
+
+  .custom-menu-button {
+    --background: #424242;
+    /* Set the background color */
+    --color: #ffffff;
+    /* Set the text/icon color */
+    border-radius: 8px;
+    /* Optional: Add rounded corners */
+    padding: 8px;
+    /* Optional: Adjust padding for better appearance */
+  }
+
+  .custom-menu-button:hover {
+    --background: #357ABD;
+    /* Change background color on hover */
+  }
+
+  .header-title {
+    order: 2;
+    flex-grow: 0;
+    /* Allow the title to take up the remaining space */
+    margin-left: 5px;
+    /* Adjust left spacing */
+    text-align: left;
+    /* Align text to the left */
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+
+  .header-title h1 {
+    font-size: 18px;
+    /* Adjust font size for smaller screens */
+    color: #fff;
+    /* Set text color */
+    margin: 0;
+    /* Remove default margins */
+  }
+
+  .button-container.mobile-view {
+    gap: 0px;
+    /* Adjust spacing between buttons */
+
+  }
+
+  .auth-btn {
+    font-size: 12px;
+    /* Adjust button size for smaller screens */
+    padding: 0px ;
+  }
+
+  .menu-btn,
+  .custom-menu-button {
+    padding: 6px;
+    /* Reduce padding for smaller buttons */
+    border-radius: 20px;
+    /* Add rounded corners */
+  }
+
+  .menu-btn,
+  .custom-menu-button {
+    padding: 6px;
+    /* Reduce padding for smaller buttons */
+  }
+
+}
+
+@media(max-width:430px){
+  .header-container{
+    .header-title{
+      font-size: 1rem;
+    }
+    .button-container.mobile-view{
+      .auth-btn{
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+@media(max-width:412px){
+  .header-container{
+    .header-title{
+      font-size: 1rem;
+      margin-left: 0%;
+    }
+    .button-container.mobile-view{
+      .auth-btn{
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+@media(max-width:460px){
+  .header-container{
+    .header-title{
+      font-size: 1rem;
+      margin-left: 0%;
+    }
+    .button-container.mobile-view{
+      .auth-btn{
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+@media(max-width:345px){
+  .header-container{
+    .header-title{
+      font-size: 1rem;
+      margin-left: 0%;
+    }
+    .button-container.mobile-view{
+      .auth-btn{
+        font-size: 0.5rem;
+      }
+    }
+  }
+}

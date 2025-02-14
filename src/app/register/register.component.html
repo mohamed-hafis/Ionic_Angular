@@ -1,0 +1,104 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+<div class="floating-title">
+  <h1>Register</h1>
+</div>
+</ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+<div class="register-container">
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+
+    <ion-item>
+      <ion-label position="floating">Id</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="employee.id"
+        name="id"
+        required
+      ></ion-input>
+    </ion-item>
+    <p *ngIf="errorMessages.id" class="error-text">{{ errorMessages.id }}</p>
+
+    <ion-item>
+      <ion-label position="floating">First Name</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="employee.firstName"
+        name="firstName"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Last Name</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="employee.lastName"
+        name="lastName"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Gender</ion-label>
+      <ion-select [(ngModel)]="employee.gender" name="gender" required>
+        <ion-select-option value="Male">Male</ion-select-option>
+        <ion-select-option value="Female">Female</ion-select-option>
+        <ion-select-option value="Other">Other</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Date of Birth</ion-label>
+      <ion-input
+        type="date"
+        [(ngModel)]="employee.dob"
+        name="dob"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input
+        type="email"
+        [(ngModel)]="employee.email"
+        name="email"
+        required
+      ></ion-input>
+    </ion-item>
+    <p *ngIf="errorMessages.email" class="error-text">{{ errorMessages.email }}</p>
+<p *ngIf="errorMessages.existingEmail" class="error-text">
+  {{ errorMessages.existingEmail }}
+</p>
+    <ion-item>
+      <ion-label position="floating">Mobile Number</ion-label>
+      <ion-input
+        type="tel"
+        [(ngModel)]="employee.mobileNo"
+        name="mobileNo"
+        required
+      ></ion-input>
+    </ion-item>
+    <p *ngIf="errorMessages.mobileNo" class="error-text">{{ errorMessages.mobileNo }}</p>
+
+    <ion-button
+      expand="full"
+      type="submit"
+      [disabled]="!registerForm.form.valid"
+      class="submit-btn"
+    >
+      Submit
+    </ion-button>
+    </form>
+  </div>
+</ion-content>
+
