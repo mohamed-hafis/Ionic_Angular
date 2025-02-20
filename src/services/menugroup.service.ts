@@ -15,4 +15,9 @@ export class MenuGroup {
 
   getDDdata(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/GetDdata`);
-  }}
+  }
+
+  saveData(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/SaveMenuData`, data);  // Adjust the endpoint accordingly
+  }
+}

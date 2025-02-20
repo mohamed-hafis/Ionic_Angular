@@ -25,10 +25,11 @@ export class MenuGroupComponent implements OnInit {
     this.form = this.fb.group({
       companyId: ['', Validators.required],
       menuName: ['', Validators.required],
-      parentId: [''],
-      sortId: [''],
+      parentId: ['',], // Only numbers allowed
+      sortId: ['',], // Only numbers allowed
       reserved: [''],
-      webIcon: ['', Validators.required],
+      applicationType: [''],
+      webIcon: [''],
     });
   }
 
@@ -58,24 +59,26 @@ export class MenuGroupComponent implements OnInit {
     );
   }
 
-  loadMenuGroup() {
+loadMenuGroup() {
     this.MenuGroupService.getDDdata().subscribe(
       (response: any) => {
-
-        console.log('Grid record:', response);
-        this.records = response.Data?.map((item: any) => ({
-          companyId: item.CID,
-          menuId: item.MenuID,
-          menuName: item.MenuName,
-          parentId: item.ParentID || '',
-          sortId: item.SqlQuery2 || '',
-          reserved: item.RelationColumn1 || '',
-          webIcon: item.RelationColumn2,
-        })) || [];
-      },
-      (error) => console.error('Error fetching grid data:', error)
-    );
+        this.records = response.MenuGrouping.map((data: any) => ({
+          companyId: this.form.value.companyId, // Assign default companyId
+          id: data.ID,
+          description: data.Description,
+          parentId: data.ParentID,
+          sortId: data.SortID,
+          reserved: data.Reserved ? 1 : 0,
+          applicationType: data.ApplicationType,
+          webIcon: data.WebIcon || 'NULL',
+        }));
   
+        console.log('Menu Group Records:', this.records);
+      },
+      (error: any) => {
+        console.error('Error fetching menu group data:', error);
+      }
+    );
   }
 
 
@@ -84,15 +87,64 @@ export class MenuGroupComponent implements OnInit {
       this.snackBar.open('Please fill out all required fields', 'Close', { duration: 3000 });
       return;
     }
+  
+    
+  // Get form data
+  const Rec = this.form.value;
 
-    const newRecord = this.form.value;
-    this.records.push(newRecord);
-    this.snackBar.open('Record saved successfully!', 'Close', { duration: 3000 });
-    this.form.reset();
+  // Ensure CID is assigned correctly
+  if (Rec.parentId && isNaN(Rec.parentId)) {
+    this.snackBar.open('Parent ID must be a number.', 'Close', { duration: 3000 });
+    return;
   }
 
-  onAdd(row: any): void {
-    this.records.push({ ...row });
+  if (Rec.sortId && isNaN(Rec.sortId)) {
+    this.snackBar.open('Sort ID must be a number.', 'Close', { duration: 3000 });
+    return;
+  }
+
+  // Ensure CID is assigned correctly
+  if (!Rec.companyId || Rec.companyId === 0) {
+    this.snackBar.open('Invalid Company selection. Please choose a valid Company.', 'Close', { duration: 3000 });
+    return;
+  }
+  Rec.CID = Rec.companyId; // Assign CID correctly
+
+  // Find the selected menu based on menuName (ID) and get Description
+  const selectedMenu = this.menus.find(menu => menu.ID === Rec.menuName);
+  if (!selectedMenu) {
+    this.snackBar.open('Invalid Menu selection. Please choose a valid Menu.', 'Close', { duration: 3000 });
+    return;
+  }
+
+  // Assign Description and ID
+  Rec.Description = selectedMenu.Description;
+  Rec.ID = selectedMenu.ID; // Ensure ID is the numeric value from menu.ID
+
+ 
+
+  console.log('Saving Data:', Rec); // Debug log
+
+  this.MenuGroupService.saveData(Rec).subscribe({
+    next: (response) => {
+      console.log('API Response:', response);
+
+      if (response && response.message) {
+        this.snackBar.open(response.message, 'Close', { duration: 3000 });
+      } else {
+        this.snackBar.open('Record saved successfully!', 'Close', { duration: 3000 });
+      }
+
+      this.form.reset(); // Reset the form after saving
+    }, 
+    error: (error) => {
+      console.error('Error saving data:', error);
+      this.snackBar.open('Failed to save data. Please try again.', 'Close', { duration: 3000 });
+    }
+  });
+}
+
+  onAdd(): void {
     this.snackBar.open('Record added successfully!', 'Close', { duration: 3000 });
   }
 
