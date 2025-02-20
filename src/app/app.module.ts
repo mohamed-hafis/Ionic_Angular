@@ -62,13 +62,12 @@ import { SampleformComponent } from './sampleform/sampleform.component';
 import { MatformComponent } from './matform/matform.component';
 import 'hammerjs';
 import { MatComponent } from './mat/mat.component';
-
-
+import { MenuGroupComponent } from './menu-group/menu-group.component';
 
 @NgModule({
   declarations: [AppComponent,MainLayoutComponent,LoginComponent,
     HomePage,AboutusComponent,FaqComponent,ServicesComponent,ERPComponent,
-    CRMComponent,ContactComponent,SignupComponent,RegisterComponent, EmplistComponent,SampleformComponent, MatformComponent, MatComponent, ],
+    CRMComponent,ContactComponent,SignupComponent,RegisterComponent, EmplistComponent, MenuGroupComponent, SampleformComponent, MatformComponent, MatComponent, ],
   imports: [ BrowserModule, IonicModule.forRoot(), AppRoutingModule,ReactiveFormsModule,
     HammerModule,
     FormsModule,

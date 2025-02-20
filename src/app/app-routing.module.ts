@@ -17,12 +17,14 @@ import { SampleformComponent } from './sampleform/sampleform.component';
 import { MatformComponent } from './matform/matform.component';
 import { MatComponent } from './mat/mat.component';
 import { SliderComponent } from './slider/slider.component';
+import { MenuGroupComponent } from './menu-group/menu-group.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent, // Main Layout as Parent
     children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomePage },
       { path: 'about', component: AboutusComponent },
       { path: 'contact', component: ContactComponent },
@@ -42,6 +44,7 @@ const routes: Routes = [
   { path: 'matform', component: MatformComponent },
   { path: 'mat', component: MatComponent },
   { path: 'slider', component: SliderComponent },
+  { path: 'menu-group', component: MenuGroupComponent },
 ];
 
 @NgModule({

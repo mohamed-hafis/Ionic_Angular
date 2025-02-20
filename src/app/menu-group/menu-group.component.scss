@@ -1,0 +1,65 @@
+// Center the form and table container
+mat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto; // Adjusted for better spacing
+    max-width: 600px; // Keeps the form width compact
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); // Subtle shadow for better visibility
+  }
+  
+  // Make form fields full width and stacked
+  .full-width {
+    width: 100%;
+  }
+  
+  // Compact form fields
+  mat-form-field {
+    margin-bottom: 12px; // Slightly increased spacing for better readability
+    width: 100%; // Ensure fields take full width inside the form
+  }
+  
+  // Form actions (buttons) styling
+  .form-actions {
+    display: flex;
+    justify-content: center; // Center align buttons
+    gap: 12px; // Maintain proper spacing between buttons
+    margin-top: 16px;
+  }
+  
+  // Table container styling
+  .table-container {
+    margin-top: 24px; // Keeps some spacing between form and table
+    width: 100%;
+    overflow-x: auto; // Enables horizontal scrolling for smaller screens
+    max-width: 800px; // Keeps table readable
+  }
+  
+  // Compact table styling
+  table.mat-table {
+    width: 100%;
+    font-size: 14px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  
+    th,
+    td {
+      padding: 12px; // Uniform padding for better spacing
+      text-align: center; // Centering text inside the table
+    }
+  }
+  
+  // Enable scrolling for the whole page
+  :host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh; // Full viewport height
+    overflow-y: auto; // Enable vertical scrolling
+    padding-bottom: 20px; // Prevent content from touching the bottom
+  }
+  

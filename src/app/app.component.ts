@@ -9,6 +9,9 @@ import { AuthService } from './auth.service';
   standalone: false,
 })
 export class AppComponent {
+
+
+  
   constructor(private authService: AuthService, private router: Router) {}
 
 
