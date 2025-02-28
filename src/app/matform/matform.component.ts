@@ -60,8 +60,8 @@ export class MatformComponent  implements OnInit {
         console.log('Grid record:', response);
         this.records = response.Data?.map((item: any) => ({
           companyId: item.CID,
-          menuId: item.ID,
-          menuName: item.Description,
+          menuId: item.MenuID,
+          menuName: item.MenuName,
           sqlQuery1: item.SqlQuery1 || '',
           sqlQuery2: item.SqlQuery2 || '',
           relationColumn1: item.RelationColumn1 || '',

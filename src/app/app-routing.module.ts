@@ -18,6 +18,7 @@ import { MatformComponent } from './matform/matform.component';
 import { MatComponent } from './mat/mat.component';
 import { SliderComponent } from './slider/slider.component';
 import { MenuGroupComponent } from './menu-group/menu-group.component';
+import { MenuPopupComponent } from './menu-popup/menu-popup.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
   { path: 'mat', component: MatComponent },
   { path: 'slider', component: SliderComponent },
   { path: 'menu-group', component: MenuGroupComponent },
+  { path: 'menu-popup', component: MenuPopupComponent },
 ];
 
 @NgModule({

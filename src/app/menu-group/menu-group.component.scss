@@ -18,24 +18,24 @@ mat-card {
   
   // Compact form fields
   mat-form-field {
-    margin-bottom: 12px; // Slightly increased spacing for better readability
-    width: 100%; // Ensure fields take full width inside the form
+    margin-bottom: 12px; 
+    width: 100%; 
   }
   
   // Form actions (buttons) styling
   .form-actions {
     display: flex;
-    justify-content: right; // Center align buttons
-    gap: 12px; // Maintain proper spacing between buttons
+    justify-content: right; 
+    gap: 12px; 
     margin-top: 16px;
   }
   
   // Table container styling
   .table-container {
-    margin-top: 24px; // Keeps some spacing between form and table
+    margin-top: 24px; 
     width: 100%;
-    overflow-x: auto; // Enables horizontal scrolling for smaller screens
-    max-width: 800px; // Keeps table readable
+    overflow-x: auto; 
+    max-width: 800px; 
   }
   
   // Compact table styling

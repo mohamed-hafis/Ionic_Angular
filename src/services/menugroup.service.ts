@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,5 +19,17 @@ export class MenuGroup {
 
   saveData(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/SaveMenuData`, data);  // Adjust the endpoint accordingly
+  }
+
+  updateItem(id: string, menuData: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Update/${id}`, menuData);
+  }
+
+  // Delete Menu Item
+  deleteMenuItem(item: any): Observable<any> {
+    return this.http.request('DELETE', `${this.apiUrl}/Delete`, {
+      body: item, // Explicitly send the body
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    });
   }
 }

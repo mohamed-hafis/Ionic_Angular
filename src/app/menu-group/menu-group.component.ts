@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
 import { MenuGroup } from 'src/services/menugroup.service';
-
+import { MenuPopupComponent } from '../menu-popup/menu-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 
@@ -20,13 +21,14 @@ export class MenuGroupComponent implements OnInit {
   webIcons: string[] = [];
   records: any[] = [];
   isEditing = false;
+  selectedMenuItemId: string | null = null; // Store selected ID for editing
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar, private MenuGroupService: MenuGroup,) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar, private MenuGroupService: MenuGroup,public dialog: MatDialog) {
     this.form = this.fb.group({
       companyId: ['', Validators.required],
       menuName: ['', Validators.required],
-      parentId: ['',], // Only numbers allowed
-      sortId: ['',], // Only numbers allowed
+      parentId: [''], 
+      sortId: [''], 
       reserved: [''],
       applicationType: [''],
       webIcon: [''],
@@ -63,7 +65,7 @@ loadMenuGroup() {
     this.MenuGroupService.getDDdata().subscribe(
       (response: any) => {
         this.records = response.MenuGrouping.map((data: any) => ({
-          companyId: this.form.value.companyId, // Assign default companyId
+          companyId: data.CID, // Assign default companyId
           id: data.ID,
           description: data.Description,
           parentId: data.ParentID,
@@ -87,18 +89,17 @@ loadMenuGroup() {
       this.snackBar.open('Please fill out all required fields', 'Close', { duration: 3000 });
       return;
     }
-  
     
   // Get form data
   const Rec = this.form.value;
 
   // Ensure CID is assigned correctly
-  if (Rec.parentId && isNaN(Rec.parentId)) {
+  if (!Rec.parentId || isNaN(Rec.parentId)) {
     this.snackBar.open('Parent ID must be a number.', 'Close', { duration: 3000 });
     return;
   }
 
-  if (Rec.sortId && isNaN(Rec.sortId)) {
+  if (!Rec.sortId || isNaN(Rec.sortId)) {
     this.snackBar.open('Sort ID must be a number.', 'Close', { duration: 3000 });
     return;
   }
@@ -119,37 +120,130 @@ loadMenuGroup() {
 
   // Assign Description and ID
   Rec.Description = selectedMenu.Description;
-  Rec.ID = selectedMenu.ID; // Ensure ID is the numeric value from menu.ID
+  Rec.ID = selectedMenu.ID; 
 
- 
 
   console.log('Saving Data:', Rec); // Debug log
 
-  this.MenuGroupService.saveData(Rec).subscribe({
-    next: (response) => {
-      console.log('API Response:', response);
-
-      if (response && response.message) {
-        this.snackBar.open(response.message, 'Close', { duration: 3000 });
-      } else {
+  if (this.isEditing) {
+    // **Updating an existing record**
+    this.MenuGroupService.updateItem(Rec.ID , Rec).subscribe({
+      next: (response) => {
+        console.log('Update Response:', response);
+        this.snackBar.open('Record updated successfully!', 'Close', { duration: 3000 });
+        this.resetForm();
+        this.loadMenuGroup();
+      }, 
+      error: (error) => this.handleApiError(error)
+    });
+  } else {
+    // **Saving a new record**
+    this.MenuGroupService.saveData(Rec).subscribe({
+      next: (response) => {
+        console.log('Save Response:', response);
         this.snackBar.open('Record saved successfully!', 'Close', { duration: 3000 });
-      }
+        this.resetForm();
+        this.loadMenuGroup();
+      }, 
+      error: (error) => this.handleApiError(error)
+    });
+  }
+}
 
-      this.form.reset(); // Reset the form after saving
-    }, 
+handleApiError(error: any): void {
+  console.error('API Error:', error);
+
+  if (error.status === 409) {  
+    // Backend returns a 409 Conflict for duplicate records
+    this.snackBar.open(error.error?.message || 'Duplicate record exists!', 'Close', { duration: 3000 });
+  } else if (error.status === 400) {
+    // Handle Bad Request (Validation errors)
+    this.snackBar.open(error.error?.message || 'Invalid input. Please check your data.', 'Close', { duration: 3000 });
+  } else if (error.status === 500) {
+    // Handle Server Errors
+    this.snackBar.open('Internal Server Error! Please contact support.', 'Close', { duration: 3000 });
+  } else {
+    // Default error
+    this.snackBar.open('Failed to save data. Please try again.', 'Close', { duration: 3000 });
+  }
+}
+
+onEdit(row: any) {
+  this.selectedMenuItemId = row.id; // Store the ID for editing
+  this.isEditing = true; // Set flag to indicate edit mode
+
+  const companyId = Number(row.companyId);
+
+
+  const selectedCompany = this.companies.find(company => Number(company.CID) === companyId);
+
+  this.form.patchValue({
+    companyId: selectedCompany ? selectedCompany.CID : '', // Ensure field names match API model
+    menuName: row.id,
+    parentId: row.parentId ?? null,
+    sortId: row.sortId ?? null,
+    reserved: row.reserved === 1,
+    applicationType: row.applicationType,
+    webIcon: row.webIcon
+  });
+  if (selectedCompany) {
+    this.form.patchValue({ companyId: selectedCompany.CID });
+  }
+
+  console.log('Editing Row:', row);
+  console.log('Selected Company:', selectedCompany);
+}
+
+
+
+
+onDelete(row: any) {
+  console.log("Row data:", row); // ✅ Check if `cid` exists in the row
+
+  if (!row.companyId) {
+    console.error("Error: CID is missing in the row data!");
+    this.snackBar.open('Error: CID is missing!', 'Close', { duration: 3000 });
+    return;
+  }
+
+  if (!confirm(`Are you sure you want to delete menu item "${row.description}"?`)) {
+    return;
+  }
+
+
+  this.MenuGroupService.deleteMenuItem(row).subscribe({
+    next: (response) => {
+      console.log('Deleted:', response);
+      this.snackBar.open('Record deleted successfully!', 'Close', { duration: 3000 });
+      this.loadMenuGroup();
+    },
     error: (error) => {
-      console.error('Error saving data:', error);
-      this.snackBar.open('Failed to save data. Please try again.', 'Close', { duration: 3000 });
+      console.error('Error deleting record:', error);
+      this.snackBar.open('Delete failed. Please try again.', 'Close', { duration: 3000 });
     }
   });
 }
+ resetForm() {
+    this.form.reset();
+    this.isEditing = false;
+    this.selectedMenuItemId = null;
+  }
 
   onAdd(): void {
-    this.snackBar.open('Record added successfully!', 'Close', { duration: 3000 });
+    const dialogRef = this.dialog.open(MenuPopupComponent, {
+      width: '600px',
+      data: { menuData: this.menus } // Pass MenuMgt data to popup
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Selected Menu:', result);
+        this.form.patchValue({ menuName: result.MenuID }); // Set selected MenuID
+      }
+    });
   }
 
   onCancel(): void {
-    this.form.reset();
-    this.isEditing = false;
+    this.resetForm();
   }
 }
