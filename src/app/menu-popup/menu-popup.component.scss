@@ -38,7 +38,7 @@ mat-card {
   // Table container styling
   .table-container {
     margin-top: 24px;
-    width: 100%;
+    width: 80%;
     overflow-x: auto;
     max-width: 800px;
   }
@@ -49,6 +49,7 @@ mat-card {
     font-size: 14px;
     background: white;
     border-radius: 8px;
+    
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   
     th,
