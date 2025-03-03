@@ -90,6 +90,7 @@ export class MenuPopupComponent  implements OnInit {
       this.MenuGroupService.Submit(formData).subscribe(
         (response) => {
           console.log('Data inserted successfully', response);
+          this.menuForm.reset();
           this.fetchMenuData(); // Refresh table after insertion
         },
         (error) => {
@@ -104,6 +105,11 @@ export class MenuPopupComponent  implements OnInit {
    onSelect(menu: any) {
     console.log('Selected Menu:', menu); 
   }
+
+  resetForm() {
+    this.menuForm.reset();
+  }
+
 }
 
 
