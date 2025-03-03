@@ -32,4 +32,10 @@ export class MenuGroup {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
+
+  Submit(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Submit`, data);  // Adjust the endpoint accordingly
+  }
+
+
 }

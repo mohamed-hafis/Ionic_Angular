@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { MenuGroup } from 'src/services/menugroup.service';
 import { MenuPopupComponent } from '../menu-popup/menu-popup.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 
 
@@ -23,7 +24,7 @@ export class MenuGroupComponent implements OnInit {
   isEditing = false;
   selectedMenuItemId: string | null = null; // Store selected ID for editing
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar, private MenuGroupService: MenuGroup,public dialog: MatDialog) {
+  constructor(private router: Router,private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar, private MenuGroupService: MenuGroup,public dialog: MatDialog) {
     this.form = this.fb.group({
       companyId: ['', Validators.required],
       menuName: ['', Validators.required],
@@ -123,7 +124,7 @@ loadMenuGroup() {
   Rec.ID = selectedMenu.ID; 
 
 
-  console.log('Saving Data:', Rec); // Debug log
+  console.log('Saving Data:', Rec); 
 
   if (this.isEditing) {
     // **Updating an existing record**
@@ -170,7 +171,7 @@ handleApiError(error: any): void {
 
 onEdit(row: any) {
   this.selectedMenuItemId = row.id; // Store the ID for editing
-  this.isEditing = true; // Set flag to indicate edit mode
+  this.isEditing = true; // Set flag
 
   const companyId = Number(row.companyId);
 
@@ -198,7 +199,7 @@ onEdit(row: any) {
 
 
 onDelete(row: any) {
-  console.log("Row data:", row); // ✅ Check if `cid` exists in the row
+  console.log("Row data:", row); 
 
   if (!row.companyId) {
     console.error("Error: CID is missing in the row data!");
@@ -229,19 +230,12 @@ onDelete(row: any) {
     this.selectedMenuItemId = null;
   }
 
-  onAdd(): void {
-    const dialogRef = this.dialog.open(MenuPopupComponent, {
-      width: '600px',
-      data: { menuData: this.menus } // Pass MenuMgt data to popup
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Selected Menu:', result);
-        this.form.patchValue({ menuName: result.MenuID }); // Set selected MenuID
-      }
+  onAddClick(selectedRow: any) {
+    this.router.navigate(['/menu-popup'], {
+      state: { data: selectedRow } // Passing selected row data
     });
   }
+  
 
   onCancel(): void {
     this.resetForm();
