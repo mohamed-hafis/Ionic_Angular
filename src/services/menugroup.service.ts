@@ -33,8 +33,8 @@ export class MenuGroup {
     });
   }
 
-  Submit(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Submit`, data);  // Adjust the endpoint accordingly
+  Submit(FormData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Submit`, FormData);  // Adjust the endpoint accordingly
   }
 
 

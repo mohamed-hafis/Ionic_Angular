@@ -31,7 +31,7 @@ export class MenuGroupComponent implements OnInit {
       parentId: [''], 
       sortId: [''], 
       reserved: [''],
-      applicationType: [''],
+      applicationType: ['', Validators.required],
       webIcon: [''],
     });
   }
