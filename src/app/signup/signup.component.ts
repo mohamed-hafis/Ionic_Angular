@@ -17,12 +17,13 @@ export class SignupComponent {
   username: string = '';
   password: string = '';
   confirmPassword: string = '';
+  Role: string = 'User';
 
   constructor(private router: Router,private authService: AuthService) {}
 
   onSignup() {
     if (this.password === this.confirmPassword) {
-      this.authService.signup(this.username, this.password, this.confirmPassword).subscribe(
+      this.authService.signup(this.username, this.password, this.confirmPassword, this.Role).subscribe(
         response => {
           console.log('Signup successful', response);
           // Redirect to login page or home page

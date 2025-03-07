@@ -14,7 +14,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Sort ID</mat-label>
-    <input matInput formControlName="SortID" readonly title="Sort ID" placeholder="Enter Sort ID">
+    <input matInput formControlName="SortID"  title="Sort ID" placeholder="Enter Sort ID">
   </mat-form-field>
 
   <mat-form-field appearance="outline">
@@ -29,13 +29,19 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Reserved</mat-label>
-    <input matInput formControlName="Reserved" readonly title="Reserved" placeholder="Enter Reserved">
+    <input matInput formControlName="Reserved"  title="Reserved" placeholder="Enter Reserved">
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>Application Type</mat-label>
     <input matInput formControlName="ApplicationType" readonly title="Application Type" placeholder="Enter Application Type">
   </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Options</mat-label>
+    <input matInput formControlName="Options" title="Options" placeholder="Enter Options">
+  </mat-form-field>
+
 
   <mat-form-field appearance="outline">
     <mat-label>Web Icon</mat-label>
@@ -100,6 +106,16 @@
   <ng-container matColumnDef="WebIcon">
     <th mat-header-cell *matHeaderCellDef> Web Icon </th>
     <td mat-cell *matCellDef="let row"> {{ row.WebIcon }} </td>
+  </ng-container>
+
+   <!-- Options Column -->
+   <ng-container matColumnDef="Options">
+    <th mat-header-cell *matHeaderCellDef> Options </th>
+    <td mat-cell *matCellDef="let row">
+      <ng-container *ngFor="let opt of row.Options">
+        <span>{{ opt.Options }}</span><br>
+      </ng-container>
+    </td>
   </ng-container>
 
   <!-- Action Column -->

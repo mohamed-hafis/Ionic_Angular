@@ -25,8 +25,8 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/Login`, body);
   }
   // Signup method
-  signup(username: string, password: string, confirmpassword:string): Observable<any> {
-    const body = {username,  password, confirmpassword};
+  signup(username: string, password: string, confirmpassword:string, Role: string ): Observable<any> {
+    const body = {username,  password, confirmpassword,Role};
     return this.http.post(`${this.apiUrl}/Signup`, body);
   }
 
@@ -36,9 +36,9 @@ export class AuthService {
     if (response.Token) {
       this.token = response.Token;
       localStorage.setItem('token', this.token!);
+      console.log(' Token:', this.token);
       this.loggedIn = true;
       this.isLoggedInSubject.next(true);
-      this.router.navigate(['/home']);
     } else {
       console.error('Login response does not contain a token.');
     }

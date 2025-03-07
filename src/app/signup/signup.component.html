@@ -45,7 +45,13 @@
           </ion-input>
         </ion-item>
 
-
+        <ion-item>
+          <ion-label>Role</ion-label>
+          <ion-select [(ngModel)]="Role" name="Role" required>
+            <ion-select-option value="User">User</ion-select-option>
+            <ion-select-option value="Admin">Admin</ion-select-option>
+          </ion-select>
+        </ion-item>
 
         <!-- Submit Button -->
         <ion-button expand="block" type="submit" [disabled]="!signupForm.valid || password !== confirmPassword">

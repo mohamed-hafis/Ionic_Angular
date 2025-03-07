@@ -32,6 +32,7 @@ export class MenuGroupComponent implements OnInit {
       sortId: [''], 
       reserved: [''],
       applicationType: ['', Validators.required],
+      Options: [''],
       webIcon: [''],
     });
   }
@@ -154,19 +155,19 @@ loadMenuGroup() {
 handleApiError(error: any): void {
   console.error('API Error:', error);
 
-  if (error.status === 409) {  
-    // Backend returns a 409 Conflict for duplicate records
-    this.snackBar.open(error.error?.message || 'Duplicate record exists!', 'Close', { duration: 3000 });
+  let errorMessage = 'Failed to save data. Please try again.';
+
+  if (error.error && error.error.message) {
+    errorMessage = error.error.message; // Extract the error message from API
+  } else if (error.status === 409) {  
+    errorMessage = 'Duplicate record exists!';
   } else if (error.status === 400) {
-    // Handle Bad Request (Validation errors)
-    this.snackBar.open(error.error?.message || 'Invalid input. Please check your data.', 'Close', { duration: 3000 });
+    errorMessage = 'Invalid input. Please check your data.';
   } else if (error.status === 500) {
-    // Handle Server Errors
-    this.snackBar.open('Internal Server Error! Please contact support.', 'Close', { duration: 3000 });
-  } else {
-    // Default error
-    this.snackBar.open('Failed to save data. Please try again.', 'Close', { duration: 3000 });
+    errorMessage = 'Internal Server Error! Please contact support.';
   }
+
+  this.snackBar.open(errorMessage, 'Close', { duration: 4000 });
 }
 
 onEdit(row: any) {

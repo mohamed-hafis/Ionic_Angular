@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { MatTableDataSource } from '@angular/material/table';
 import { MenuGroup } from 'src/services/menugroup.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,21 +17,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MenuPopupComponent  implements OnInit {
 
   menuForm!: FormGroup;  // Form group for binding form data
-  displayedColumns: string[] = ['CID', 'MenuGroupID', 'SortID', 'MenuID', 'Description', 'Reserved', 'ApplicationType', 'WebIcon', 'action'];
+  displayedColumns: string[] = ['CID', 'MenuGroupID', 'SortID', 'MenuID', 'Description', 'Reserved', 'ApplicationType', 'Options','WebIcon', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   selectedRow: any = {}; 
 
   constructor(
     private fb: FormBuilder,
     private MenuGroupService: MenuGroup,
+    private snackBar: MatSnackBar,
     private router: Router
   ) {const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state && navigation.extras.state['data']) {
       this.selectedRow  = navigation.extras.state['data'];
     }
   }
-
-
 
   ngOnInit() {
     this.initForm();
@@ -47,6 +48,7 @@ export class MenuPopupComponent  implements OnInit {
       Description: [''],
       Reserved: [''],
       ApplicationType: [''],
+      Options: [''],
       WebIcon: []
     });
   }
@@ -60,9 +62,7 @@ export class MenuPopupComponent  implements OnInit {
       this.menuForm.patchValue({
         CID: data.companyId,
         MenuGroupID: data.id,
-        SortID: data.sortId,
         Description: data.description,
-        Reserved: data.reserved,
         ApplicationType: data.applicationType,
         WebIcon: data.webIcon
       });
@@ -85,22 +85,31 @@ export class MenuPopupComponent  implements OnInit {
 
   onSubmit() {
     if (this.menuForm.valid) {
-      const formData = this.menuForm.value; // Get form data
-      
-      this.MenuGroupService.Submit(formData).subscribe(
-        (response) => {
-          console.log('Data inserted successfully', response);
-          this.menuForm.reset();
-          this.fetchMenuData(); // Refresh table after insertion
-        },
-        (error) => {
-          console.error('Error inserting data', error);
-        }
-      );
-    } else {
-      console.log("Form is invalid");
-    }
+    const formData = { ...this.menuForm.value };
+    // Convert Options string (comma-separated) to JSON format
+    const selectedOptions = this.menuForm.value.Options
+      .split(',')
+      .map((opt: string) => ({ Options: opt.trim() })); 
+
+    // Store the JSON formatted Options
+    formData.Options = JSON.stringify(selectedOptions);
+
+    this.MenuGroupService.Submit(formData).subscribe(
+      (response) => {
+        console.log('Data inserted successfully', response);
+        this.snackBar.open('Data saved successfully!', 'Close', { duration: 3000 });
+        this.fetchMenuData(); // Refresh table after insertion
+        this.menuForm.reset();
+      },
+      (error) => {
+        console.error('Error inserting data', error);
+      }
+    );
+  } else {
+    console.log("Form is invalid");
+    this.snackBar.open('Enter all fields', 'Close', { duration: 3000 });
   }
+}
   
    onSelect(menu: any) {
     console.log('Selected Menu:', menu); 

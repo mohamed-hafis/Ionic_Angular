@@ -26,14 +26,26 @@ export class LoginComponent {
         async response => {
           this.authService.handleLogin(response); // Handle successful login
           console.log("Login Successfull");
-          const toast = await this.toastController.create({
-            message: 'Login Successfull',
-            duration: 2000, // Duration in milliseconds
-            color: 'success', // Color of the toast
-            position: 'bottom', // Position of the toast
-          });
-          await toast.present();
-          this.router.navigate(['/home']);
+          const Token = response?.Token; // Assume API returns a token
+          const userRole = response?.role; // Default to 'User' if role is missing
+
+          if (Token) {
+            // Store token & role in localStorage
+            localStorage.setItem('authToken', Token);
+            localStorage.setItem('userRole', userRole);
+
+            await this.presentToast('Login Successful');
+
+            // Navigate based on role
+            if (userRole === 'Admin') {
+              this.router.navigate(['/admin-dashboard']);
+            } else {
+              this.router.navigate(['/home']);
+            }
+          } else {
+            this.loginError = 'Invalid token received';
+            await this.presentToast(this.loginError);
+          }
         },
         async error => {
           console.error('Login failed', error);
