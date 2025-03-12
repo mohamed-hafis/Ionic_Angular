@@ -74,7 +74,7 @@ export class MenuPopupComponent  implements OnInit {
     this.MenuGroupService.getDDdata().subscribe(
       response => {
         this.dataSource.data =  response.Menumgt;
-        console.log('API Response:', response.Menumgt);
+        console.log('MenuMgt API Response:', response.Menumgt);
 
       },
       error => {

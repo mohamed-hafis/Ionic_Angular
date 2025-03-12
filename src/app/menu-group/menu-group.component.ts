@@ -32,7 +32,6 @@ export class MenuGroupComponent implements OnInit {
       sortId: [''], 
       reserved: [''],
       applicationType: ['', Validators.required],
-      Options: [''],
       webIcon: [''],
     });
   }
@@ -56,8 +55,6 @@ export class MenuGroupComponent implements OnInit {
         }
         
         console.log('Companies:', this.companies);
-        console.log('Menus:', this.menus);
-        console.log('WebIcons:', this.webIcons);
       },
       (error : any) => console.error('Error fetching dropdown data:', error)
     );
@@ -127,39 +124,51 @@ loadMenuGroup() {
 
   console.log('Saving Data:', Rec); 
 
+ 
   if (this.isEditing) {
-    // **Updating an existing record**
-    this.MenuGroupService.updateItem(Rec.ID , Rec).subscribe({
-      next: (response) => {
-        console.log('Update Response:', response);
-        this.snackBar.open('Record updated successfully!', 'Close', { duration: 3000 });
+    this.MenuGroupService.updateItem(Rec.ID, Rec).subscribe({
+      next: (response: any) => {
+        if (response && response.message) {
+          this.snackBar.open(response.message, 'Close', { duration: 3000 });
+        } else {
+          this.snackBar.open('Record updated successfully!', 'Close', { duration: 3000 });
+        }
         this.resetForm();
         this.loadMenuGroup();
-      }, 
-      error: (error) => this.handleApiError(error)
+      },
+      error: (error: any) => this.handleApiError(error)
     });
   } else {
-    // **Saving a new record**
     this.MenuGroupService.saveData(Rec).subscribe({
-      next: (response) => {
-        console.log('Save Response:', response);
-        this.snackBar.open('Record saved successfully!', 'Close', { duration: 3000 });
-        this.resetForm();
-        this.loadMenuGroup();
-      }, 
-      error: (error) => this.handleApiError(error)
+      next: (response: any) => {
+        if (response && response.message && response.message.includes("Error")) {
+          this.snackBar.open(response.message, 'Close', { duration: 4000 });
+        } else {
+          this.snackBar.open('Record saved successfully!', 'Close', { duration: 3000 });
+          this.resetForm();
+          this.loadMenuGroup();
+        }
+      },
+      error: (error: any) => this.handleApiError(error)
     });
   }
 }
+
 
 handleApiError(error: any): void {
   console.error('API Error:', error);
 
   let errorMessage = 'Failed to save data. Please try again.';
-
-  if (error.error && error.error.message) {
-    errorMessage = error.error.message; // Extract the error message from API
-  } else if (error.status === 409) {  
+  
+  if (error.error && typeof error.error === 'object') {
+    if (error.error.message) {
+      errorMessage = error.error.message; // Get error message from API response
+    } else if (error.error.error) {
+      errorMessage = error.error.error; // Alternative error field
+    }
+  } else if (typeof error.error === 'string') {
+    errorMessage = error.error; // Handle plain text errors
+  } else if (error.status === 409) {
     errorMessage = 'Duplicate record exists!';
   } else if (error.status === 400) {
     errorMessage = 'Invalid input. Please check your data.';
@@ -169,7 +178,6 @@ handleApiError(error: any): void {
 
   this.snackBar.open(errorMessage, 'Close', { duration: 4000 });
 }
-
 onEdit(row: any) {
   this.selectedMenuItemId = row.id; // Store the ID for editing
   this.isEditing = true; // Set flag

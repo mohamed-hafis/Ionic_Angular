@@ -1,51 +1,111 @@
-<ion-card class="swiper-card">
-  <ion-card-content>
-    <div class="swiper-container">
-      <swiper-container
-        autoplay-delay="3000"
-        autoplay-disable-on-interaction="false"
-        loop="true"
-        navigation="true"
-        pagination="true"
-        #swiper
-      >
+<div class="home-container">
+  <!-- Swiper Card (Left Side) -->
+  <ion-card class="swiper-card">
+    <ion-card-content>
+      <div class="swiper-container">
+        <swiper-container
+          autoplay-delay="3000"
+          autoplay-disable-on-interaction="false"
+          loop="true"
+          navigation="true"
+          pagination="true"
+          #swiper
+        >
+          <swiper-slide class="slide-1"></swiper-slide>
+          <swiper-slide class="slide-2"></swiper-slide>
+          <swiper-slide class="slide-3"></swiper-slide>
+          <swiper-slide class="slide-4"></swiper-slide>
+        </swiper-container>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
-        <swiper-slide class="slide-1"></swiper-slide>
-        <swiper-slide class="slide-2"></swiper-slide>
-        <swiper-slide class="slide-3"></swiper-slide>
-        <swiper-slide class="slide-4"></swiper-slide>
-      </swiper-container>
+  <!-- MatCard (Right Side) -->
+  <mat-card class="content-card">
+    <h2 class="title">acSys IT Solutions</h2>
+    <mat-tab-group>
+      <mat-tab label="Company">
+        <div class="content">
+          <p>
+            <strong>Acsys - IT Solutions</strong> is a leading Dubai-based software
+            development firm offering comprehensive software solutions for all types of industries.
+            We have a different scale of customer base, from small-size Business Companies to
+            Corporate Organizations.
+          </p>
+          <p>
+            A clear perception of the growing requirement of IT in every business has created
+            a demand for customized software solutions. As per the business nature of every
+            organization, Acsys – IT provides more advanced, integrated, and custom-based
+            solutions tailored to individual organizational needs.
+          </p>
+        </div>
+      </mat-tab>
+      <mat-tab label="Services">
+        <div class="content">
+          <p>Our workforce is the prime asset in contributing the best of professional service to maintain the standards for our valued customers.
+            Our agile, end-to-end Application Lifecycle Management (ALM) model covers everything from conceptualization, concurrent front- and back-end coding, deployment, QA, and more.
+          </p>
+          <p>
+            As the company philosophy, Acsys IT emphasizes more on developing relationships with all the customers and recognizes our employee roles and contributions in all aspects.
+          </p>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+
+
+<!-- Footer-->
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-left">
+      <img src="assets/images/acsysimg1.png" alt="acSys" class="footer-logo" />
+      <p>
+        As the company philosophy, acSys IT emphasizes more on developing relationships
+        with all customers and recognizing employees' contributions.
+      </p>
     </div>
-  </ion-card-content>
-</ion-card>
 
-<mat-card class="container">
-  <h2 class="title">acSys IT Solutions</h2>
-  <mat-tab-group>
-    <mat-tab label="Company">
-      <div class="content">
-        <p>
-          <strong>Acsys - IT Solutions</strong> is a leading Dubai-based software
-          development firm offering comprehensive software solutions for all types of industries.
-          We have a different scale of customer base, from small-size Business Companies to
-          Corporate Organizations.
-        </p>
-        <p>
-          A clear perception of the growing requirement of IT in every business has created
-          a demand for customized software solutions. As per the business nature of every
-          organization, Acsys – IT provides more advanced, integrated, and custom-based
-          solutions tailored to individual organizational needs.
-        </p>
+    <div class="footer-right">
+      <div class="footer-column">
+        <h4>Our Module</h4>
+        <ul>
+          <li>Accounting & Finance</li>
+          <li>Inventory Management</li>
+          <li>Supply Chain Process</li>
+          <li>Manufacturing (BOM - Bill of Material)</li>
+          <li>HR & Payroll</li>
+          <li>Document Management</li>
+          <li>Asset Management</li>
+          <li>Business Intelligence - (Dashboard)</li>
+        </ul>
       </div>
-    </mat-tab>
-    <mat-tab label="Services">
-      <div class="content">
-        <p>Our work force is the prime asset in contributing the best of Professional Service to maintain the standards to our valued customers.
-          Our agile, end-to-end Application Lifecycle Management (ALM) model covers everything from conceptualization, concurrent front- and back-end coding, deployment, QA and more.
-        </p>
-        <p>
-          As the company philosophy, Acsys IT emphasis more on developing relationship with all the customers and recognize our employee roles and contributions in all aspects</p>
+
+      <div class="footer-column">
+        <h4>Popular Tags</h4>
+        <div class="tags">
+          <span class="tag">ERP</span>
+          <span class="tag">CRM</span>
+          <span class="tag">acSys</span>
+          <span class="tag">business</span>
+          <span class="tag">BI</span>
+
+        </div>
       </div>
-    </mat-tab>
-  </mat-tab-group>
-</mat-card>
+
+      <div class="footer-column">
+        <h4>Send Enquiry</h4>
+        <form>
+          <input type="text" placeholder="Name (required)" required />
+          <input type="email" placeholder="Email (required)" required />
+          <textarea placeholder="Message"></textarea>
+          <button type="submit" class="btn-send">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Copyright © 2025 acSys. All Rights Reserved.</p>
+  </div>
+</footer>
