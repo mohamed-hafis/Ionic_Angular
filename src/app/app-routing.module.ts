@@ -19,6 +19,7 @@ import { MatComponent } from './mat/mat.component';
 import { SliderComponent } from './slider/slider.component';
 import { MenuGroupComponent } from './menu-group/menu-group.component';
 import { MenuPopupComponent } from './menu-popup/menu-popup.component';
+import { AssetformComponent } from './assetform/assetform.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'about', component: AboutusComponent },
       { path: 'contact', component: ContactComponent },
       { path: 'faq', component: FaqComponent },
+      { path: 'services', component: ServicesComponent },
 
 
     ],
@@ -38,7 +40,6 @@ const routes: Routes = [
   { path: 'crm', component: CRMComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'services', component: ServicesComponent },
   { path: 'emplist', component: EmplistComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'sampleform', component: SampleformComponent },
@@ -47,6 +48,8 @@ const routes: Routes = [
   { path: 'slider', component: SliderComponent },
   { path: 'menu-group', component: MenuGroupComponent },
   { path: 'menu-popup', component: MenuPopupComponent },
+  { path: 'assetform', component: AssetformComponent },
+
 ];
 
 @NgModule({

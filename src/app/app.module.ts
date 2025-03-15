@@ -64,13 +64,14 @@ import 'hammerjs';
 import { MatComponent } from './mat/mat.component';
 import { MenuGroupComponent } from './menu-group/menu-group.component';
 import { MenuPopupComponent } from './menu-popup/menu-popup.component';
+import { AssetformComponent } from './assetform/assetform.component';
 
 
 @NgModule({
   declarations: [AppComponent,MainLayoutComponent,LoginComponent,
     HomePage,AboutusComponent,FaqComponent,ServicesComponent,ERPComponent,
-    CRMComponent,ContactComponent,SignupComponent,RegisterComponent, EmplistComponent, MenuGroupComponent, MenuPopupComponent, SampleformComponent, MatformComponent, MatComponent, ],
-  imports: [ BrowserModule, IonicModule.forRoot(), AppRoutingModule,ReactiveFormsModule,
+    CRMComponent,ContactComponent,SignupComponent,RegisterComponent, EmplistComponent,AssetformComponent, MenuGroupComponent, MenuPopupComponent, SampleformComponent, MatformComponent, MatComponent, ],
+  imports: [ BrowserModule, IonicModule.forRoot(), AppRoutingModule,ReactiveFormsModule, 
     HammerModule,
     FormsModule,
     CommonModule,
