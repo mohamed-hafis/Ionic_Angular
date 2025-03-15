@@ -1,0 +1,120 @@
+/* Main container */
+.data-entry-form {
+ 
+  align-items: center;
+  
+}
+
+/* Form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 8px;
+}
+
+/* Form field styling */
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+/* Form actions (buttons) */
+.form-actions {
+  display: flex;
+  justify-content: right;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Table container */
+/* Table container */
+.table-container {
+  width: 100vw; /* Full screen width */
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+table {
+  width: 100%; /* Ensures the table takes full width of its container */
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  color: rgb(10, 2, 2);
+  font-weight: bold;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+tr:hover {
+  background-color: #e3f2fd;
+}
+
+.mat-header-cell {
+  text-transform: uppercase;
+}
+
+.mat-row {
+  transition: background 0.3s ease-in-out;
+}
+
+.mat-elevation-z8 {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Ensure buttons are properly styled */
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #388e3c;
+}
+
+
+/* Page scrolling */
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+}

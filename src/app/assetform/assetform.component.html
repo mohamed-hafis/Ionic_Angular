@@ -1,0 +1,338 @@
+<mat-card class="form-container">
+  <form [formGroup]="AssetForm"(ngSubmit)="onSave()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>CID</mat-label>
+      <input matInput formControlName="CID" readonly placeholder="CID" title="Company ID">
+    </mat-form-field>
+    
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Asset ID</mat-label>
+      <input matInput formControlName="AssetID"  title="Asset ID" placeholder="Enter readonly">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Asset Name</mat-label>
+      <input matInput formControlName="AssetName"  title="Asset Name " placeholder="Enter Asset Name">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Location ID</mat-label>
+      <mat-select formControlName="LocationID" (selectionChange)="onLocationChange($event.value)">
+        <mat-option *ngFor="let location of locationids" [value]="location.LocationID">
+          {{ location.LocationID }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Branch ID</mat-label>
+      <mat-select formControlName="BranchID">
+        <mat-option *ngFor="let branch of branchids" [value]="branch.BranchID">
+          {{ branch.BranchID }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 1</mat-label>
+      <input matInput formControlName="Desc1" title="Desc 1" placeholder="Enter Desc1 ">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 2</mat-label>
+      <input matInput formControlName="Desc2" title="Desc 2" placeholder="Enter Desc2 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 3</mat-label>
+      <input matInput formControlName="Desc3" title="Desc 3" placeholder="Enter Desc3 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 4</mat-label>
+      <input matInput formControlName="Desc4" title="Desc 4" placeholder="Enter Dsc4 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 5</mat-label>
+      <input matInput formControlName="Desc5" title="Desc 5" placeholder="Enter Desc5 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 6</mat-label>
+      <input matInput formControlName="Desc6" title="Desc 6" placeholder="Enter Desc6 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 7</mat-label>
+      <input matInput formControlName="Desc7" title="Desc 7" placeholder="Enter Desc7 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 8</mat-label>
+      <input matInput formControlName="Desc8" title="Desc 8" placeholder="Enter Desc8 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 9</mat-label>
+      <input matInput formControlName="Desc9" title="Desc 9" placeholder="Enter Desc9 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 10</mat-label>
+      <input matInput formControlName="Desc10" title="Desc 10" placeholder="Enter Desc10 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 11</mat-label>
+      <input matInput formControlName="Desc11" title="Desc 11" placeholder="Enter Desc11 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 12</mat-label>
+      <input matInput formControlName="Desc12" title="Desc 12" placeholder="Enter Desc12 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 13</mat-label>
+      <input matInput formControlName="Desc13" title="Desc 13" placeholder="Enter Desc13 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 14</mat-label>
+      <input matInput formControlName="Desc14" title="Desc 14" placeholder="Enter Desc14 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 15</mat-label>
+      <input matInput formControlName="Desc15" title="Desc 15" placeholder="Enter Desc15 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 16</mat-label>
+      <input matInput formControlName="Desc16" title="Desc 16" placeholder="Enter Desc16 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 17</mat-label>
+      <input matInput formControlName="Desc17" title="Desc 17" placeholder="Enter Desc17 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 18</mat-label>
+      <input matInput formControlName="Desc18" title="Desc 18" placeholder="Enter Desc18 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 19</mat-label>
+      <input matInput formControlName="Desc19" title="Desc 19" placeholder="Enter Desc19 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 20</mat-label>
+      <input matInput formControlName="Desc20" title="Desc 20" placeholder="Enter Desc20 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 21</mat-label>
+      <input matInput formControlName="Desc21" title="Desc 21" placeholder="Enter Desc21 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 22</mat-label>
+      <input matInput formControlName="Desc22" title="Desc 22" placeholder="Enter Desc22 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 23</mat-label>
+      <input matInput formControlName="Desc23" title="Desc 23" placeholder="Enter Desc23 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 24</mat-label>
+      <input matInput formControlName="Desc24" title="Dec 24" placeholder="Enter Dec24 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 25</mat-label>
+      <input matInput formControlName="Desc25" title="Desc 25" placeholder="Enter Desc25 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 26</mat-label>
+      <input matInput formControlName="Desc26" title="Desc 26" placeholder="Enter Desc26 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 27</mat-label>
+      <input matInput formControlName="Desc27" title="Desc 27" placeholder="Enter Desc27 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 28</mat-label>
+      <input matInput formControlName="Desc28" title="Desc 28" placeholder="Enter Desc28 ">
+    </mat-form-field> 
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 29</mat-label>
+      <input matInput formControlName="Desc29" title="Desc 29" placeholder="Enter Desc29 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Desc 30</mat-label>
+      <input matInput formControlName="Desc30" title="Desc 30" placeholder="Enter Desc30 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Int_Colmn 1</mat-label>
+      <input matInput formControlName="Int_Colmn1" title="Int_Colmn 1" placeholder="Enter Int_Colmn1 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Int_Colmn 2</mat-label>
+      <input matInput formControlName="Int_Colmn2" title="Int_Colmn 2" placeholder="Enter Int_Colmn2 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Int_Colmn 3</mat-label>
+      <input matInput formControlName="Int_Colmn3" title="Int_Colmn 3" placeholder="Enter Int_Colmn3 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Int_Colmn 4</mat-label>
+      <input matInput formControlName="Int_Colmn4" title="Int_Colmn 4" placeholder="Enter Int_Colmn4 ">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Int_Colmn 5</mat-label>
+      <input matInput formControlName="Int_Colmn5" title="Int_Colmn 5" placeholder="Enter Int_Colmn5 ">
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date 1</mat-label>
+      <input matInput formControlName="Date1" readonly title="Date 1" placeholder="Enter Date1">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Date 2</mat-label>
+      <input matInput formControlName="Date2"  title="Date 2" placeholder="Enter Date2">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Date 3</mat-label>
+      <input matInput formControlName="Date3" readonly title="Date 3 " placeholder="Enter Date3">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Qty 1</mat-label>
+      <input matInput formControlName="Qty1" title="Qty 1" placeholder="Enter Qty1">
+    </mat-form-field>
+  
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Qty 2</mat-label>
+      <input matInput formControlName="Qty2" readonly title="Qty 2" placeholder="Enter Qty2">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Qty 3</mat-label>
+      <input matInput formControlName="Qty3" readonly title="Qty 3" placeholder="Enter Qty3">
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEditing ? 'Update' : 'Save' }}
+      </button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+  </mat-card>
+
+  <mat-card class="data-entry-form">
+   
+        <h2>AssetMain Form</h2>
+       
+  
+    <div class="table-container">
+  <table mat-table [dataSource]="records" class="mat-elevation-z8">
+    <!-- CID Column -->
+    <ng-container matColumnDef="CID">
+      <th mat-header-cell *matHeaderCellDef> CID </th>
+      <td mat-cell *matCellDef="let row"> {{ row.CID }} </td>
+    </ng-container>
+  
+    <!-- AssetID Column -->
+    <ng-container matColumnDef="AssetID">
+      <th mat-header-cell *matHeaderCellDef> Asset ID </th>
+      <td mat-cell *matCellDef="let row"> {{ row.AssetID }} </td>
+    </ng-container>
+  
+    <!-- AssetName Column -->
+    <ng-container matColumnDef="AssetName">
+      <th mat-header-cell *matHeaderCellDef> Asset Name </th>
+      <td mat-cell *matCellDef="let row"> {{ row.AssetName }} </td>
+    </ng-container>
+  
+    <!-- LocationID Column -->
+    <ng-container matColumnDef="LocationID">
+      <th mat-header-cell *matHeaderCellDef> Location ID </th>
+      <td mat-cell *matCellDef="let row"> {{ row.LocationID }} </td>
+    </ng-container>
+  
+    <!-- BranchID Column -->
+    <ng-container matColumnDef="BranchID">
+      <th mat-header-cell *matHeaderCellDef> Branch ID </th>
+      <td mat-cell *matCellDef="let row"> {{ row.BranchID }} </td>
+    </ng-container>
+  
+    <!-- Decimal Columns (Desc1 to Desc30) -->
+    <ng-container *ngFor="let desc of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]">
+      <ng-container matColumnDef="{{ 'Desc' + desc }}">
+        <th mat-header-cell *matHeaderCellDef> Desc{{ desc }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row['Desc' + desc] }} </td>
+      </ng-container>
+    </ng-container>
+  
+    <!-- Integer Columns -->
+    <ng-container *ngFor="let intCol of [1,2,3,4,5]">
+      <ng-container matColumnDef="{{ 'Int_Colmn' + intCol }}">
+        <th mat-header-cell *matHeaderCellDef> Int_Colmn{{ intCol }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row['Int_Colmn' + intCol] }} </td>
+      </ng-container>
+    </ng-container>
+  
+    <!-- Date Columns -->
+    <ng-container *ngFor="let dateCol of [1,2,3]">
+      <ng-container matColumnDef="{{ 'Date' + dateCol }}">
+        <th mat-header-cell *matHeaderCellDef> Date{{ dateCol }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row['Date' + dateCol] }} </td>
+      </ng-container>
+    </ng-container>
+  
+    <!-- Quantity Columns -->
+    <ng-container *ngFor="let qtyCol of [1,2,3]">
+      <ng-container matColumnDef="{{ 'Qty' + qtyCol }}">
+        <th mat-header-cell *matHeaderCellDef> Qty{{ qtyCol }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row['Qty' + qtyCol] }} </td>
+      </ng-container>
+    </ng-container>
+  
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-button color="primary" (click)="onSelect(row)">Select</button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+</mat-card>

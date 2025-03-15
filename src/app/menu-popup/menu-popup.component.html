@@ -1,3 +1,14 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+<div class="floating-title">
+  <h1></h1>
+</div>
+</ion-toolbar>
+</ion-header>
+
 <!-- Form for Menu Grouping -->
 <mat-card class="form-container">
 <form [formGroup]="menuForm">
@@ -53,7 +64,6 @@
 <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
 
 </mat-card>
-
 
 
 
