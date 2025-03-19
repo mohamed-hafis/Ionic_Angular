@@ -20,14 +20,14 @@
       <mat-label>Location ID</mat-label>
       <mat-select formControlName="LocationID" (selectionChange)="onLocationChange($event.value)">
         <mat-option *ngFor="let location of locationids" [value]="location.LocationID">
-          {{ location.LocationID }}
+          {{ location.LocationName }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Branch ID</mat-label>
-      <mat-select formControlName="BranchID">
+      <mat-select formControlName="BranchID"[disabled]="isEditing">
         <mat-option *ngFor="let branch of branchids" [value]="branch.BranchID">
           {{ branch.BranchID }}
         </mat-option>
@@ -186,44 +186,44 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Int_Colmn 1</mat-label>
-      <input matInput formControlName="Int_Colmn1" title="Int_Colmn 1" placeholder="Enter Int_Colmn1 ">
+      <mat-label>Int_Column 1</mat-label>
+      <input matInput formControlName="Int_Column1" title="Int_Column 1" placeholder="Enter Int_Column1 ">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Int_Colmn 2</mat-label>
-      <input matInput formControlName="Int_Colmn2" title="Int_Colmn 2" placeholder="Enter Int_Colmn2 ">
+      <mat-label>Int_Column 2</mat-label>
+      <input matInput formControlName="Int_Column2" title="Int_Column 2" placeholder="Enter Int_Column2 ">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Int_Colmn 3</mat-label>
-      <input matInput formControlName="Int_Colmn3" title="Int_Colmn 3" placeholder="Enter Int_Colmn3 ">
+      <mat-label>Int_Column 3</mat-label>
+      <input matInput formControlName="Int_Column3" title="Int_Column 3" placeholder="Enter Int_Column3 ">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Int_Colmn 4</mat-label>
-      <input matInput formControlName="Int_Colmn4" title="Int_Colmn 4" placeholder="Enter Int_Colmn4 ">
+      <mat-label>Int_Column 4</mat-label>
+      <input matInput formControlName="Int_Column4" title="Int_Column 4" placeholder="Enter Int_Column4 ">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Int_Colmn 5</mat-label>
-      <input matInput formControlName="Int_Colmn5" title="Int_Colmn 5" placeholder="Enter Int_Colmn5 ">
+      <mat-label>Int_Column 5</mat-label>
+      <input matInput formControlName="Int_Column5" title="Int_Column 5" placeholder="Enter Int_Column5 ">
     </mat-form-field>
 
 
     <mat-form-field appearance="outline">
       <mat-label>Date 1</mat-label>
-      <input matInput formControlName="Date1" readonly title="Date 1" placeholder="Enter Date1">
+      <input matInput formControlName="Date1"  title="Date 1" placeholder="yyyy-MM-dd">
     </mat-form-field>
   
     <mat-form-field appearance="outline">
       <mat-label>Date 2</mat-label>
-      <input matInput formControlName="Date2"  title="Date 2" placeholder="Enter Date2">
+      <input matInput formControlName="Date2"  title="Date 2" placeholder="yyyy-MM-dd">
     </mat-form-field>
   
     <mat-form-field appearance="outline">
       <mat-label>Date 3</mat-label>
-      <input matInput formControlName="Date3" readonly title="Date 3 " placeholder="Enter Date3">
+      <input matInput formControlName="Date3"  title="Date 3 " placeholder="yyyy-MM-dd">
     </mat-form-field>
   
     <mat-form-field appearance="outline">
@@ -234,14 +234,18 @@
   
     <mat-form-field appearance="outline">
       <mat-label>Qty 2</mat-label>
-      <input matInput formControlName="Qty2" readonly title="Qty 2" placeholder="Enter Qty2">
+      <input matInput formControlName="Qty2"  title="Qty 2" placeholder="Enter Qty2">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Qty 3</mat-label>
-      <input matInput formControlName="Qty3" readonly title="Qty 3" placeholder="Enter Qty3">
+      <input matInput formControlName="Qty3"  title="Qty 3" placeholder="Enter Qty3">
     </mat-form-field>
 
+    <div *ngIf="errorMessage" class="alert alert-danger"> 
+      {{ errorMessage }}
+    </div>
+    
     <div class="form-actions">
       <button mat-raised-button color="primary" type="submit">
         {{ isEditing ? 'Update' : 'Save' }}
@@ -301,9 +305,9 @@
   
     <!-- Integer Columns -->
     <ng-container *ngFor="let intCol of [1,2,3,4,5]">
-      <ng-container matColumnDef="{{ 'Int_Colmn' + intCol }}">
+      <ng-container matColumnDef="{{ 'Int_Column' + intCol }}">
         <th mat-header-cell *matHeaderCellDef> Int_Colmn{{ intCol }} </th>
-        <td mat-cell *matCellDef="let row"> {{ row['Int_Colmn' + intCol] }} </td>
+        <td mat-cell *matCellDef="let row"> {{ row['Int_Column' + intCol] }} </td>
       </ng-container>
     </ng-container>
   
@@ -327,7 +331,12 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let row">
-        <button mat-button color="primary" (click)="onSelect(row)">Select</button>
+        <button mat-icon-button color="primary" (click)="onEdit(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onDelete(row)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </td>
     </ng-container>
   

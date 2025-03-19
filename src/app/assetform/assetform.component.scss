@@ -118,3 +118,15 @@ html, body {
   padding: 0;
   overflow-y: scroll;
 }
+
+/* for validation colurs */
+
+::ng-deep .snack-success {
+  background-color: #388e3c !important; /* Green */
+  color: white !important;
+}
+
+::ng-deep .snack-error {
+  background-color: #d32f2f !important; /* Red */
+  color: white !important;
+}

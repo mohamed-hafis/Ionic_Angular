@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,11 @@ export class AssetformService {
       return this.http.post<any>(`${this.apiUrl}/SaveData`, assetData);
     }
      updateAssetData(assetData: any): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/GetData`, assetData);
+      return this.http.put<any>(`${this.apiUrl}/UpdateData`, assetData);
+    }
+
+    private handleError(error: HttpErrorResponse) {
+      return throwError(() => error.error.message || 'An unknown error occurred.');
     }
      
 }
