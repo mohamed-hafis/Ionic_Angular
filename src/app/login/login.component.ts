@@ -34,7 +34,7 @@ export class LoginComponent {
             localStorage.setItem('authToken', Token);
             localStorage.setItem('userRole', userRole);
 
-            await this.presentToast('Login Successful');
+            await this.presentToast('Login Successful', 'success');
 
             // Navigate based on role
             if (userRole === 'Admin') {
@@ -44,28 +44,28 @@ export class LoginComponent {
             }
           } else {
             this.loginError = 'Invalid token received';
-            await this.presentToast(this.loginError);
+            await this.presentToast(this.loginError, 'error');
           }
         },
         async error => {
           console.error('Login failed', error);
           this.loginError = 'Invalid username or password'; // Set error message
-          await this.presentToast(this.loginError); // Show toast notification
+          await this.presentToast(this.loginError, 'error'); // Show toast notification
         }
       );
     } else {
       console.log('Please fill in both fields.');
       this.loginError = 'Please fill in both fields.'; // Set error message
-      await this.presentToast(this.loginError); // Show toast notification
+      await this.presentToast(this.loginError, 'error'); // Show toast notification
     }
   }
 
   // Function to show toast notifications
-  async presentToast(message: string) {
+  async presentToast(message: string, type: 'success' | 'error') {
     const toast = await this.toastController.create({
       message: message,
       duration: 1000,
-      color: 'danger',
+      color: type === 'success' ? 'success' : 'danger', // Green for success, Red for error
       position: 'bottom',
     });
     await toast.present();
