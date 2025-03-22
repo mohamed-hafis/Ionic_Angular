@@ -33,7 +33,7 @@ export class AssetformComponent  implements OnInit {
   constructor(private fb: FormBuilder, private AssetformService: AssetformService,private snackBar: MatSnackBar) {
     this.AssetForm = this.fb.group({
      CID: [''],
-     AssetID: ['', Validators.required], // Added validation
+      AssetID: ['', [Validators.required, Validators.pattern("^[0-9]*$")]], // Added validation
       AssetName:  ['', Validators.required],
       LocationID: [''],
       BranchID:  [''],
@@ -43,10 +43,12 @@ export class AssetformComponent  implements OnInit {
       Desc16: [''], Desc17: [''], Desc18: [''], Desc19: [''], Desc20: [''],  
       Desc21: [''], Desc22: [''], Desc23: [''], Desc24: [''], Desc25: [''],  
       Desc26: [''], Desc27: [''], Desc28: [''], Desc29: [''], Desc30: [''],  
-      Int_Column1: [''], Int_Column2: [''], Int_Column3: [''], 
-      Int_Column4: [''], Int_Column5: [''],
+      Int_Column1:  ['', Validators.pattern("^[0-9]*$")], Int_Column2: ['', Validators.pattern("^[0-9]*$")],
+       Int_Column3: ['', Validators.pattern("^[0-9]*$")], 
+      Int_Column4: ['', Validators.pattern("^[0-9]*$")], Int_Column5: ['', Validators.pattern("^[0-9]*$")],
       Date1: [''], Date2: [''], Date3: [''],
-      Qty1: [''], Qty2: [''], Qty3: ['']
+      Qty1: ['', [Validators.pattern("^[0-9]+(\.[0-9]{1,2})?$")]], Qty2: ['', [Validators.pattern("^[0-9]+(\.[0-9]{1,2})?$")]],
+       Qty3: ['', [Validators.pattern("^[0-9]+(\.[0-9]{1,2})?$")]]
     });
    }
 
@@ -89,7 +91,7 @@ this.fetchAssetData();
 
   onSave(): void {
     if (this.AssetForm.invalid) {
-      console.error('Form is invalid. Please check the required fields.');
+      this.showSnackBar('Please fix the errors in the form.', 'error');
       return;
     }
   
@@ -149,19 +151,30 @@ this.fetchAssetData();
     this.message = '';
   }
 
-  onSelect(row: any) {
-    console.log('Selected Row:', row);
-  }
-
   onEdit(row: any) {
     this.AssetForm.patchValue(row);
     this.isEditing = true; // Set flag
     console.log('Editing Row:', row);
   }
 
-  onDelete(row: any){
-  console.log('Editing Row:', row);
+  onDelete(row: any) {
+    if (confirm(`Are you sure you want to delete Asset ID: ${row.AssetID}?`)) {
+      this.AssetformService.deleteAssetData(row.CID,row.AssetID).subscribe({
+        next: (response: any) => {
+          console.log(response?.Message || 'Delete Successful:', response);
+          this.showSnackBar('Deleted Successful', 'success'); 
+          this.fetchAssetData(); // Refresh the grid after deletion
+        },
+        error: (error) => {
+          console.error('Error deleting asset:', error);
+          if (error?.error?.Message) {
+            this.showSnackBar('Deletion Failed', 'error'); 
+          } else {
+            alert('An error occurred while deleting the asset.');
+          }
+        }
+      });
+    }
   }
-
 }
 

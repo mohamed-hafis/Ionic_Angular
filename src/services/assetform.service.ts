@@ -22,8 +22,7 @@ export class AssetformService {
       return this.http.put<any>(`${this.apiUrl}/UpdateData`, assetData);
     }
 
-    private handleError(error: HttpErrorResponse) {
-      return throwError(() => error.error.message || 'An unknown error occurred.');
+    deleteAssetData(cid: number, assetID: number): Observable<any> {
+      return this.http.delete<any>(`${this.apiUrl}/DeleteData/${cid}/${assetID}`);
     }
-     
 }

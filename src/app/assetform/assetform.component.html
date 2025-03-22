@@ -8,12 +8,21 @@
   
     <mat-form-field appearance="outline">
       <mat-label>Asset ID</mat-label>
-      <input matInput formControlName="AssetID"  title="Asset ID" placeholder="Enter readonly">
+      <input matInput formControlName="AssetID" type="text" placeholder="Enter Asset ID">
+      <mat-error *ngIf="AssetForm.controls['AssetID'].hasError('required')">
+        Asset ID is required.
+      </mat-error>
+      <mat-error *ngIf="AssetForm.controls['AssetID'].hasError('pattern')">
+        Asset ID must be a number.
+      </mat-error>
     </mat-form-field>
   
     <mat-form-field appearance="outline">
       <mat-label>Asset Name</mat-label>
-      <input matInput formControlName="AssetName"  title="Asset Name " placeholder="Enter Asset Name">
+      <input matInput formControlName="AssetName" type="text" placeholder="Enter Asset Name">
+      <mat-error *ngIf="AssetForm.controls['AssetName'].hasError('required')">
+        Asset Name is required.
+      </mat-error>
     </mat-form-field>
   
     <mat-form-field appearance="outline" class="full-width">
@@ -27,7 +36,7 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Branch ID</mat-label>
-      <mat-select formControlName="BranchID"[disabled]="isEditing">
+      <mat-select formControlName="BranchID">
         <mat-option *ngFor="let branch of branchids" [value]="branch.BranchID">
           {{ branch.BranchID }}
         </mat-option>
@@ -187,27 +196,42 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Int_Column 1</mat-label>
-      <input matInput formControlName="Int_Column1" title="Int_Column 1" placeholder="Enter Int_Column1 ">
+      <input matInput formControlName="Int_Column1" type="text" placeholder="Enter Int_Column1">
+      <mat-error *ngIf="AssetForm.controls['Int_Column1'].hasError('pattern')">
+        Int_Column1 must be a number.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Int_Column 2</mat-label>
-      <input matInput formControlName="Int_Column2" title="Int_Column 2" placeholder="Enter Int_Column2 ">
+      <input matInput formControlName="Int_Column2" type="text" placeholder="Enter Int_Column2">
+      <mat-error *ngIf="AssetForm.controls['Int_Column2'].hasError('pattern')">
+        Int_Column2 must be a number.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Int_Column 3</mat-label>
-      <input matInput formControlName="Int_Column3" title="Int_Column 3" placeholder="Enter Int_Column3 ">
+      <input matInput formControlName="Int_Column3" type="text" placeholder="Enter Int_Column3">
+      <mat-error *ngIf="AssetForm.controls['Int_Column3'].hasError('pattern')">
+        Int_Column3 must be a number.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Int_Column 4</mat-label>
-      <input matInput formControlName="Int_Column4" title="Int_Column 4" placeholder="Enter Int_Column4 ">
+      <input matInput formControlName="Int_Column4" type="text" placeholder="Enter Int_Column4">
+      <mat-error *ngIf="AssetForm.controls['Int_Column4'].hasError('pattern')">
+        Int_Column4 must be a number.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Int_Column 5</mat-label>
-      <input matInput formControlName="Int_Column5" title="Int_Column 5" placeholder="Enter Int_Column5 ">
+      <input matInput formControlName="Int_Column5" type="text" placeholder="Enter Int_Column5">
+      <mat-error *ngIf="AssetForm.controls['Int_Column5'].hasError('pattern')">
+        Int_Column5 must be a number.
+      </mat-error>
     </mat-form-field>
 
 
@@ -228,23 +252,31 @@
   
     <mat-form-field appearance="outline">
       <mat-label>Qty 1</mat-label>
-      <input matInput formControlName="Qty1" title="Qty 1" placeholder="Enter Qty1">
+      <input matInput formControlName="Qty1" type="text" placeholder="Enter Qty1">
+      <mat-error *ngIf="AssetForm.controls['Qty1'].hasError('pattern')">
+        Enter a valid number.
+      </mat-error>
     </mat-form-field>
   
   
     <mat-form-field appearance="outline">
       <mat-label>Qty 2</mat-label>
-      <input matInput formControlName="Qty2"  title="Qty 2" placeholder="Enter Qty2">
+      <input matInput formControlName="Qty2" type="text" placeholder="Enter Qty2">
+      <mat-error *ngIf="AssetForm.controls['Qty2'].hasError('pattern')">
+        Enter a valid number.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Qty 3</mat-label>
-      <input matInput formControlName="Qty3"  title="Qty 3" placeholder="Enter Qty3">
+      <input matInput formControlName="Qty3" type="text" placeholder="Enter Qty3">
+      <mat-error *ngIf="AssetForm.controls['Qty3'].hasError('pattern')">
+       Enter a valid number.
+      </mat-error>
     </mat-form-field>
 
-    <div *ngIf="errorMessage" class="alert alert-danger"> 
-      {{ errorMessage }}
-    </div>
+
+    
     
     <div class="form-actions">
       <button mat-raised-button color="primary" type="submit">

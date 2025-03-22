@@ -90,14 +90,14 @@ tr:hover {
 
 /* Ensure buttons are properly styled */
 button {
-  background-color: #4caf50;
-  color: white;
+  color: rgb(23, 1, 1);
   padding: 6px 12px;
   border-radius: 4px;
   transition: background 0.3s ease-in-out;
 }
 
 button:hover {
+  color: white;
   background-color: #388e3c;
 }
 
@@ -130,3 +130,4 @@ html, body {
   background-color: #d32f2f !important; /* Red */
   color: white !important;
 }
+
