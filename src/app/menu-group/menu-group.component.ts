@@ -6,6 +6,7 @@ import { MenuGroup } from 'src/services/menugroup.service';
 import { MenuPopupComponent } from '../menu-popup/menu-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MenuGroupPopComponent } from '../menu-group-pop/menu-group-pop.component';
 
 
 
@@ -179,32 +180,31 @@ handleApiError(error: any): void {
   this.snackBar.open(errorMessage, 'Close', { duration: 4000 });
 }
 onEdit(row: any) {
-  this.selectedMenuItemId = row.id; // Store the ID for editing
-  this.isEditing = true; // Set flag
+  this.selectedMenuItemId = row.id;
+  this.isEditing = true;
 
-  const companyId = Number(row.companyId);
+  const selectedCompany = this.companies.find(company => Number(company.CID) === Number(row.companyId));
+  const selectedMenu = this.menus.find(menu => menu.ID === row.id);
 
-
-  const selectedCompany = this.companies.find(company => Number(company.CID) === companyId);
-
-  this.form.patchValue({
-    companyId: selectedCompany ? selectedCompany.CID : '', // Ensure field names match API model
-    menuName: row.id,
-    parentId: row.parentId ?? null,
-    sortId: row.sortId ?? null,
-    reserved: row.reserved === 1,
-    applicationType: row.applicationType,
-    webIcon: row.webIcon
+  const dialogRef = this.dialog.open(MenuGroupPopComponent, {
+    width: '600px',
+    data: {
+      companyId: selectedCompany ? selectedCompany.CID : '',
+      menuName: selectedMenu ? selectedMenu.ID : '',
+      parentId: row.parentId ?? '',
+      sortId: row.sortId ?? '',
+      reserved: row.reserved === 1,
+      applicationType: row.applicationType,
+      webIcon: row.webIcon ?? ''
+    }
   });
-  if (selectedCompany) {
-    this.form.patchValue({ companyId: selectedCompany.CID });
-  }
 
-  console.log('Editing Row:', row);
-  console.log('Selected Company:', selectedCompany);
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.loadMenuGroup();
+    }
+  });
 }
-
-
 
 
 onDelete(row: any) {
