@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{ isEditing ? 'Edit Menu' : 'Add Menu' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Company Name</mat-label>
+      <mat-select formControlName="companyId">
+        <mat-option *ngFor="let company of companies" [value]="company.CID">
+          {{ company.CompanyName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <mat-select formControlName="menuName">
+        <mat-option *ngFor="let menu of menus" [value]="menu.ID">
+          {{ menu.Description }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Parent ID</mat-label>
+      <input matInput type="text" formControlName="parentId" placeholder="Enter Parent ID">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Sort ID</mat-label>
+      <input matInput type="text" formControlName="sortId" placeholder="Enter Sort ID">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Reserved</mat-label>
+      <input matInput type="text" formControlName="reserved" placeholder="Enter Reserved">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Application Type</mat-label>
+      <input matInput type="text" formControlName="applicationType" placeholder="Enter Application Type">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Web Icon</mat-label>
+      <mat-select formControlName="webIcon">
+        <mat-option *ngFor="let icon of webIcons" [value]="icon">
+          {{ icon }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid">
+    {{ isEditing ? 'Update' : 'Save' }}
+  </button>
+  <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>
+
