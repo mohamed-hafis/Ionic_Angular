@@ -111,9 +111,15 @@ export class MenuPopupComponent  implements OnInit {
   }
 }
   
-   onSelect(menu: any) {
-    console.log('Selected Menu:', menu); 
+   onEdit(row: any) {
+    console.log('Selected Menu:'); 
   }
+  onAdd(row : any){
+
+  }
+onDelete(row : any) {
+
+}
 
   resetForm() {
     this.menuForm.reset();

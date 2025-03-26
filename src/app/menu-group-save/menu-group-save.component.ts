@@ -1,22 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpClient } from '@angular/common/http';
 import { MenuGroup } from 'src/services/menugroup.service';
-import { MenuPopupComponent } from '../menu-popup/menu-popup.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { MenuGroupPopComponent } from '../menu-group-pop/menu-group-pop.component';
-
-
 
 @Component({
-  selector: 'app-menu-group',
-  templateUrl: './menu-group.component.html',
-  styleUrls: ['./menu-group.component.scss'],
-  standalone: false,
+  selector: 'app-menu-group-save',
+  templateUrl: './menu-group-save.component.html',
+  styleUrls: ['./menu-group-save.component.scss'],
+  standalone:false,
 })
-export class MenuGroupComponent implements OnInit {
+export class MenuGroupSaveComponent  implements OnInit {
+ 
   form: FormGroup;
   companies: any[] = [];
   menus: any[] = [];
@@ -24,16 +19,22 @@ export class MenuGroupComponent implements OnInit {
   records: any[] = [];
   isEditing = false;
   selectedMenuItemId: string | null = null; // Store selected ID for editing
-
-  constructor(private router: Router,private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar, private MenuGroupService: MenuGroup,public dialog: MatDialog) {
+ 
+  constructor(
+    private fb: FormBuilder,
+   public dialog: MatDialog,
+    private MenuGroupService: MenuGroup,
+     private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.form = this.fb.group({
-      companyId: ['', Validators.required],
-      menuName: ['', Validators.required],
-      parentId: [''], 
-      sortId: [''], 
+      companyId: [''],
+      menuName: [''],
+      parentId: [''],
+      sortId: [''],
       reserved: [''],
-      applicationType: ['', Validators.required],
-      webIcon: [''],
+      applicationType: [''],
+      webIcon: ['']
     });
   }
 
@@ -82,7 +83,6 @@ loadMenuGroup() {
       }
     );
   }
-
 
   onSave(): void {
     if (this.form.invalid) {
@@ -164,75 +164,11 @@ handleApiError(error: any): void {
 
   this.snackBar.open(errorMessage, 'Close', { duration: 4000 });
 }
-onEdit(row: any) {
-  console.log('Editing Row:', row); // Debugging
-  this.selectedMenuItemId = row.id;
-  this.isEditing = true;
 
-  const selectedCompany = this.companies.find(company => Number(company.CID) === Number(row.companyId));
-  const selectedMenu = this.menus.find(menu => menu.ID === row.id);
-
-  const dialogRef = this.dialog.open(MenuGroupPopComponent, {
-    width: '600px',
-    data: {
-      companyId: selectedCompany ? selectedCompany.CID : '',
-      menuName: selectedMenu ? selectedMenu.ID : '',
-      parentId: row.parentId ?? '',
-      sortId: row.sortId ?? '',
-      reserved: row.reserved === 1,
-      applicationType: row.applicationType,
-      webIcon: row.webIcon ?? ''
-    }
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.loadMenuGroup();
-    }
-  });
+resetForm() {
+  this.form.reset();
+  this.isEditing = false;
+  this.selectedMenuItemId = null;
 }
 
-
-onDelete(row: any) {
-  console.log("Row data:", row); 
-
-  if (!row.companyId) {
-    console.error("Error: CID is missing in the row data!");
-    this.snackBar.open('Error: CID is missing!', 'Close', { duration: 3000 });
-    return;
-  }
-
-  if (!confirm(`Are you sure you want to delete menu item "${row.description}"?`)) {
-    return;
-  }
-
-
-  this.MenuGroupService.deleteMenuItem(row).subscribe({
-    next: (response) => {
-      console.log('Deleted:', response);
-      this.snackBar.open('Record deleted successfully!', 'Close', { duration: 3000 });
-      this.loadMenuGroup();
-    },
-    error: (error) => {
-      console.error('Error deleting record:', error);
-      this.snackBar.open('Delete failed. Please try again.', 'Close', { duration: 3000 });
-    }
-  });
-}
- resetForm() {
-    this.form.reset();
-    this.isEditing = false;
-    this.selectedMenuItemId = null;
-  }
-
-  onAddClick(selectedRow: any) {
-    this.router.navigate(['/menu-popup'], {
-      state: { data: selectedRow } // Passing selected row data
-    });
-  }
-  
-
-  onCancel(): void {
-    this.resetForm();
-  }
 }

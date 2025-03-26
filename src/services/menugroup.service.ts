@@ -21,7 +21,10 @@ export class MenuGroup {
     return this.http.post<any>(`${this.apiUrl}/SaveMenuData`, data);  // Adjust the endpoint accordingly
   }
 
-  updateItem(id: string, menuData: string): Observable<any> {
+  updateItem(id: string, menuData: any): Observable<any> {
+    console.log("Sending ID to API:", id); // Debugging log
+    console.log("Sending Data to API:", menuData); // Debugging log
+
     return this.http.put(`${this.apiUrl}/Update/${id}`, menuData);
   }
 

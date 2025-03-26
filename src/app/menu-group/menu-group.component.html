@@ -14,7 +14,7 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Description</mat-label>
-        <mat-select formControlName="menuName"[disabled]="isEditing">
+        <mat-select formControlName="menuName">
           <mat-option *ngFor="let menu of menus" [value]="menu.ID">
             {{ menu.Description }}
           </mat-option>
@@ -53,8 +53,9 @@
 
       <div class="form-actions">
         <button mat-raised-button color="primary" type="submit">
-          {{ isEditing ? 'Update' : 'Save' }}
+          Save
         </button>
+      
         <button mat-raised-button color="warn" type="button" (click)="onCancel()">
           Cancel
         </button>
