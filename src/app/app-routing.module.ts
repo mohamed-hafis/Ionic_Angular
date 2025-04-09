@@ -20,7 +20,9 @@ import { SliderComponent } from './slider/slider.component';
 import { MenuGroupComponent } from './menu-group/menu-group.component';
 import { MenuPopupComponent } from './menu-popup/menu-popup.component';
 import { AssetformComponent } from './assetform/assetform.component';
-import { MenuGroupPopComponent } from './menu-group-pop/menu-group-pop.component';
+import { MenuGroupPopComponent } from './menu-group-edit/menu-group-pop.component';
+import { MenuGroupSaveComponent } from './menu-group-save/menu-group-save.component';
+import { MenuPopupSaveComponent } from './menu-popup-save/menu-popup-save.component';
 
 const routes: Routes = [
   {
@@ -51,6 +53,10 @@ const routes: Routes = [
   { path: 'menu-group-pop', component: MenuGroupPopComponent },
   { path: 'menu-popup', component: MenuPopupComponent },
   { path: 'assetform', component: AssetformComponent },
+  { path: 'menu-group-save', component: MenuGroupSaveComponent },
+  { path: 'menu-popup-save', component: MenuPopupSaveComponent },
+
+
 
 ];
 
