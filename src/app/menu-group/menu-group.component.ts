@@ -6,7 +6,8 @@ import { MenuGroup } from 'src/services/menugroup.service';
 import { MenuPopupComponent } from '../menu-popup/menu-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MenuGroupPopComponent } from '../menu-group-pop/menu-group-pop.component';
+import { MenuGroupPopComponent } from '../menu-group-edit/menu-group-pop.component';
+import { MenuGroupSaveComponent } from '../menu-group-save/menu-group-save.component';
 
 
 
@@ -39,7 +40,7 @@ export class MenuGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCompanies();
-    this.loadMenuGroup()
+    this.loadMenuGroup();
   }
 
   loadCompanies() {
@@ -164,6 +165,7 @@ handleApiError(error: any): void {
 
   this.snackBar.open(errorMessage, 'Close', { duration: 4000 });
 }
+
 onEdit(row: any) {
   console.log('Editing Row:', row); // Debugging
   this.selectedMenuItemId = row.id;
@@ -177,6 +179,7 @@ onEdit(row: any) {
     data: {
       companyId: selectedCompany ? selectedCompany.CID : '',
       menuName: selectedMenu ? selectedMenu.ID : '',
+      description: row.description ?? '',
       parentId: row.parentId ?? '',
       sortId: row.sortId ?? '',
       reserved: row.reserved === 1,
@@ -192,6 +195,20 @@ onEdit(row: any) {
   });
 }
 
+openAddDialog(selectedRow?: any): void {
+  const dialogRef = this.dialog.open(MenuGroupSaveComponent, {
+    width: '500px',
+    data: selectedRow ? selectedRow : {}
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Saved Data:', result);
+      // Handle the saved data
+      this.loadMenuGroup(); // Reload data after saving
+    }
+  });
+}
 
 onDelete(row: any) {
   console.log("Row data:", row); 
@@ -229,6 +246,7 @@ onDelete(row: any) {
     this.router.navigate(['/menu-popup'], {
       state: { data: selectedRow } // Passing selected row data
     });
+    
   }
   
 

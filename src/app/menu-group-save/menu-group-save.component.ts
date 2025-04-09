@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { MenuGroup } from 'src/services/menugroup.service';
 
 @Component({
@@ -18,14 +19,13 @@ export class MenuGroupSaveComponent  implements OnInit {
   webIcons: string[] = [];
   records: any[] = [];
   isEditing = false;
-  selectedMenuItemId: string | null = null; // Store selected ID for editing
- 
+  selectedRowData: any;
+
   constructor(
     private fb: FormBuilder,
-   public dialog: MatDialog,
     private MenuGroupService: MenuGroup,
      private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: any
+     private router: Router
   ) {
     this.form = this.fb.group({
       companyId: [''],
@@ -36,30 +36,54 @@ export class MenuGroupSaveComponent  implements OnInit {
       applicationType: [''],
       webIcon: ['']
     });
+
+      // Capture row data passed via router state
+      const nav = this.router.getCurrentNavigation();
+      if (nav?.extras.state?.['data']) {
+        this.selectedRowData = nav.extras.state['data'];
+        this.isEditing = true;
+      }
   }
+  
 
   ngOnInit(): void {
-    this.loadCompanies();
-    this.loadMenuGroup()
+    this.loadDropdownData();
   }
 
-  loadCompanies() {
+  loadDropdownData() {
     this.MenuGroupService.getDDdata().subscribe(
       (response: any) => {
         this.companies = response.Companies || [];
         this.menus = response.Menus || [];
-        this.webIcons = response.Webicon.map((icon: any) => icon.WebIcon).filter((icon: any) => icon !== null);
+        
 
         // Set default company
         const defaultCompany = this.companies.find(company => company.CompanyName === "AcSys IT Solution");
-        if (defaultCompany) {
+        if (defaultCompany && !this.isEditing) {
           this.form.patchValue({ companyId: defaultCompany.CID });
         }
-        
-        console.log('Companies:', this.companies);
+        this.form.patchValue({ webIcon: null });
+
+        if (this.isEditing && this.selectedRowData) {
+          this.patchFormWithRowData(this.selectedRowData);
+        }
+        this.loadMenuGroup();
       },
-      (error : any) => console.error('Error fetching dropdown data:', error)
+      (error: any) => console.error('Error fetching dropdown data:', error)
     );
+  }
+
+  patchFormWithRowData(data: any) {
+    this.form.patchValue({
+      companyId: data.companyId || '',
+    menuName: data.id || '', // Use id as menuName (which stores ID)
+    parentId: data.parentId || '',
+    sortId: data.sortId || '',
+    reserved: data.reserved || '',
+    applicationType: data.applicationType || '',
+    webIcon: data.webIcon !== 'NULL' ? data.webIcon : ''
+    });
+
   }
 
 loadMenuGroup() {
@@ -110,6 +134,8 @@ loadMenuGroup() {
     return;
   }
   Rec.CID = Rec.companyId; // Assign CID correctly
+
+  Rec.webIcon = Rec.webIcon?.trim() !== '' ? Rec.webIcon : null;
 
   // Find the selected menu based on menuName (ID) and get Description
   const selectedMenu = this.menus.find(menu => menu.ID === Rec.menuName);
@@ -168,7 +194,7 @@ handleApiError(error: any): void {
 resetForm() {
   this.form.reset();
   this.isEditing = false;
-  this.selectedMenuItemId = null;
+  this.selectedRowData = null;
 }
 
 }

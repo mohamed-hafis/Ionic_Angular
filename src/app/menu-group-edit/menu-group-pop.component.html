@@ -41,16 +41,13 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Web Icon</mat-label>
-      <mat-select formControlName="webIcon">
-        <mat-option *ngFor="let icon of webIcons" [value]="icon">
-          {{ icon }}
-        </mat-option>
-      </mat-select>
+      <input matInput formControlName="webIcon" placeholder="Enter web icon">
     </mat-form-field>
+    
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid">
+  <button mat-raised-button color="primary" (click)="onUpdate()" [disabled]="form.invalid">
     {{ isEditing ? 'Update' : 'Save' }}
   </button>
   <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>

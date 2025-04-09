@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MenuGroup } from 'src/services/menugroup.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuPopupSaveComponent } from '../menu-popup-save/menu-popup-save.component';
+import { MenuPopupEditComponent } from '../menu-popup-edit/menu-popup-edit.component';
 
 @Component({
   selector: 'app-menu-popup',
@@ -25,7 +27,8 @@ export class MenuPopupComponent  implements OnInit {
     private fb: FormBuilder,
     private MenuGroupService: MenuGroup,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state && navigation.extras.state['data']) {
       this.selectedRow  = navigation.extras.state['data'];
@@ -36,6 +39,7 @@ export class MenuPopupComponent  implements OnInit {
     this.initForm();
     this.fetchMenuGrouping();
     this.fetchMenuData();
+    this.openDialog();
   }
 
 
@@ -110,13 +114,38 @@ export class MenuPopupComponent  implements OnInit {
     this.snackBar.open('Enter all fields', 'Close', { duration: 3000 });
   }
 }
-  
-   onEdit(row: any) {
-    console.log('Selected Menu:'); 
-  }
-  onAdd(row : any){
 
-  }
+openDialog(): void {
+  const dialogRef = this.dialog.open(MenuPopupSaveComponent, {
+    width: '500px',
+    data: {
+      
+    } // You can pass default values here if needed
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Dialog result:', result);
+    }
+  });
+}
+
+  
+onEdit(row: any): void {
+  const dialogRef = this.dialog.open(MenuPopupEditComponent, {
+    width: '500px',
+    data: row // Pass the selected row to the edit dialog
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Edit dialog result:', result);
+      this.fetchMenuData(); // refresh if updated
+    }
+  });
+}
+
+
 onDelete(row : any) {
 
 }

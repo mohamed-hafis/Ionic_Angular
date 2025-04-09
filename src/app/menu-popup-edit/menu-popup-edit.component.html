@@ -1,0 +1,55 @@
+<mat-dialog-content>
+  <mat-card class="form-container">
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline">
+        <mat-label>CID</mat-label>
+        <input matInput formControlName="CID" readonly title="Company ID" placeholder="Enter CID">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Menu Group ID</mat-label>
+        <input matInput formControlName="MenuGroupID" readonly title="Menu Group ID" placeholder="Enter Menu Group ID">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Sort ID</mat-label>
+        <input matInput formControlName="SortID" title="Sort ID" placeholder="Enter Sort ID">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Menu ID</mat-label>
+        <input matInput formControlName="MenuID" title="Menu ID" placeholder="Enter Menu ID">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="Description" readonly title="Description" placeholder="Enter Description">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Reserved</mat-label>
+        <input matInput formControlName="Reserved" title="Reserved" placeholder="Enter Reserved">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Application Type</mat-label>
+        <input matInput formControlName="ApplicationType" readonly title="Application Type" placeholder="Enter Application Type">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Options</mat-label>
+        <textarea matInput formControlName="Options" title="Options" placeholder="Enter Options" rows="4"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Web Icon</mat-label>
+        <input matInput formControlName="WebIcon"  title="Web Icon" placeholder="Enter Web Icon">
+      </mat-form-field>
+    </form>
+  </mat-card>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+  <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>

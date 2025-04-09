@@ -1,69 +1,8 @@
 <div class="container">
-  <!-- Centered Form -->
 
-  <mat-card class="form-container">
-    <form [formGroup]="form" (ngSubmit)="onSave()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Company Name</mat-label>
-        <mat-select formControlName="companyId">
-          <mat-option *ngFor="let company of companies" [value]="company.CID">
-            {{ company.CompanyName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Description</mat-label>
-        <mat-select formControlName="menuName">
-          <mat-option *ngFor="let menu of menus" [value]="menu.ID">
-            {{ menu.Description }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Parent ID</mat-label>
-        <input matInput type="text" formControlName="parentId" placeholder="Enter Parent ID">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Sort ID</mat-label>
-        <input matInput type="text" formControlName="sortId" placeholder="Enter Sort ID">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Reserved</mat-label>
-        <input matInput type="text" formControlName="reserved" placeholder="Enter Reserved">
-      </mat-form-field>
-      
-       <!-- New ApplicationType Field (Added after Reserved) -->
-       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Application Type</mat-label>
-        <input matInput type="text" formControlName="applicationType"   placeholder="Enter Application Type">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Web Icon</mat-label>
-        <mat-select formControlName="webIcon">
-          <mat-option *ngFor="let icon of webIcons" [value]="icon">
-            {{ icon }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div class="form-actions">
-        <button mat-raised-button color="primary" type="submit">
-          Save
-        </button>
-      
-        <button mat-raised-button color="warn" type="button" (click)="onCancel()">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </mat-card>
-
-
+  <div class="form-butn">
+    <button mat-raised-button color="primary" (click)="openAddDialog()">Add</button>
+  </div>
 
 <!-- Scrollable Data Table -->
 <mat-card class="table-container">

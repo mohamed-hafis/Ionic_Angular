@@ -41,12 +41,9 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Web Icon</mat-label>
-        <mat-select formControlName="webIcon">
-          <mat-option *ngFor="let icon of webIcons" [value]="icon">
-            {{ icon }}
-          </mat-option>
-        </mat-select>
+        <input matInput formControlName="webIcon" placeholder="Enter web icon">
       </mat-form-field>
+      
 
       <div class="form-actions">
         <button mat-raised-button color="primary" type="submit">

@@ -83,8 +83,7 @@ export class MenuGroupPopComponent  implements OnInit {
   }
 
 
-
-  onSave(): void {
+  onUpdate(): void {
     if (this.form.valid) {
       const menuItem = { ...this.form.value };
 

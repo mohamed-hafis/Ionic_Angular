@@ -52,6 +52,13 @@ mat-card {
       text-align: center; // Centering text inside the table
     }
   }
+
+  .form-butn {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+  }
+  
   
   // Enable scrolling for the whole page
   :host {
