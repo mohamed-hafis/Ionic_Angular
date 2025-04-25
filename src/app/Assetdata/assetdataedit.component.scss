@@ -1,0 +1,50 @@
+.form-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  mat-label {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  mat-error {
+    color: #e53935;
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+  
+  @media (min-width: 768px) {
+    mat-form-field {
+      width: 48%;
+    }
+  
+    .form-container {
+      flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+  
+    mat-form-field.full-width {
+      width: 100%;
+    }
+  }
+  

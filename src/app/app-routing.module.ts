@@ -23,6 +23,7 @@ import { AssetformComponent } from './assetform/assetform.component';
 import { MenuGroupPopComponent } from './menu-group-edit/menu-group-pop.component';
 import { MenuGroupSaveComponent } from './menu-group-save/menu-group-save.component';
 import { MenuPopupSaveComponent } from './menu-popup-save/menu-popup-save.component';
+import { AssetdataComponent } from './Assetdata/assetdataedit.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,8 @@ const routes: Routes = [
   { path: 'assetform', component: AssetformComponent },
   { path: 'menu-group-save', component: MenuGroupSaveComponent },
   { path: 'menu-popup-save', component: MenuPopupSaveComponent },
+  { path: 'assetdataedit', component: AssetdataComponent },
+
 
 
 

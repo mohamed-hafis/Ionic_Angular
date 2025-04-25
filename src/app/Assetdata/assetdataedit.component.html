@@ -1,0 +1,295 @@
+<mat-card class="form-container">
+    <form [formGroup]="AssetForm" (ngSubmit)="onUpdate()">
+      <!-- CID -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>CID</mat-label>
+        <input formControlName="CID" readonly matInput matInput placeholder="CID" title="Company ID">
+      </mat-form-field>
+  
+      <!-- Asset ID -->
+      <mat-form-field appearance="fill">
+        <mat-label>Asset ID</mat-label>
+        <input matInput formControlName="AssetID" placeholder="Enter Asset ID">
+      </mat-form-field>
+      
+      
+  
+      <!-- Asset Name -->
+      <mat-form-field >
+        <mat-label>Asset Name</mat-label>
+        <input formControlName="AssetName" type="text" matInput matInput placeholder="Enter Asset Name">
+        <mat-error *ngIf="AssetForm.controls['AssetName'].hasError('required')">
+          Asset Name is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Location ID -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Location ID</mat-label>
+        <mat-select formControlName="LocationID" (selectionChange)="onLocationChange($event.value)">
+          <mat-option *ngFor="let location of locationids" [value]="location.LocationID">
+            {{ location.LocationName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Branch ID -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Branch ID</mat-label>
+        <mat-select formControlName="BranchID">
+          <mat-option *ngFor="let branch of branchids" [value]="branch.BranchID">
+            {{ branch.BranchID }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 1</mat-label>
+        <input formControlName="Desc1"  matInput placeholder="Enter Desc1 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field >
+        <mat-label>Desc 2</mat-label>
+        <input formControlName="Desc2"  matInput placeholder="Enter Desc2 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 3</mat-label>
+        <input formControlName="Desc3"  matInput placeholder="Enter Desc3 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 4</mat-label>
+        <input formControlName="Desc4"  matInput placeholder="Enter Dsc4 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 5</mat-label>
+        <input formControlName="Desc5"  matInput placeholder="Enter Desc5 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 6</mat-label>
+        <input formControlName="Desc6"  matInput placeholder="Enter Desc6 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 7</mat-label>
+        <input formControlName="Desc7"  matInput placeholder="Enter Desc7 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 8</mat-label>
+        <input formControlName="Desc8"  matInput placeholder="Enter Desc8 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 9</mat-label>
+        <input formControlName="Desc9"  matInput placeholder="Enter Desc9 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 10</mat-label>
+        <input formControlName="Desc10"  matInput placeholder="Enter Desc10 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 11</mat-label>
+        <input formControlName="Desc11"  matInput placeholder="Enter Desc11 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 12</mat-label>
+        <input formControlName="Desc12"  matInput placeholder="Enter Desc12 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 13</mat-label>
+        <input formControlName="Desc13"  matInput placeholder="Enter Desc13 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 14</mat-label>
+        <input formControlName="Desc14"  matInput placeholder="Enter Desc14 ">
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 15</mat-label>
+        <input formControlName="Desc15"  matInput placeholder="Enter Desc15 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 16</mat-label>
+        <input formControlName="Desc16"  matInput placeholder="Enter Desc16 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 17</mat-label>
+        <input formControlName="Desc17"  matInput placeholder="Enter Desc17 ">
+        <mat-error>This field is mandatory</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 18</mat-label>
+        <input formControlName="Desc18"  matInput placeholder="Enter Desc18 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 19</mat-label>
+        <input formControlName="Desc19"  matInput placeholder="Enter Desc19 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 20</mat-label>
+        <input formControlName="Desc20"  matInput placeholder="Enter Desc20 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 21</mat-label>
+        <input formControlName="Desc21"  matInput placeholder="Enter Desc21 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 22</mat-label>
+        <input formControlName="Desc22"  matInput placeholder="Enter Desc22 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 23</mat-label>
+        <input formControlName="Desc23"  matInput placeholder="Enter Desc23 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 24</mat-label>
+        <input formControlName="Desc24"  matInput placeholder="Enter Dec24 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 25</mat-label>
+        <input formControlName="Desc25"  matInput placeholder="Enter Desc25 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 26</mat-label>
+        <input formControlName="Desc26" matInput placeholder="Enter Desc26 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 27</mat-label>
+        <input formControlName="Desc27" matInput placeholder="Enter Desc27 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 28</mat-label>
+        <input formControlName="Desc28"  matInput placeholder="Enter Desc28 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field> 
+  
+      <mat-form-field >
+        <mat-label>Desc 29</mat-label>
+        <input formControlName="Desc29" matInput placeholder="Enter Desc29 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Desc 30</mat-label>
+        <input formControlName="Desc30" matInput placeholder="Enter Desc30 ">
+        <mat-error>This field is mandatory</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Int_Column 1</mat-label>
+        <input formControlName="Int_Column1" type="text" matInput placeholder="Enter Int_Column1">
+        <mat-error *ngIf="AssetForm.controls['Int_Column1'].hasError('pattern')">
+          Int_Column1 must be a number.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Int_Column 2</mat-label>
+        <input formControlName="Int_Column2" type="text" matInput placeholder="Enter Int_Column2">
+        <mat-error *ngIf="AssetForm.controls['Int_Column2'].hasError('pattern')">
+          Int_Column2 must be a number.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Int_Column 3</mat-label>
+        <input formControlName="Int_Column3" type="text" matInput placeholder="Enter Int_Column3">
+        <mat-error *ngIf="AssetForm.controls['Int_Column3'].hasError('pattern')">
+          Int_Column3 must be a number.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Int_Column 4</mat-label>
+        <input formControlName="Int_Column4" type="text" matInput placeholder="Enter Int_Column4">
+        <mat-error *ngIf="AssetForm.controls['Int_Column4'].hasError('pattern')">
+          Int_Column4 must be a number.
+        </mat-error>
+      </mat-form-field>
+      
+  
+      <mat-form-field >
+        <mat-label>Int_Column 5</mat-label>
+        <input formControlName="Int_Column5" type="text" matInput placeholder="Enter Int_Column5">
+        <mat-error *ngIf="AssetForm.controls['Int_Column5'].hasError('pattern')">
+          Int_Column5 must be a number.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Quantity Fields -->
+      <ng-container *ngFor="let i of [].constructor(3); let idx = index">
+        <mat-form-field >
+          <mat-label>Qty {{ idx + 1 }}</mat-label>
+          <input matInput [formControlName]="'Qty' + (idx + 1)" type="number" matInput placeholder="Enter Qty{{ idx + 1 }}">
+        </mat-form-field>
+      </ng-container>
+  
+      <!-- Save Button -->
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="AssetForm.invalid">
+          Update
+        </button>
+      </div>
+    </form>
+  </mat-card>
+  

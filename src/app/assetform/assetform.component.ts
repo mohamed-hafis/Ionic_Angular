@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AssetformService } from 'src/services/assetform.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AssetdataComponent } from '../Assetdata/assetdataedit.component';
+
+
 
 
 @Component({
@@ -30,7 +34,12 @@ export class AssetformComponent  implements OnInit {
   'action'
 ];
 
-  constructor(private fb: FormBuilder, private AssetformService: AssetformService,private snackBar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder, 
+    private AssetformService: AssetformService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
     this.AssetForm = this.fb.group({
      CID: [''],
       AssetID: ['', [Validators.required, Validators.pattern("^[0-9]*$")]], // Added validation
@@ -151,14 +160,24 @@ this.fetchAssetData();
     this.message = '';
   }
 
-  onEdit(row: any) {
-    this.AssetForm.patchValue(row);
-    this.isEditing = true; // Set flag
-    console.log('Editing Row:', row);
+  onEdit(row: any): void {
+    const dialogRef = this.dialog.open(AssetdataComponent, {
+      width: '600px',
+      data: row // passing the row to the dialog
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Edited Result:', result);
+        // Optional: Update your table data with result, or refresh
+      }
+    });
   }
+  
 
   onDelete(row: any) {
-    if (confirm(`Are you sure you want to delete Asset ID: ${row.AssetID}?`)) {
+    if (confirm(`Are you sure you want 
+      to delete Asset ID: ${row.AssetID}?`)) {
       this.AssetformService.deleteAssetData(row.CID,row.AssetID).subscribe({
         next: (response: any) => {
           console.log(response?.Message || 'Delete Successful:', response);

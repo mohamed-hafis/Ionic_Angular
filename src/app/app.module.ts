@@ -69,12 +69,13 @@ import { MenuGroupPopComponent } from './menu-group-edit/menu-group-pop.componen
 import { MenuGroupSaveComponent } from './menu-group-save/menu-group-save.component';
 import { MenuPopupEditComponent } from './menu-popup-edit/menu-popup-edit.component';
 import { MenuPopupSaveComponent } from './menu-popup-save/menu-popup-save.component';
+import { AssetdataComponent } from './Assetdata/assetdataedit.component';
 
 
 @NgModule({
   declarations: [AppComponent,MainLayoutComponent,LoginComponent,
     HomePage,AboutusComponent,FaqComponent,ServicesComponent,ERPComponent,
-    CRMComponent,ContactComponent,SignupComponent,RegisterComponent, MenuGroupPopComponent,MenuPopupSaveComponent,MenuPopupEditComponent, MenuPopupSaveComponent, MenuGroupSaveComponent, EmplistComponent,AssetformComponent, MenuGroupComponent, MenuPopupComponent, SampleformComponent, MatformComponent, MatComponent, ],
+    CRMComponent,ContactComponent,SignupComponent,RegisterComponent, MenuGroupPopComponent, AssetdataComponent,MenuPopupSaveComponent,MenuPopupEditComponent, MenuPopupSaveComponent, MenuGroupSaveComponent, EmplistComponent,AssetformComponent, MenuGroupComponent, MenuPopupComponent, SampleformComponent, MatformComponent, MatComponent, ],
   imports: [ BrowserModule, IonicModule.forRoot(), AppRoutingModule,ReactiveFormsModule, 
     HammerModule,
     FormsModule,
