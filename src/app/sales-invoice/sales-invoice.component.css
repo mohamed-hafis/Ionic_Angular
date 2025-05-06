@@ -1,0 +1,191 @@
+.payment-dialog {
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.add-row-container {
+  display: flex;
+  justify-content: flex-end; /* Pushes content to the right */
+  margin-bottom: 10px; /* Space between button and table */
+
+}
+
+.table-scroll-container {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.payment-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: white; /* or match your light/dark theme background */
+  z-index: 2; /* stay above scrolling rows */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* optional: shadow under header */
+}
+
+.table-body {
+  max-height: 200px;  /* or as needed */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+}
+
+.payment-table th, .payment-table td {
+  padding: 0px 2px;
+  height: 32px;
+  text-align: left;
+  font-size: 13px;
+}
+
+mat-form-field {
+  max-width: 120px;
+}
+.compact-row mat-form-field {
+  margin: 0 4px 0 0;  /* Small right margin only */
+  padding: 0;
+  vertical-align: top;
+  width: auto; /* prevent full width if unnecessary */
+}
+
+mat-form-field.full-width {
+  height: 35px; /* reduce height */
+  font-size: 13px; /* smaller text if needed */
+}
+
+mat-form-field.full-width .mat-form-field-wrapper {
+  padding-bottom: 0px; /* tightens the mat-form-field */
+  padding-top: 0px;
+}
+
+mat-form-field.full-width .mat-select {
+  height: 30px; /* dropdown height */
+}
+
+input[type="text"] {
+  height: 30px;
+  font-size: 13px;
+  padding: 4px 8px;
+}
+
+/* Scrollbar customization */
+.table-scroll-container::-webkit-scrollbar {
+  width: 6px; /* thinner scrollbar */
+  height: 6px; /* thinner horizontal scrollbar */
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 3px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.summary-keypad-container {
+  display: flex;
+  justify-content: space-between;
+  align-items:last baseline;
+  gap: 30px;
+
+}
+
+.summary-container {
+  display: grid;
+  grid-template-columns: 150px 120px 120px;
+  gap: 10px;
+  background-color: #e6e6e6;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+  width: 50%;
+  height: 200%;
+}
+
+.summary-row {
+  display: contents; /* Makes label and inputs align to grid */
+}
+
+label {
+  font-weight: bold;
+}
+
+input {
+  text-align: right;
+  padding: 5px;
+}
+
+.header {
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+  color: orangered;
+}
+
+
+
+.keypad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.keypad .row {
+  display: flex;
+  gap: 10px;
+}
+
+.keypad button {
+  width: 50px;
+  height: 50px;
+  background-color: #ccf1cc;
+}
+
+.enter-btn {
+  margin-top: 10px;
+  width: 160px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+  gap: 2px;
+}
+
+.cancel-btn {
+  background-color: red;
+  color: white;
+}
+
+.proceed-btn {
+  background-color: green;
+  color: white;
+}
+
+
+.dialog-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-close-button:hover {
+  background-color: darkred;
+}
+

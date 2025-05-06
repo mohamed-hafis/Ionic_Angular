@@ -1,0 +1,142 @@
+<div class="payment-dialog">
+
+  <button mat-icon-button class="dialog-close-button" (click)="OnCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="add-row-container">
+    <button  mat-flat-button color ="primary" (click)="addRow()">Add Row</button>
+  </div>
+
+  <div class="table-scroll-container">
+
+    <table class="payment-table">
+      <thead>
+        <tr class="compact-row">
+          <th>PaymentOption</th>
+          <th>Currency</th>
+          <th>CurrencyLedger</th>
+          <th>ExchangeRate</th>
+          <th>AmountGiven</th>
+          <th>InvCurrAmount</th>
+          <th>LCAmount</th>
+          <th>Filter1</th>
+          <th>Filter2</th>
+          <th>Voutypes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows; let i = index"  class="compact-row">
+          <td>
+            <mat-form-field>
+              <mat-select [(ngModel)]="row.paymentOption" disableRipple>
+                <mat-option *ngFor="let opt of paymentOptions" [value]="opt">{{ opt }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field >
+              <mat-select [(ngModel)]="row.currency" (selectionChange)="onCurrencyChange(row)">
+                <mat-option *ngFor="let currency of currencies" [value]="currency.CurrencyCode">
+                  {{ currency.CurrencyCode }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field >
+              <mat-select [(ngModel)]="row.ledger">
+                <mat-option *ngFor="let ledger of row.filteredLedgers" [value]="ledger.LedgerID">
+                  {{ ledger.Description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <input matInput [(ngModel)]="row.exchangeRate" placeholder=""/>
+          </td>
+          <td>
+            <input matInput [(ngModel)]="row.amountGiven" type="text" (focus)="setFocusedField('amountGiven', i)" (input)="recalculateSummary()"
+                   (keydown.enter)="onEnter()" placeholder="0.00"/></td>
+          <td><input matInput [(ngModel)]="row.invCurrAmount" type="text" (focus)="setFocusedField('invCurrAmount', i)" placeholder="0.00 "/></td>
+          <td><input matInput [(ngModel)]="row.lcAmount" type="text" (focus)="setFocusedField('lcAmount', i)" placeholder="0.00"/></td>
+          <td><input matInput [(ngModel)]="row.filter1" type="text" (focus)="setFocusedField('filter1', i)" placeholder="0.00 "/></td>
+          <td><input matInput [(ngModel)]="row.filter2" type="text" (focus)="setFocusedField('filter2', i)" placeholder="0.00"/></td>
+          <td><input matInput [(ngModel)]="row.voutypes" type="text" (focus)="setFocusedField('voutypes', i)" placeholder="0.00"/></td>
+           <td>
+             <button mat-icon-button color="warn" (click)="deleteRow(i)">
+              <mat-icon>delete</mat-icon>
+             </button>
+           </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Amount Summary Section -->
+  <div class="summary-keypad-container">
+    <div class="summary-container">
+      <div>  </div> <!-- Empty for label column -->
+      <div class="header">Invoice Currency<br /><span>AED</span></div>
+      <div class="header">Base Currency<br /><span>AED</span></div>
+
+      <div class="summary-row">
+        <label>Voucher Amount</label>
+        <input matInput [(ngModel)]="voucherAmount" placeholder="0.00" disabled />
+        <input matInput [(ngModel)]="voucherAmount" placeholder="0.00" disabled />
+      </div>
+      <div class="summary-row">
+        <label>Paid Amount</label>
+        <input matInput [(ngModel)]="paidAmount" placeholder="0.00" disabled />
+        <input matInput [(ngModel)]="paidAmount" placeholder="0.00" disabled />
+      </div>
+      <div class="summary-row">
+        <label>Adj. Amount</label>
+        <input matInput [(ngModel)]="adjAmount" (input)="onAdjAmountChange()"  placeholder="0.00" />
+        <input matInput disabled />
+      </div>
+      <div class="summary-row">
+        <label>Due Amount</label>
+        <input matInput [(ngModel)]="dueAmount" placeholder="0.00" disabled />
+        <input matInput [(ngModel)]="dueAmount" placeholder="0.00" disabled />
+      </div>
+
+    </div>
+
+
+
+      <!-- Keypad -->
+      <div class="keypad">
+        <div class="row">
+          <button mat-button (click)="keyPressed('1')">1</button>
+          <button mat-button (click)="keyPressed('2')">2</button>
+          <button mat-button (click)="keyPressed('3')">3</button>
+        </div>
+        <div class="row">
+          <button mat-button (click)="keyPressed('4')">4</button>
+          <button mat-button (click)="keyPressed('5')">5</button>
+          <button mat-button (click)="keyPressed('6')">6</button>
+        </div>
+        <div class="row">
+          <button mat-button (click)="keyPressed('7')">7</button>
+          <button mat-button (click)="keyPressed('8')">8</button>
+          <button mat-button (click)="keyPressed('9')">9</button>
+        </div>
+        <div class="row">
+          <button mat-button (click)="keyPressed('Del')">Del</button>
+          <button mat-button (click)="keyPressed('0')">0</button>
+          <button mat-button (click)="keyPressed('.')">.</button>
+        </div>
+        <button class="enter-btn" mat-button color="primary" (click)="onEnter()">Enter</button>
+      </div>
+
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="cancel-btn" mat-button color="warn" (click)="OnCancel()">Cancel</button>
+    <button class="proceed-btn" mat-button color="primary" (click)="OnProceed()">Proceed</button>
+  </div>
+</div>
