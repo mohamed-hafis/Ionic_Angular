@@ -138,6 +138,7 @@ export class SalesInvoiceComponent {
 
   deleteRow(index: number) {
     this.rows.splice(index, 1);
+    this.recalculateSummary();
   }
 
 
@@ -262,6 +263,8 @@ export class SalesInvoiceComponent {
       const row = this.rows[this.focusedIndex];
       const givenAmount = parseFloat(row.amountGiven);
       const exchangeRate = parseFloat(row.exchangeRate);
+      // avoud doubke add row
+      const isLastRow = this.focusedIndex === this.rows.length - 1;
 
       if (!isNaN(givenAmount)) {
         // First entry: initialize voucher amount
@@ -286,6 +289,10 @@ export class SalesInvoiceComponent {
         this.recalculateSummary();
         this.dueAmount = parseFloat(this.dueAmount.toFixed(2));
         this.adjAmount = parseFloat(this.adjAmount.toFixed(2));
+
+        if (isLastRow) {
+          this.addRow();
+        }
       }
     }
   }
@@ -293,6 +300,19 @@ export class SalesInvoiceComponent {
 OnCancel(){
   this.dialogRef.close();
 }
+
+onCloseDialog()
+  {
+    this.rows = [this.createEmptyRow()];
+
+    this.voucherAmount = 0;
+    this.paidAmount = 0;
+    this.adjAmount = 0;
+    this.dueAmount = 0;
+    this.voucherInitialized = false;
+
+    this.dialogRef.close({ event: 'CLEAR' });
+  }
 
 OnProceed() {
 
