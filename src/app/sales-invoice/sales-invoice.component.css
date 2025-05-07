@@ -1,7 +1,10 @@
 .payment-dialog {
   width: 90%;
+  overflow-y: auto;
+  max-height: 90vh;
   margin: 0 auto;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .add-row-container {
@@ -12,7 +15,7 @@
 }
 
 .table-scroll-container {
-  max-height: 200px;
+  max-height: 180px;
   overflow-y: auto;
   margin-bottom: 20px;
 }
@@ -20,7 +23,6 @@
 .payment-table thead th {
   position: sticky;
   top: 0;
-  background-color: white; /* or match your light/dark theme background */
   z-index: 2; /* stay above scrolling rows */
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* optional: shadow under header */
 }
@@ -103,7 +105,7 @@ input[type="text"] {
   display: grid;
   grid-template-columns: 150px 120px 120px;
   gap: 10px;
-  background-color: #e6e6e6;
+  background-color: #80cbc4   ;
   padding: 20px;
   border-radius: 10px;
   align-items: center;
@@ -113,6 +115,7 @@ input[type="text"] {
 
 .summary-row {
   display: contents; /* Makes label and inputs align to grid */
+  -webkit-text-fill-color: black;
 }
 
 label {
@@ -148,7 +151,7 @@ input {
 .keypad button {
   width: 50px;
   height: 50px;
-  background-color: #ccf1cc;
+  background-color: #00bfa5;
 }
 
 .enter-btn {
