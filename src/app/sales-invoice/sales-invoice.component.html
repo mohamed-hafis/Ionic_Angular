@@ -1,12 +1,24 @@
+<div>
+  <table cellspacing="0" width="100%">
+    <tr>
+       <td style="font-weight: bold;color:slategrey;font-size: large;width:90%">
+
+      </td>
+      <td width="2px"></td>
+      <td>
+        <button  mat-mini-fab color="primary" matTooltip="Add Row" (click)="addRow()" > <mat-icon >add</mat-icon></button>
+      </td>
+      <td>
+        <button mat-icon-button  class="card-container-right" matTooltip="Close" tabIndex="-1" color="warn" (click)="onCloseDialog()"><mat-icon>cancel</mat-icon></button>
+      </td>
+
+    </tr>
+ </table>
+</div>
+
+
 <div class="payment-dialog">
 
-  <button mat-icon-button class="dialog-close-button" (click)="OnCancel()">
-    <mat-icon>close</mat-icon>
-  </button>
-
-  <div class="add-row-container">
-    <button  mat-flat-button color ="primary" (click)="addRow()">Add Row</button>
-  </div>
 
   <div class="table-scroll-container">
 
@@ -54,7 +66,7 @@
             </mat-form-field>
           </td>
           <td>
-            <input matInput [(ngModel)]="row.exchangeRate" placeholder=""/>
+            <input matInput [(ngModel)]="row.exchangeRate" type="text" (focus)="setFocusedField('exchangeRate', i)" placeholder=""/>
           </td>
           <td>
             <input matInput [(ngModel)]="row.amountGiven" type="text" (focus)="setFocusedField('amountGiven', i)" (input)="recalculateSummary()"
@@ -84,23 +96,23 @@
 
       <div class="summary-row">
         <label>Voucher Amount</label>
-        <input matInput [(ngModel)]="voucherAmount" placeholder="0.00" disabled />
-        <input matInput [(ngModel)]="voucherAmount" placeholder="0.00" disabled />
+        <input matInput [(ngModel)]="voucherAmount" placeholder="0.00" readonly />
+        <input matInput [(ngModel)]="voucherAmount" placeholder="0.00" readonly />
       </div>
       <div class="summary-row">
         <label>Paid Amount</label>
-        <input matInput [(ngModel)]="paidAmount" placeholder="0.00" disabled />
-        <input matInput [(ngModel)]="paidAmount" placeholder="0.00" disabled />
+        <input matInput [(ngModel)]="paidAmount" placeholder="0.00" readonly />
+        <input matInput [(ngModel)]="paidAmount" placeholder="0.00" readonly />
       </div>
       <div class="summary-row">
         <label>Adj. Amount</label>
-        <input matInput [(ngModel)]="adjAmount" (input)="onAdjAmountChange()"  placeholder="0.00" />
-        <input matInput disabled />
+        <input matInput [(ngModel)]="adjAmount" (input)="onAdjAmountChange()"  (focus)="setFocusedField('adjAmount', -1)" placeholder="0.00" />
+        <input matInput readonly />
       </div>
       <div class="summary-row">
         <label>Due Amount</label>
-        <input matInput [(ngModel)]="dueAmount" placeholder="0.00" disabled />
-        <input matInput [(ngModel)]="dueAmount" placeholder="0.00" disabled />
+        <input matInput [(ngModel)]="dueAmount" placeholder="0.00" readonly />
+        <input matInput [(ngModel)]="dueAmount" placeholder="0.00" readonly />
       </div>
 
     </div>
@@ -129,14 +141,14 @@
           <button mat-button (click)="keyPressed('0')">0</button>
           <button mat-button (click)="keyPressed('.')">.</button>
         </div>
-        <button class="enter-btn" mat-button color="primary" (click)="onEnter()">Enter</button>
+        <button class="enter-btn"  (click)="onEnter()">Enter</button>
       </div>
 
   </div>
 
   <!-- Action Buttons -->
   <div class="action-buttons">
-    <button class="cancel-btn" mat-button color="warn" (click)="OnCancel()">Cancel</button>
+    <button class="cancel-btn" mat-button color="primary" (click)="OnCancel()">Cancel</button>
     <button class="proceed-btn" mat-button color="primary" (click)="OnProceed()">Proceed</button>
   </div>
 </div>
