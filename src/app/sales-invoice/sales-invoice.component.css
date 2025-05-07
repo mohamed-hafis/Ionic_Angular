@@ -23,8 +23,9 @@
 .payment-table thead th {
   position: sticky;
   top: 0;
+  background-color: #80cbc4 ; /* or match your light/dark theme background */
+-webkit-text-fill-color: black;
   z-index: 2; /* stay above scrolling rows */
-  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* optional: shadow under header */
 }
 
 .table-body {
