@@ -1,0 +1,184 @@
+<mat-horizontal-stepper linear>
+  <!-- Step 1: Selection Criteria -->
+  <mat-step [stepControl]="selectionForm">
+    <form [formGroup]="selectionForm">
+      <ng-template matStepLabel>Selection Criteria</ng-template>
+
+        <!-- Company -->
+    <mat-form-field class="w-full">
+      <mat-label>Company</mat-label>
+      <mat-select formControlName="company">
+        <mat-option *ngFor="let company of companies" [value]="company">{{ company }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Category -->
+    <mat-form-field class="w-full">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Group -->
+    <mat-form-field class="w-full">
+      <mat-label>Group</mat-label>
+      <mat-select formControlName="group">
+        <mat-option *ngFor="let group of groups" [value]="group">{{ group }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Year -->
+    <mat-form-field class="w-full">
+      <mat-label>Year</mat-label>
+      <mat-select formControlName="year">
+        <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Month -->
+   <!-- Employee - only visible for "By Employee" -->
+<mat-form-field class="w-full" *ngIf="selectionForm.get('category')?.value === 'By Employee'">
+  <mat-label>Employee</mat-label>
+  <mat-select formControlName="employee">
+   <mat-option *ngFor="let emp of employeeList" [value]="emp.LedgerID">
+      {{ emp.Name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- Month - hide if "By Employee" -->
+<mat-form-field class="w-full" *ngIf="selectionForm.get('category')?.value !== 'By Employee'">
+  <mat-label>Month</mat-label>
+  <mat-select formControlName="month">
+    <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- Department - hide if "By Employee" -->
+<mat-form-field class="w-full" *ngIf="selectionForm.get('category')?.value !== 'By Employee'">
+  <mat-label>Department</mat-label>
+  <mat-select formControlName="department">
+    <mat-option *ngFor="let dept of departments" [value]="dept">{{ dept }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+    <div class="mt-4">
+   <button mat-button matStepperNext (click)="onNext()" [disabled]="!selectionForm.valid">Next</button>
+
+    </div>
+  </form>
+</mat-step>
+
+  <!-- Step 2: Calendar View -->
+  <mat-step [stepControl]="calendarForm">
+    <form [formGroup]="calendarForm">
+      <ng-template matStepLabel>Calendar View</ng-template>
+
+    <!-- Calendar Header -->
+    <div class="calendar-header">
+      <h3>{{ selectedMonth }} {{ selectedYear }}</h3>
+    </div>
+
+    <!-- Leave Type Legend -->
+    <div class="legend">
+      <ng-container *ngFor="let leave of leavelist; let i = index">
+        <label class="legend-item">
+          <input type="checkbox" [formControl]="getFormControl(i)" (change)="onLeaveTypeChange(i)">
+          {{ leave.name }}
+          <span class="dot" [style.background-color]="leave.ColorCode"></span>
+        </label>
+      </ng-container>
+      <label class="legend-item">
+        Public Holiday <span class="dot" style="background-color: #B0C4DE;"></span>
+      </label>
+      <label class="legend-item">
+        Weekend <span class="dot" style="background-color: #E8DAEF;"></span>
+      </label>
+    </div>
+
+   <!-- Calendar Grid with Weekday Headers -->
+<div class="calendar-grid">
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th *ngFor="let day of monthDays">
+          <!-- Show weekday header -->
+          {{ day.date ? (day.date | date: 'EEE') : '' }}
+        </th>
+      </tr>
+      <tr>
+        <th></th>
+        <th *ngFor="let day of monthDays">
+          <!-- Show day of month -->
+          {{ day.day !== 0 ? day.day : '' }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td>{{ emp.name }}</td>
+        <td *ngFor="let day of monthDays">
+          <div
+            [style.background]="getDayColor(emp.id, day.date)"
+            (click)="toggleLeave(emp.id,day.date)"
+            style="cursor: pointer; height: 30px; border: 1px solid #ccc; text-align: center;">
+            {{ getDayLabel(emp.id,day.date) }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    </form>
+  </mat-step>
+
+  <!-- Step 3: Data View -->
+  <mat-step [stepControl]="dataViewForm">
+  <form [formGroup]="dataViewForm">
+    <ng-template matStepLabel>Data View</ng-template>
+
+    <!-- Standard HTML Table -->
+    <table class="table table-bordered mat-elevation-z8" style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Carry Forward</th>
+          <th>Accrual</th>
+          <th>Total</th>
+          <th>Taken</th>
+          <th>Remaining</th>
+          <th>Leave</th>
+          <th>Sick</th>
+          <th>Unpaid</th>
+          <th>Vacation</th>
+          <th>Lieu</th>
+          <th>WFH</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of leaveSummaryData">
+          <td>{{element.EmpName}}</td>
+          <td>{{element.CarryForward}}</td>
+          <td>{{element.Accrual}}</td>
+          <td>{{element.Total}}</td>
+          <td>{{element.TakenLeave}}</td>
+          <td>{{element.Remaining}}</td>
+          <td>{{element.Leave}}</td>
+          <td>{{element.SickLeave}}</td>
+          <td>{{element.UnpaidLeave}}</td>
+          <td>{{element.AnnualVacation}}</td>
+          <td>{{element.Lieu}}</td>
+          <td>{{element.WorkFromHome}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Stepper Navigation Button -->
+    <button mat-button matStepperPrevious>Back</button>
+  </form>
+</mat-step>
+</mat-horizontal-stepper>
