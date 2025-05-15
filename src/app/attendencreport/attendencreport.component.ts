@@ -1,13 +1,27 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable curly */
 /* eslint-disable @typescript-eslint/member-delimiter-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { S } from '@angular/cdk/keycodes';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl  } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { NotificationService } from 'src/app/Services/OtherServices/notification.service';
 
+interface Leave {
+  LID: string;
+  name: string;
+  ColorCode: string;
+}
 
+interface GroupALL {
+  Name: string;
+  [key: string]: any; // for dynamic columns like S, M, T etc.
+}
 
 @Component({
   selector: 'app-attendencreport',
@@ -15,10 +29,14 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl  } from '@an
   styleUrls: ['./attendencreport.component.css']
 })
 export class AttendencreportComponent {
-  selectionForm!: FormGroup;
-  calendarForm!: FormGroup;
-  dataViewForm!: FormGroup;
+   @ViewChild('stepper') stepper;
 
+  selectionForm!: FormGroup;
+  calendarForm: FormGroup;
+  dataViewForm!: FormGroup;
+  datasource: MatTableDataSource<GroupALL> = new MatTableDataSource([]);
+
+// Selection Criteria
   CID: any;
   companies: string[] = [];
   groups: string[] = [];
@@ -31,32 +49,71 @@ export class AttendencreportComponent {
   years: number[] = [];
 
 // calender
-  selectedMonth = '';
-  selectedYear = 0;
- monthDays: { day: number, date: string, weekday: number }[] = [];
-  leavelist: { name: string; ColorCode: string }[] = [];
-leaveDays: { empId: number; date: string; type: string }[] = [];
 
- employees: { id: number, name: string }[] = [];
+  leavelist: Leave[] = [];
+  leavelist1: Leave[] = [];
+  dayColumns: string[] = [];
+  employees: { id: number, name: string }[] = [];
+  viewFlag: 'ALL' | 'By employee' = 'ALL';
+   selectedEmployee: any = null;
 
- statusCodeColor = {
-  5: '#e91e63',    // Leave
-  2: '#9c27b0',    // Weekend
-  106: '#03a9f4',  // Public Holiday
-  0: '#ffffff'     // No entry
-};
- calendarData: any[] = [];
+  columns = [
+    { columnDef: 'Name', header: 'Name', cell: (element: any) => `${element.Name}`, color: 'red' },
+    { columnDef: 'S',  header: 'S',   cell: (element: any) => `${element.S}` },
+    { columnDef: 'M',  header: 'M',   cell: (element: any) => `${element.M}` },
+    { columnDef: 'T',  header: 'T',   cell: (element: any) => `${element.T}` },
+    { columnDef: 'W',  header: 'W',   cell: (element: any) => `${element.W}` },
+    { columnDef: 'T1', header: 'T',   cell: (element: any) => `${element.T1}` },
+     { columnDef: 'F', header: 'F',    cell: (element: any) => `${element.F}` },
+    { columnDef: 'S1', header: 'S',    cell: (element: any) => `${element.S1}` },
+    { columnDef: 'S2', header: 'S',    cell: (element: any) => `${element.S2}` },
+    { columnDef: 'M1', header: 'M',    cell: (element: any) => `${element.M1}` },
+    { columnDef: 'T2', header: 'T',    cell: (element: any) => `${element.T2}` },
+    { columnDef: 'W1', header: 'W',    cell: (element: any) => `${element.W1}` },
+    { columnDef: 'T3', header: 'T',    cell: (element: any) => `${element.T3}` },
+    { columnDef: 'F1', header: 'F',    cell: (element: any) => `${element.F1}` },
+    { columnDef: 'S3', header: 'S',    cell: (element: any) => `${element.S3}` },
+    { columnDef: 'S4', header: 'S',    cell: (element: any) => `${element.S4}` },
+    { columnDef: 'M2', header: 'M',    cell: (element: any) => `${element.M2}` },
+    { columnDef: 'T4', header: 'T',    cell: (element: any) => `${element.T4}` },
+    { columnDef: 'W2', header: 'W',    cell: (element: any) => `${element.W2}` },
+    { columnDef: 'T5', header: 'T',    cell: (element: any) => `${element.T5}` },
+    { columnDef: 'F2', header: 'F',    cell: (element: any) => `${element.F2}` },
+    { columnDef: 'S5', header: 'S',    cell: (element: any) => `${element.S5}` },
+    { columnDef: 'S6', header: 'S',    cell: (element: any) => `${element.S6}` },
+    { columnDef: 'M3', header: 'M',    cell: (element: any) => `${element.M3}` },
+    { columnDef: 'T6', header: 'T',    cell: (element: any) => `${element.T6}` },
+    { columnDef: 'W3', header: 'W',    cell: (element: any) => `${element.W3}` },
+    { columnDef: 'T7', header: 'T',    cell: (element: any) => `${element.T7}` },
+    { columnDef: 'F3', header: 'F',    cell: (element: any) => `${element.F3}` },
+    { columnDef: 'S7', header: 'S',    cell: (element: any) => `${element.S7}` },
+    { columnDef: 'S8', header: 'S',    cell: (element: any) => `${element.S8}` },
+    { columnDef: 'M4', header: 'M',    cell: (element: any) => `${element.M4}` },
+    { columnDef: 'T8', header: 'T',    cell: (element: any) => `${element.T8}` },
+    { columnDef: 'W4', header: 'W',    cell: (element: any) => `${element.W4}` },
+    { columnDef: 'T9', header: 'T',    cell: (element: any) => `${element.T9}` },
+    { columnDef: 'F4', header: 'F',    cell: (element: any) => `${element.F4}` },
+    { columnDef: 'S9', header: 'S',    cell: (element: any) => `${element.S9}` },
+    { columnDef: 'S10', header: 'S',    cell: (element: any) => `${element.S10}` },
+    { columnDef: 'M5', header: 'M',    cell: (element: any) => `${element.M5}` },
+    { columnDef: 'T10', header: 'T',    cell: (element: any) => `${element.T10}` },
+  ];
+  displayedColumns = this.columns.map(c => c.columnDef);
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
 
 
 
  // Data View
   leaveSummaryData: any[] = [];
+  employeeLeaveData: any[] = [];
+  attendanceRecords: any;
 
 
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private http: HttpClient,public notificationService: NotificationService) {}
 
   ngOnInit(): void {
 
@@ -85,11 +142,55 @@ leaveDays: { empId: number; date: string; type: string }[] = [];
     }
   });
 
-    this.calendarForm = this.fb.group({ });
+
+
+   this.calendarForm = this.fb.group({
+    orders: new FormArray([])
+    });
+
     this.dataViewForm = this.fb.group({ });
 
     this.loadDropdownData();
-    this.generateMonthDays(new Date().getFullYear(), new Date().getMonth());
+
+  }
+
+
+
+  ngAfterViewInit(): void {
+    this.datasource.paginator = this.paginator;
+    this.datasource.sort = this.sort;
+  }
+
+  get ordersFormArray() {
+    return this.calendarForm.get('orders') as FormArray;
+  }
+
+  private addCheckboxes() {
+    this.leavelist.forEach(() => this.ordersFormArray.push(new FormControl(true)));
+  }
+
+  getcolor(state: any): string {
+    // Find color from leavelist matching LID
+    const leave = this.leavelist.find(l => l.LID === state);
+    if (leave) return leave.ColorCode;
+
+    // Fallback colors
+    switch (state) {
+      case '2': return '#E8DAEF'; // weekend
+      case '0': return '#B0C4DE'; // public holiday
+      case 'null': return '#F9FAFA';
+      default: return '#FFFFFF';
+    }
+  }
+
+  getcolor1(column: any): string {
+    if (column.columnDef === 'Name') return 'black';
+    return 'inherit';
+  }
+
+  getcolor2(column: any): string {
+    if (column.columnDef === 'Name') return 'left';
+    return 'center';
   }
 
   loadDropdownData(): void {
@@ -117,10 +218,14 @@ leaveDays: { empId: number; date: string; type: string }[] = [];
         this.years = data.Table1.map((y: any) => y.years);
         this.departments = data.Table3.map((d: any) => d.Category1);
         this.groups = data.Table4.map((g: any) => g.LeaveGroupName);
+        this.employeeList = data.Table5.map((emp: any) => ({
+             LedgerID: emp.LedgerID,
+             Name: emp.Name
+           }));
 
-
-        if (data.Table2 && data.Table2.length) {
+        if (data.Table2) {
           this.leavelist = data.Table2.map((item: any) => ({
+            LID: item.LID,
             name: item.name,
             ColorCode: item.ColorCode
           }));
@@ -130,17 +235,9 @@ leaveDays: { empId: number; date: string; type: string }[] = [];
           // Also reinitialize the checkbox FormArray for calendarForm
           this.calendarForm.setControl(
             'orders',
-            this.fb.array(this.leavelist.map(() => false))
+            this.fb.array(this.leavelist.map(() => true))
           );
         }
-
-          if (data.Table5 && data.Table5.length) {
-      this.employeeList = data.Table5.map((emp: any) => ({
-        LedgerID: emp.LedgerID,
-        Name: emp.Name
-      }));
-    }
-
       } else {
         console.error('Error fetching dropdowns:', res.errdesc);
       }
@@ -149,67 +246,20 @@ leaveDays: { empId: number; date: string; type: string }[] = [];
 
 
   onNext(): void {
-  const selectedMonthName = this.selectionForm.get('month')?.value;
   const selectedYear = this.selectionForm.get('year')?.value;
+  const selectedMonth = this.selectionForm.get('month')?.value;
+  const selectedCategory = this.selectionForm.get('category')?.value;
 
-  this.selectedMonth = selectedMonthName;
-  this.selectedYear = selectedYear;
+  let employeeId: number | null = null;
 
-  const monthIndex = this.months.indexOf(selectedMonthName); // 0-based index
-  if (monthIndex === -1) return;
-
-   const selectedCategory = this.selectionForm.get('category')?.value;
   if (selectedCategory === 'By Employee') {
-    const employeeId = this.selectionForm.get('employee')?.value; // Get the selected employee's ID
-    this.loadAttendanceData(selectedYear, monthIndex + 1, employeeId); // +1 for 1-based month
-  } else {
-    this.generateMonthDays(selectedYear, monthIndex);
-    this.loadAttendanceData(selectedYear, monthIndex + 1); // +1 for 1-based month
-  }
-}
-
- generateMonthDays(year: number, monthIndex: number): void {
-  this.monthDays = [];
-  const firstDay = new Date(year, monthIndex, 1).getDay();
-  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-
-  // Leading blanks
-  for (let i = 0; i < firstDay; i++) {
-    this.monthDays.push({ day: 0, date: '', weekday: -1 });
+    employeeId = this.selectionForm.get('employee')?.value;
   }
 
-for (let i = 1; i <= daysInMonth; i++) {
-  const dateStr = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-  this.monthDays.push({ day: i, date: dateStr, weekday: new Date(dateStr).getDay() });
-}
-
-}
-
-
-// Function to generate the calendar matrix for a month
-generateCalendar(year: number, month: number) {
-  // Get the number of days in the current month
-  const daysInMonth = new Date(year, month, 0).getDate(); // e.g., for February: new Date(2025, 2, 0).getDate()
-  const firstDayOfMonth = new Date(year, month - 1, 1).getDay(); // e.g., Sunday = 0, Monday = 1, etc.
-
-  // Initialize the calendar matrix (weeks)
-  const calendarMatrix: number[][] = [];
-
-  // Fill in the first week with leading blanks for the first day of the month
-  let week: number[] = new Array(firstDayOfMonth).fill(null); // Start with empty cells for the first day
-  for (let day = 1; day <= daysInMonth; day++) {
-    week.push(day);
-    if (week.length === 7) { // If the week is full (7 days)
-      calendarMatrix.push(week);
-      week = []; // Start a new week
-    }
+  const monthIndex = this.months.indexOf(selectedMonth);
+  if (monthIndex !== -1) {
+    this.loadAttendanceData(selectedYear, monthIndex + 1, employeeId);
   }
-  // If there are leftover days in the final week, add them
-  if (week.length > 0) {
-    calendarMatrix.push(week);
-  }
-
-  return calendarMatrix;
 }
 
 
@@ -244,211 +294,40 @@ loadAttendanceData(year: number, month: number, empId?: number): void {
       const data = res.respdata;
       console.log(`${flag} Attendance Response:`, data);
 
-      this.leavelist = data.Table2 || [];
+        this.leavelist = data.Table2 || [];
 
-      // Setup employees
+      // Summary (Table1)
       this.leaveSummaryData = data.Table1 || [];
+
+      // Remove disName and IsCarryForward from summary
+      const removeDisName = this.leaveSummaryData.map(({ disName, ...item }) => item);
+      const removeCarryForward = removeDisName.map(({ IsCarryForward, ...item }) => item);
+      this.leaveSummaryData = removeCarryForward;
+
+      // Employee dropdown list
       this.employees = this.leaveSummaryData.map((emp: any, index: number) => ({
-        id: index,
+        id: emp.EmpID || index,
         name: emp.EmpName?.trim() || `Emp${index + 1}`
       }));
 
-       const attendanceMatrix = data.Table || [];
+      // Attendance matrix (Table)
+      const attendanceMatrix = data.Table || [];
       console.log('Matrix Data:', attendanceMatrix);
 
-      // Generate calendar for the specified month and year
-      const calendarMatrix = this.generateCalendar(year, month);
-      console.log('Generated Calendar:', calendarMatrix);
+      this.datasource = new MatTableDataSource<any>(attendanceMatrix);
+      this.datasource.sort = this.sort;
+      this.datasource.paginator = this.paginator;
 
-      // Now map the attendance data into the generated calendar
-      // (You will need to correlate dates with attendance records here)
+      this.stepper.selectedIndex = 1;
     } else {
-      console.error('Error loading attendance data:', res.errdesc);
+      this.notificationService.success(res.errdesc || 'Unable to load attendance data');
     }
+  }, error => {
+    console.error('Error:', error);
+    this.notificationService.success('An unexpected error occurred');
   });
 }
 
-
-  get ordersFormArray(): FormArray {
-    return this.calendarForm.get('orders') as FormArray;
-  }
-
- onLeaveTypeChange(index: number): void {
-  const selectedTypes = this.leavelist
-    .map((leave, i) => this.ordersFormArray.at(i).value ? leave.name : null)
-    .filter(name => name !== null);
-
-  console.log('Active leave filters:', selectedTypes);
-
-  // Filter attendance records accordingly (optional if you're storing them already)
-  // But you’ll show/hide colors via `getDayColor` and `getDayLabel`
-}
-
-
-
- toggleLeave(empId: number, date: string): void {
-   const existingIndex = this.leaveDays.findIndex(
-    d => d.empId === empId && d.date === date
-  );
-
-  if (existingIndex !== -1) {
-    this.leaveDays.splice(existingIndex, 1);
-  } else {
-    const selectedType = this.getSelectedLeaveType();
-    if (selectedType) {
-      this.leaveDays.push({ empId, date, type: selectedType });
-    }
-  }
-}
-
-
-  getSelectedLeaveType(): string | null {
-    const index = this.ordersFormArray.controls.findIndex(c => c.value === true);
-    return index !== -1 ? this.leavelist[index].name : null;
-  }
-
-  getDayColor(empId: number, date: string): string {
-  if (!date) return 'transparent';
-
-  const entry = this.leaveDays.find(d => d.empId === empId && d.date === date);
-
-  if (entry) {
-    const selectedIndex = this.leavelist.findIndex(l => l.name === entry.type);
-    const isSelected = selectedIndex !== -1 && this.ordersFormArray.at(selectedIndex).value;
-
-    if (isSelected) {
-      return this.leavelist[selectedIndex].ColorCode;
-    }
-  }
-
-  // Default for Sunday
-  const dateObj = new Date(date);
-  if (dateObj.getDay() === 0) {
-    return '#E8DAEF';
-  }
-
-  return 'transparent';
-}
-
-
-  getFormControl(i: number): FormControl {
-    return this.ordersFormArray.at(i) as FormControl;
-  }
-
-  // Calender View
-
-getCalendarDays(): number[] {
-  const selectedCategory = this.selectionForm.get('category')?.value;
-  if (selectedCategory === 'By Employee') {
-    return Array.from({ length: 31 }, (_, i) => i + 1); // always 31
-  } else {
-    const monthIndex = this.months.indexOf(this.selectedMonth);
-    const daysInMonth = new Date(this.selectedYear, monthIndex + 1, 0).getDate();
-    return Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  }
-}
-
-getCalendarRows(): Array<{ label: string; id: number; dates: string[] }> {
-  const rows = [];
-  const selectedCategory = this.selectionForm.get('category')?.value;
-
-  if (selectedCategory === 'By Employee') {
-    const emp = this.employeeList.find(e => e.LedgerID === this.selectionForm.get('employee')?.value);
-    for (let m = 0; m < 12; m++) {
-      const daysInMonth = new Date(this.selectedYear, m + 1, 0).getDate();
-      const dates = Array.from({ length: 31 }, (_, d) => {
-        const day = d + 1;
-        return day <= daysInMonth ? `${this.selectedYear}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` : '';
-      });
-      rows.push({ label: this.months[m], id: emp?.LedgerID || 0, dates });
-    }
-  } else {
-    for (const emp of this.employees) {
-      const monthIndex = this.months.indexOf(this.selectedMonth);
-      const daysInMonth = new Date(this.selectedYear, monthIndex + 1, 0).getDate();
-      const dates = Array.from({ length: daysInMonth }, (_, d) =>
-        `${this.selectedYear}-${String(monthIndex + 1).padStart(2, '0')}-${String(d + 1).padStart(2, '0')}`
-      );
-      rows.push({ label: emp.name, id: emp.id, dates });
-    }
-  }
-
-  return rows;
-}
-
-getDayLabel(empId: number, date: string): string {
-  const leave = this.leaveDays.find(d => d.empId === empId && d.date === date);
-  return leave ? leave.type[0] : ''; // First letter of leave type
-}
-
-getLabel(code: number | string): string {
-  const labels: any = {
-    5: 'Leave',
-    2: 'Weekend',
-    106: 'Public Holiday',
-    0: 'None'
-  };
-  return labels[code] || 'Unknown';
-}
-
-loadCalendarData(year: number, month: number, empId: number): void {
-  const url = 'http://localhost:55121/api/AttendanceReport/GetAttendanceReport';
-
-  const selectedCategory = this.selectionForm.get('category')?.value;
-  let flag = '';
-
-  if (selectedCategory === 'By Employee') {
-    flag = 'By Employee';
-  } else if (selectedCategory === 'All With LeaveData') {
-    flag = 'AllWithLeaveData';
-  } else {
-    flag = 'ALL';
-  }
-
-
-  const payload = {
-   cid: this.CID,
-    Flag: flag,
-    EmpID: empId || 0,
-    Month: month,
-    TimeZone: 1,
-    checkcode: '',
-    Year: year,
-    Department: this.selectionForm.get('department')?.value,
-    Ledger: 0
-  };
-
-  this.http.post<any>(url, payload).subscribe(res => {
-    if (res?.errno === 0 && res?.respdata?.Table) {
-      const tableData = res.respdata.Table;
-      this.calendarData = [];
-
-      tableData.forEach((monthEntry: any) => {
-        const days: Array<{ day: number, value: number }> = [];
-        let dayCounter = 1;
-
-        for (const [key, value] of Object.entries(monthEntry)) {
-          if (key !== 'Name' && value !== null) {
-            days.push({
-              day: dayCounter,
-              value: value as number
-            });
-            dayCounter++;
-          }
-        }
-
-        this.calendarData.push({
-          month: monthEntry.Name,
-          days
-        });
-      });
-
-      console.log('Parsed calendar data:', this.calendarData);
-    } else {
-      console.error('Error loading calendar data:', res?.errdesc);
-    }
-  });
-}
 
 }
 
