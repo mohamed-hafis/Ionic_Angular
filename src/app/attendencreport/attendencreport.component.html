@@ -72,66 +72,33 @@
 </mat-step>
 
   <!-- Step 2: Calendar View -->
-  <mat-step [stepControl]="calendarForm">
+  <!-- Calendar View Step -->
+ <mat-step [stepControl]="calendarForm" label="Calendar View">
     <form [formGroup]="calendarForm">
-      <ng-template matStepLabel>Calendar View</ng-template>
-
-    <!-- Calendar Header -->
-    <div class="calendar-header">
-      <h3>{{ selectedMonth }} {{ selectedYear }}</h3>
-    </div>
-
-    <!-- Leave Type Legend -->
-    <div class="legend">
-      <ng-container *ngFor="let leave of leavelist; let i = index">
-        <label class="legend-item">
-          <input type="checkbox" [formControl]="getFormControl(i)" (change)="onLeaveTypeChange(i)">
-          {{ leave.name }}
-          <span class="dot" [style.background-color]="leave.ColorCode"></span>
+      <div formArrayName="orders">
+        <label *ngFor="let order of ordersFormArray.controls; let i = index">
+          <input type="checkbox" [formControlName]="i" />
+          {{ leavelist[i]?.name }}
+          <span class="dot" [ngStyle]="{'background-color': leavelist[i]?.ColorCode}"></span>
         </label>
-      </ng-container>
-      <label class="legend-item">
-        Public Holiday <span class="dot" style="background-color: #B0C4DE;"></span>
-      </label>
-      <label class="legend-item">
-        Weekend <span class="dot" style="background-color: #E8DAEF;"></span>
-      </label>
-    </div>
+      </div>
+      <br/>
 
-   <!-- Calendar Grid with Weekday Headers -->
-<div class="calendar-grid">
-  <table class="calendar-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th *ngFor="let day of monthDays">
-          <!-- Show weekday header -->
-          {{ day.date ? (day.date | date: 'EEE') : '' }}
-        </th>
-      </tr>
-      <tr>
-        <th></th>
-        <th *ngFor="let day of monthDays">
-          <!-- Show day of month -->
-          {{ day.day !== 0 ? day.day : '' }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let emp of employees">
-        <td>{{ emp.name }}</td>
-        <td *ngFor="let day of monthDays">
-          <div
-            [style.background]="getDayColor(emp.id, day.date)"
-            (click)="toggleLeave(emp.id,day.date)"
-            style="cursor: pointer; height: 30px; border: 1px solid #ccc; text-align: center;">
-            {{ getDayLabel(emp.id,day.date) }}
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+      <table mat-table [dataSource]="datasource">
+        <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
+          <th mat-header-cell *matHeaderCellDef> {{ column.header }} </th>
+          <td mat-cell
+              *matCellDef="let row"
+              [ngStyle]="{'background-color': getcolor(column.cell(row)), 'color': getcolor1(column), 'text-align': getcolor2(column)}">
+            {{ i === 0 ? column.cell(row) : column.cell(row) === 'null' ? '' : column.cell(row) }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator [pageSize]="18" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
     </form>
   </mat-step>
@@ -142,6 +109,7 @@
     <ng-template matStepLabel>Data View</ng-template>
 
     <!-- Standard HTML Table -->
+      <ng-container *ngIf="viewFlag === 'ALL'">
     <table class="table table-bordered mat-elevation-z8" style="width: 100%; border-collapse: collapse;">
       <thead>
         <tr>
@@ -176,6 +144,30 @@
         </tr>
       </tbody>
     </table>
+      </ng-container>
+
+       <ng-container *ngIf="viewFlag === 'By employee'">
+      <table class="table table-bordered mat-elevation-z8" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>Leave Type</th>
+            <th>Accrued</th>
+            <th>Taken</th>
+            <th>Remaining</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of employeeLeaveData">
+            <td>{{item.LeaveType}}</td>
+            <td>{{item.Accrued}}</td>
+            <td>{{item.Taken}}</td>
+            <td>{{item.Remaining}}</td>
+            <td>{{item.Notes}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
 
     <!-- Stepper Navigation Button -->
     <button mat-button matStepperPrevious>Back</button>
