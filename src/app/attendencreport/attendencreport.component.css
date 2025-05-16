@@ -26,10 +26,15 @@
 }
 
 .dot {
-  height: 16px;
-  width: 16px;
+  height: 12px;
+  width: 12px;
   border-radius: 50%;
   display: inline-block;
+  margin-left: 5px;
+}
+
+.checkbox-label {
+  margin-right: 15px;
 }
 
 .calendar-grid {
