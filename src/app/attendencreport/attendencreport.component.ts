@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable curly */
@@ -9,6 +11,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl  } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatStepper } from '@angular/material/stepper';
 import { MatTableDataSource } from '@angular/material/table';
 import { NotificationService } from 'src/app/Services/OtherServices/notification.service';
 
@@ -29,7 +32,7 @@ interface GroupALL {
   styleUrls: ['./attendencreport.component.css']
 })
 export class AttendencreportComponent {
-   @ViewChild('stepper') stepper;
+  @ViewChild('stepper') stepper!: MatStepper;
 
   selectionForm!: FormGroup;
   calendarForm: FormGroup;
@@ -49,12 +52,12 @@ export class AttendencreportComponent {
   years: number[] = [];
 
 // calender
-
+  leaveid: string;
   leavelist: Leave[] = [];
   leavelist1: Leave[] = [];
   dayColumns: string[] = [];
   employees: { id: number, name: string }[] = [];
-  viewFlag: 'ALL' | 'By employee' = 'ALL';
+  viewFlag: string = 'ALL';
    selectedEmployee: any = null;
 
   columns = [
@@ -108,7 +111,6 @@ export class AttendencreportComponent {
 
  // Data View
   leaveSummaryData: any[] = [];
-  employeeLeaveData: any[] = [];
   attendanceRecords: any;
 
 
@@ -169,28 +171,41 @@ export class AttendencreportComponent {
     this.leavelist.forEach(() => this.ordersFormArray.push(new FormControl(true)));
   }
 
-  getcolor(state: any): string {
-    // Find color from leavelist matching LID
-    const leave = this.leavelist.find(l => l.LID === state);
-    if (leave) return leave.ColorCode;
-
-    // Fallback colors
-    switch (state) {
-      case '2': return '#E8DAEF'; // weekend
-      case '0': return '#B0C4DE'; // public holiday
-      case 'null': return '#F9FAFA';
-      default: return '#FFFFFF';
+   getcolor1(state)
+  {
+    switch (state.columnDef)
+    {
+      case 'Name':
+       return 'black';
     }
   }
-
-  getcolor1(column: any): string {
-    if (column.columnDef === 'Name') return 'black';
-    return 'inherit';
+  getcolor2(state)
+  {
+    switch (state.columnDef)
+    {
+      case 'Name':
+       return 'left';
+    }
   }
+  getcolor(state)
+  {
+    for (const key of Object.keys(this.leavelist)) {
+      const colorName = this.leavelist[key];
+      if(colorName.LID==state)
+      {
+        return colorName.ColorCode;
+      }
+    }
 
-  getcolor2(column: any): string {
-    if (column.columnDef === 'Name') return 'left';
-    return 'center';
+    switch (state){
+        case '2':
+          return '#E8DAEF';
+        case '0':
+          return '#B0C4DE';
+        case 'null':
+            return '#F9FAFA';
+    }
+
   }
 
   loadDropdownData(): void {
@@ -258,12 +273,12 @@ export class AttendencreportComponent {
 
   const monthIndex = this.months.indexOf(selectedMonth);
   if (monthIndex !== -1) {
-    this.loadAttendanceData(selectedYear, monthIndex + 1, employeeId);
+    this.loadAttendanceData(selectedYear, employeeId);
   }
 }
 
 
-loadAttendanceData(year: number, month: number, empId?: number): void {
+loadAttendanceData(year: number,  empId?: number): void {
   const url = 'http://localhost:55121/api/AttendanceReport/GetAttendanceReport';
 
   const selectedCategory = this.selectionForm.get('category')?.value;
@@ -277,11 +292,14 @@ loadAttendanceData(year: number, month: number, empId?: number): void {
     flag = 'ALL';
   }
 
+  this.viewFlag = flag;
+
+
   const payload = {
     cid: this.CID,
     Flag: flag,
     EmpID: empId || 0,
-    Month: month,
+    Month: 1,
     TimeZone: 1,
     checkcode: '',
     Year: year,
@@ -299,10 +317,7 @@ loadAttendanceData(year: number, month: number, empId?: number): void {
       // Summary (Table1)
       this.leaveSummaryData = data.Table1 || [];
 
-      // Remove disName and IsCarryForward from summary
-      const removeDisName = this.leaveSummaryData.map(({ disName, ...item }) => item);
-      const removeCarryForward = removeDisName.map(({ IsCarryForward, ...item }) => item);
-      this.leaveSummaryData = removeCarryForward;
+      this.leaveSummaryData = this.leaveSummaryData.map(({ disName, IsCarryForward, ...item }) => item);
 
       // Employee dropdown list
       this.employees = this.leaveSummaryData.map((emp: any, index: number) => ({
@@ -326,6 +341,38 @@ loadAttendanceData(year: number, month: number, empId?: number): void {
     console.error('Error:', error);
     this.notificationService.success('An unexpected error occurred');
   });
+}
+
+processSelectedLeaves(): void {
+  const lid = this.calendarForm.value.orders
+    .map((checked: boolean, i: number) => checked ? this.leavelist[i].LID : null)
+    .filter((v: number | null) => v !== null);
+
+  this.leaveid = lid.toString();
+
+  const selectedLeaves = this.leavelist.filter(item => lid.includes(item.LID));
+  this.leavelist1 = selectedLeaves;
+
+}
+
+Submit() {
+  const lid = this.calendarForm.value.orders
+    .map((checked: boolean, i: number) => checked ? this.leavelist[i].LID : null)
+    .filter((v: string | null) => v !== null);
+
+  this.leaveid = lid.toString();
+
+  const newList: Leave[] = [];
+  for (const value of lid) {
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < this.leavelist.length; i++) {
+      if (this.leavelist[i].LID === value) {
+        newList.push(this.leavelist[i]);
+      }
+    }
+  }
+  this.leavelist1 = newList;
+
 }
 
 
