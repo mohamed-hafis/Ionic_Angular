@@ -1,4 +1,7 @@
-<mat-horizontal-stepper linear>
+
+<mat-horizontal-stepper #stepper [linear]="true">
+
+
   <!-- Step 1: Selection Criteria -->
   <mat-step [stepControl]="selectionForm">
     <form [formGroup]="selectionForm">
@@ -76,12 +79,22 @@
  <mat-step [stepControl]="calendarForm" label="Calendar View">
     <form [formGroup]="calendarForm">
       <div formArrayName="orders">
-        <label *ngFor="let order of ordersFormArray.controls; let i = index">
-          <input type="checkbox" [formControlName]="i" />
-          {{ leavelist[i]?.name }}
-          <span class="dot" [ngStyle]="{'background-color': leavelist[i]?.ColorCode}"></span>
-        </label>
-      </div>
+  <label *ngFor="let order of ordersFormArray.controls; let i = index" class="checkbox-label">
+    <input type="checkbox" [formControlName]="i" />
+    {{ leavelist[i]?.name }}
+    <span class="dot" [ngStyle]="{'background-color': leavelist[i]?.ColorCode}"></span>
+    &nbsp;&nbsp;
+  </label>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <label>Public Holidays</label>
+  <span class="dot" style="background-color: #B0C4DE;"></span>&nbsp;
+
+  <label>Weekend</label>
+  <span class="dot" style="background-color: #E8DAEF;"></span>
+</div>
       <br/>
 
       <table mat-table [dataSource]="datasource">
@@ -146,28 +159,32 @@
     </table>
       </ng-container>
 
-       <ng-container *ngIf="viewFlag === 'By employee'">
+ <ng-container *ngIf="viewFlag === 'By Employee'">
       <table class="table table-bordered mat-elevation-z8" style="width: 100%; border-collapse: collapse;">
         <thead>
           <tr>
             <th>Leave Type</th>
-            <th>Accrued</th>
-            <th>Taken</th>
+            <th>Carry Forword</th>
+            <th>Accrued Leave</th>
+            <th>Leave Taken</th>
+            <th>En Cashment</th>
             <th>Remaining</th>
-            <th>Notes</th>
+
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of employeeLeaveData">
+          <tr *ngFor="let item of leaveSummaryData">
             <td>{{item.LeaveType}}</td>
-            <td>{{item.Accrued}}</td>
-            <td>{{item.Taken}}</td>
+            <td>{{item.CarryForword}}</td>
+            <td>{{item.AccruedLeave}}</td>
+            <td>{{item.LeaveTaken}}</td>
+            <td>{{item.EnCashment}}</td>
             <td>{{item.Remaining}}</td>
-            <td>{{item.Notes}}</td>
           </tr>
         </tbody>
       </table>
     </ng-container>
+
 
     <!-- Stepper Navigation Button -->
     <button mat-button matStepperPrevious>Back</button>
