@@ -33,6 +33,18 @@
   margin-left: 5px;
 }
 
+
+.button-container {
+  display: flex;
+  justify-content: right;
+  margin-top: 1rem;
+  padding-right: 35px;
+}
+
+.nxt-button {
+  margin-left: 16px;
+}
+
 .checkbox-label {
   margin-right: 15px;
 }
@@ -62,9 +74,25 @@
   cursor: pointer;
 }
 
+::ng-deep .highlight-date .mat-calendar-body-cell-content {
+  background-color: #90caf9; /* Light blue */
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
 /* DataView */
 .mat-elevation-z8 {
   background-color: transparent !important;
   box-shadow: none !important;
 }
 
+.center-header  {
+   text-align: center;
+}
+
+.mini-ref {
+   display: flex;
+   justify-content: flex-end;
+   gap: 10px;
+}
