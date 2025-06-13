@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 
 <mat-horizontal-stepper #stepper [linear]="true">
 
@@ -67,51 +68,71 @@
 </mat-form-field>
 
 
-    <div class="mt-4">
-   <button mat-button matStepperNext (click)="onNext()" [disabled]="!selectionForm.valid">Next</button>
-
+    <div class="button-container">
+   <button mat-raised-button color="primary" matStepperNext (click)="onNext()" [disabled]="!selectionForm.valid" class="next-button">
+     Next
+  </button>
     </div>
   </form>
 </mat-step>
 
   <!-- Step 2: Calendar View -->
-  <!-- Calendar View Step -->
  <mat-step [stepControl]="calendarForm" label="Calendar View">
     <form [formGroup]="calendarForm">
+
+      <div class="mini-ref">
+        <button id="excel-table" class="btn btn-primary" (click)="exportexcel()">Export to Excel</button>
+        <button mat-mini-fab  color='primary' class="light-button"  matTooltip="Refresh"    (click)="Refresh()" ><mat-icon>refresh</mat-icon></button>
+    </div>
+
+
+
       <div formArrayName="orders">
   <label *ngFor="let order of ordersFormArray.controls; let i = index" class="checkbox-label">
-    <input type="checkbox" [formControlName]="i" />
+    <input type="checkbox" [formControlName]="i" (change)="Submit()" />
     {{ leavelist[i]?.name }}
     <span class="dot" [ngStyle]="{'background-color': leavelist[i]?.ColorCode}"></span>
     &nbsp;&nbsp;
   </label>
-</div>
 
-<!-- Legend -->
-<div class="legend">
+<label>Requested Leaves</label>
+  <span class="dot" style="background-color: #00c853 ;"></span>&nbsp;
+
+   <label>Pending Leaves</label>
+  <span class="dot" style="background-color: #ffff00;"></span>
+
   <label>Public Holidays</label>
   <span class="dot" style="background-color: #B0C4DE;"></span>&nbsp;
 
   <label>Weekend</label>
   <span class="dot" style="background-color: #E8DAEF;"></span>
+
 </div>
-      <br/>
 
-      <table mat-table [dataSource]="datasource">
-        <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
-          <th mat-header-cell *matHeaderCellDef> {{ column.header }} </th>
-          <td mat-cell
-              *matCellDef="let row"
-              [ngStyle]="{'background-color': getcolor(column.cell(row)), 'color': getcolor1(column), 'text-align': getcolor2(column)}">
-            {{ i === 0 ? column.cell(row) : column.cell(row) === 'null' ? '' : column.cell(row) }}
-          </td>
-        </ng-container>
+ <table mat-table  [dataSource]="datasource">
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
+  <ng-container *ngFor="let column of columns;let i=index;"[cdkColumnDef]="column.columnDef" >
+    <th mat-header-cell *cdkHeaderCellDef class="center-header">{{ column.header }}</th>
+  <td mat-cell style="font-weight: lighter;" [ngStyle]="{'background-color': getcolor(column.cell(row)),'color': getcolor1(column),'text-align':getcolor2(column) }"    *cdkCellDef="let row"  >
+      {{i==0 ? column.cell(row) :column.cell(row)=='null'? "": i -(
+      (((row.S)==null ? 1:0) + ((row.M)==null ? 1:0) + ((row.T)==null ? 1:0) + ((row.W)==null ? 1:0) + ((row.T1)==null ? 1:0) + ((row.F)==null ? 1:0) + ((row.S1)==null ? 1:0)))   }}
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
 
       <mat-paginator [pageSize]="18" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  <div class="button-container">
+    <button mat-raised-button color="warn" matStepperPrevious class="bk-button" >
+      Back
+    </button>
+    <button mat-raised-button color="primary" matStepperNext class="nxt-button">
+      Next
+    </button>
+  </div>
+
 
     </form>
   </mat-step>
@@ -119,10 +140,13 @@
   <!-- Step 3: Data View -->
   <mat-step [stepControl]="dataViewForm">
   <form [formGroup]="dataViewForm">
+
+<div>  <button id="excel-table" class="btn btn-primary" (click)="dataExportexcel()">Export to Excel</button></div>
+
     <ng-template matStepLabel>Data View</ng-template>
 
-    <!-- Standard HTML Table -->
-      <ng-container *ngIf="viewFlag === 'ALL'">
+
+ <ng-container *ngIf="viewFlag === 'ALL' || viewFlag === 'All With LeaveData'">
     <table class="table table-bordered mat-elevation-z8" style="width: 100%; border-collapse: collapse;">
       <thead>
         <tr>
@@ -132,6 +156,7 @@
           <th>Total</th>
           <th>Taken</th>
           <th>Remaining</th>
+          <th *ngIf="viewFlag === 'ALL'">Requested Leaves</th>
           <th>Leave</th>
           <th>Sick</th>
           <th>Unpaid</th>
@@ -143,17 +168,18 @@
       <tbody>
         <tr *ngFor="let element of leaveSummaryData">
           <td>{{element.EmpName}}</td>
-          <td>{{element.CarryForward}}</td>
-          <td>{{element.Accrual}}</td>
-          <td>{{element.Total}}</td>
-          <td>{{element.TakenLeave}}</td>
-          <td>{{element.Remaining}}</td>
-          <td>{{element.Leave}}</td>
-          <td>{{element.SickLeave}}</td>
-          <td>{{element.UnpaidLeave}}</td>
-          <td>{{element.AnnualVacation}}</td>
-          <td>{{element.Lieu}}</td>
-          <td>{{element.WorkFromHome}}</td>
+          <td>{{ element.CarryForward || 0 }}</td>
+        <td>{{ element.Accrual || 0 }}</td>
+        <td>{{ element.Total || 0 }}</td>
+        <td>{{ element.TakenLeave || 0 }}</td>
+        <td>{{ element.Remaining || 0 }}</td>
+         <td *ngIf="viewFlag === 'ALL'">{{ element.RequestedLeave || 0 }}</td>
+        <td>{{ element.Leave || 0 }}</td>
+        <td>{{ element.SickLeave || 0 }}</td>
+        <td>{{ element.UnpaidLeave || 0 }}</td>
+        <td>{{ element.AnnualVacation || 0 }}</td>
+        <td>{{ element.Lieu || 0 }}</td>
+        <td>{{ element['Work From Home'] || 0 }}</td>
         </tr>
       </tbody>
     </table>
@@ -164,30 +190,35 @@
         <thead>
           <tr>
             <th>Leave Type</th>
-            <th>Carry Forword</th>
+            <th>Carry Forward</th>
             <th>Accrued Leave</th>
             <th>Leave Taken</th>
             <th>En Cashment</th>
             <th>Remaining</th>
-
+            <th>Requested Leaves</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of leaveSummaryData">
             <td>{{item.LeaveType}}</td>
-            <td>{{item.CarryForword}}</td>
+            <td>{{item.CarryForward}}</td>
             <td>{{item.AccruedLeave}}</td>
             <td>{{item.LeaveTaken}}</td>
             <td>{{item.EnCashment}}</td>
             <td>{{item.Remaining}}</td>
+            <td>{{item.RequestedLeave}}</td>
+
           </tr>
         </tbody>
       </table>
     </ng-container>
 
+<div class="button-container">
+   <button mat-raised-button color="warn" matStepperPrevious class="next-button">
+     Back
+  </button>
+    </div>
 
-    <!-- Stepper Navigation Button -->
-    <button mat-button matStepperPrevious>Back</button>
   </form>
 </mat-step>
 </mat-horizontal-stepper>
