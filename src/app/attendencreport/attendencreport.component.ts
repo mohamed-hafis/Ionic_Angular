@@ -23,7 +23,7 @@ import { NotificationService } from 'src/app/Services/OtherServices/notification
 import * as ExcelJS from 'exceljs';
 import * as fs from 'file-saver';
 import * as XLSX from 'xlsx';
-
+import { saveAs } from 'file-saver';
 
 interface Leave {
   LID: string;
@@ -466,63 +466,53 @@ Submit() {
   this.leavelist1 = newList;
 }
 
-
-dataExportexcel(): void {
-  if (!this.leaveSummaryData || this.leaveSummaryData.length === 0) {
+//Data View
+dataExportexcel(leaveSummaryData: any[]) {
+  if (!leaveSummaryData || leaveSummaryData.length === 0) {
     console.warn('No data to export');
     return;
   }
 
-  // Convert data directly (dynamic keys)
-  const exportData = this.leaveSummaryData.map(row => {
-    const rowData: any = {};
-    for (const key in row) {
-      if (row.hasOwnProperty(key)) {
-        rowData[key] = row[key] ?? 0; // Replace null/undefined with 0
-      }
-    }
-    return rowData;
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet('Leave Summary');
+
+  const headers = Object.keys(leaveSummaryData[0]);
+
+  // Add header row
+  const headerRow = sheet.addRow(headers);
+  headerRow.eachCell(cell => {
+    cell.font = { bold: true };
+    cell.alignment = { horizontal: 'left' };
   });
 
-  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+  // Add data rows
+  leaveSummaryData.forEach(row => {
+    const rowValues = headers.map(key => row[key] ?? 0);
+    const dataRow = sheet.addRow(rowValues);
+    dataRow.eachCell(cell => {
+      cell.alignment = { horizontal: 'left' };
+    });
+  });
 
-  // === Set column widths based on longest content (including header) ===
-  const keys = Object.keys(exportData[0]);
-  const colWidths = keys.map(key => ({
-    wch: Math.max(
-      key.length,
-      ...exportData.map(row => String(row[key]).length)
-    ) + 2 // Padding
-  }));
-  ws['!cols'] = colWidths;
+  // Set dynamic column widths
+  headers.forEach((header, i) => {
+    let maxLength = header.length;
+    leaveSummaryData.forEach(row => {
+      const val = String(row[header] ?? '');
+      if (val.length > maxLength) maxLength = val.length;
+    });
+    sheet.getColumn(i + 1).width = maxLength + 2;
+  });
 
-  // === Apply styles: Bold header, left-align values ===
-  const range = XLSX.utils.decode_range(ws['!ref']!);
-
-  for (let C = range.s.c; C <= range.e.c; ++C) {
-    // Header row
-    const headerCell = ws[XLSX.utils.encode_cell({ r: 0, c: C })];
-    if (headerCell) {
-      headerCell.s = {
-        font: { bold: true },
-        alignment: { horizontal: 'left' }
-      };
-    }
-
-    // Data rows
-    for (let R = 1; R <= range.e.r; ++R) {
-      const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
-      if (cell) {
-        cell.s = {
-          alignment: { horizontal: 'left' }
-        };
-      }
-    }
-  }
-
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Leave Summary');
-  XLSX.writeFile(wb, 'leave_summary_export.xlsx');
+  // Generate file using .then()
+  workbook.xlsx.writeBuffer().then(buffer => {
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    saveAs(blob, 'leave_summary_export.xlsx');
+  }).catch(error => {
+    console.error('Excel export failed:', error);
+  });
 }
 
 
@@ -533,7 +523,7 @@ dataExportexcel(): void {
 //         XLSX.writeFile(wb, this.fileName);
 //     }
 
-
+//Calender view
 hexToARGB(hex: string): string {
   return 'FF' + hex.replace('#', '').toUpperCase(); // Convert #FA8E8E to FFFA8E8E
 }
@@ -548,12 +538,17 @@ exportexcel(): void {
   const worksheet = workbook.addWorksheet('Calendar Export');
 
   // Add legend rows before headers
- let legendRowCount = 0;
-this.leavelist.forEach((leave, index) => {
-  const row = worksheet.addRow([leave.name]);
-  const colorCell = row.getCell(2);
-  row.height = 18;
+const legendRow = worksheet.addRow([]);
+let colIndex = 2;
 
+this.leavelist.forEach(leave => {
+
+  const nameCell = legendRow.getCell(colIndex++);
+  nameCell.value = leave.name;
+  nameCell.alignment = { vertical: 'middle', horizontal: 'center' };
+
+  // Color cell
+  const colorCell = legendRow.getCell(colIndex++);
   if (leave.ColorCode) {
     colorCell.fill = {
       type: 'pattern',
@@ -562,9 +557,37 @@ this.leavelist.forEach((leave, index) => {
     };
   }
 
-  row.alignment = { vertical: 'middle', horizontal: 'left' };
-  legendRowCount++;
+  colIndex++; //Skip row
 });
+
+const hardcodedLegend = [
+  { name: 'Requested Leaves', color: '#00c853' },
+  { name: 'Pending Leaves', color: '#ffff00' },
+  { name: 'Public Holidays', color: '#B0C4DE' },
+  { name: 'Weekend', color: '#E8DAEF' }
+];
+
+hardcodedLegend.forEach(item => {
+  const nameCell = legendRow.getCell(colIndex++);
+  nameCell.value = item.name;
+  nameCell.alignment = { vertical: 'middle', horizontal: 'center' };
+
+  const colorCell = legendRow.getCell(colIndex++);
+  colorCell.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: this.hexToARGB(item.color) }
+  };
+
+  colIndex++;
+});
+
+// Set row height
+legendRow.height = 18;
+
+// Empty row after legend
+worksheet.addRow([]);
+const legendRowCount = 2;
 
   // Add headers
   const headers: string[] = this.columns.map(col => String(col.header));
@@ -587,7 +610,7 @@ this.leavelist.forEach((leave, index) => {
       if (i === 0) {
         // Name column
         cell.value = String(value);
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
       } else {
         if (value !== 'null' && value !== null && value !== '') {
           dayCounter++;
@@ -597,7 +620,6 @@ this.leavelist.forEach((leave, index) => {
           const lid = Number(value);
 let hexColor = '';
 
-// 1. Check from API
 const matchedLeave = this.leavelist1.find(l => Number(l.LID) === lid);
 if (matchedLeave && matchedLeave.ColorCode) {
   hexColor = matchedLeave.ColorCode;
@@ -613,7 +635,6 @@ if (matchedLeave && matchedLeave.ColorCode) {
   }
 }
 
-// Apply color if found
 if (hexColor) {
   cell.fill = {
     type: 'pattern',
@@ -629,7 +650,6 @@ if (hexColor) {
     });
   });
 
-  // Set Name column width based on longest name
   const nameColumnIndex = 1;
   const nameLengths = this.calendertab.map(row => String(this.columns[0].cell(row)).length);
   const maxNameLength = Math.max(...nameLengths, String(this.columns[0].header).length);
@@ -641,44 +661,14 @@ if (hexColor) {
     worksheet.getColumn(i).width = dayColumnWidth;
   }
 
-  // Optional: make all rows the same height for squareness
+  //  Size for all rows
   worksheet.eachRow(row => {
-    row.height = 20; // Adjust as needed
+    row.height = 20;
   });
 
-  // Export
   workbook.xlsx.writeBuffer().then((buffer) => {
     const blob = new Blob([buffer], { type: 'application/octet-stream' });
     fs.saveAs(blob, this.fileName || 'CalendarExport.xlsx');
   });
 }
-
-
-
 }
-
-
-// export interface employee {
-//       Name: string;
-//   S: any;M: any;T: any;W: any;T1: any;F: any;S1: any;S2: any;M1: any;T2: any;W1: any;T3: any;F1: any;S3: any;S4: any;
-//   M2: any;T4: any;W2: any;T5: any;F2: any;S5: any;S6: any;M3: any;T6: any;W3: any;T7: any;F3: any;S7: any;S8: any;
-//   M4: any;T8: any;W4: any;T9: any;F4: any;S9: any;S10: any;M5: any;T10: any;
-
-//   Employee: string;
-//   Accrual: any;
-// AnnualVacation: any;
-// CarryForward: any;
-// EmpName: any;
-// Leave: any;
-// Lieu: any;
-// Remaining: any;
-// RequestedLeave: any;
-// SickLeave: any;
-// TakenLeave: any;
-// Total: any;
-// UnpaidLeave: any;
-// WorkFromHome: any;
-// }
-
-
-
