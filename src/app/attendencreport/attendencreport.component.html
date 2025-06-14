@@ -81,7 +81,10 @@
     <form [formGroup]="calendarForm">
 
       <div class="mini-ref">
-        <button id="excel-table" class="btn btn-primary" (click)="exportexcel()">Export to Excel</button>
+        <!-- <button id="excel-table" class="btn btn-primary" (click)="exportexcel()">Export to Excel</button> -->
+        <button  mat-mini-fab  color="primary" matTooltip="Export Excel"  class="light-button" (click)="exportexcel()">
+          <mat-icon>download</mat-icon>
+        </button>
         <button mat-mini-fab  color='primary' class="light-button"  matTooltip="Refresh"    (click)="Refresh()" ><mat-icon>refresh</mat-icon></button>
     </div>
 
@@ -141,7 +144,11 @@
   <mat-step [stepControl]="dataViewForm">
   <form [formGroup]="dataViewForm">
 
-<div>  <button id="excel-table" class="btn btn-primary" (click)="dataExportexcel()">Export to Excel</button></div>
+<div style="display: flex; justify-content: flex-end;"> <!--  <button id="excel-table" class="btn btn-primary" (click)="dataExportexcel(leaveSummaryData)">Export to Excel</button> -->
+ <button  mat-mini-fab  color="primary" matTooltip="Export Excel"  class="light-button" (click)="dataExportexcel(leaveSummaryData)">
+    <mat-icon>download</mat-icon>
+ </button>
+</div>
 
     <ng-template matStepLabel>Data View</ng-template>
 
